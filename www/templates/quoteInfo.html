@@ -1,0 +1,13 @@
+<ion-header-bar class="bar-positive">
+    <h1 class="title">Drivers</h1> </ion-header-bar>
+<ion-view scroll="true" overflow-scroll="true">
+    <ion-content>
+        <ion-slides options="options" slider="data.slider" style="height=80vh">
+            <ion-slide-page scroll="true" ng-repeat="page in pageNames" class="block">
+                <div page-block-checkbox ng-show="page == 'discounts'"></div>{{page}}
+                <div date-picker ng-show="pageCheck('{{page}}')"></div>
+            </ion-slide-page>
+        </ion-slides>
+    </ion-content>
+</ion-view>
+<!--<div ng-init="newDatePicker(pageNames[1])"></div>-->

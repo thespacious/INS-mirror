@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+    <link rel="manifest" href="manifest.json">
+    <!--
+    un-comment this code to enable service worker
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js').then(() => console.log('service worker installed')).catch(err => console.log('Error', err));
+        }
+    </script>
+-->
+    <!-- compiled css output -->
+    <link href="../../../css/ionic.app.css" rel="stylesheet">
+    <script src="../../../lib/ionic/js/ionic.bundle.js"></script>
+    <script src="../../../js/jquery-1.11.3.js"></script>
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="../../../cordova.js"></script>
+    <!-- your app's js -->
+    <script src="../../../js/app.module.js"></script>
+    <script src="../../../js/app.services.js"></script>
+    <script src="../../../js/app.controllers.js"></script>
+    <script src="../../../app/components/newDriver/newDriver.controller.js"></script>
+    <script src="../../../app/components/newDriver/newDriver.services.js"></script>
+</head>
+
+<body ng-controller="newDriverCtrl">
+    <div ng-repeat="page in pageNames">{{page}} {{test}}
+        <div ng-repeat="pageBlock in pageBlocks[page]">{{pageBlock}}
+            <div ng-repeat=" pageBlockItem in pageBlockItems[pageBlock]">{{pageBlockItem}}</div>
+        </div>
+    </div>
+</body>
+
+</html>

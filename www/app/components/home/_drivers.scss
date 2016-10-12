@@ -1,0 +1,68 @@
+.scroll-view {
+    height: 93vh;
+}
+
+.list {
+    .item-content,
+    .ng-binding {
+        padding: 0px;
+        min-height: 0px;
+    }
+}
+
+.cars-list {
+    .list {
+        border: 1px solid grey;
+    }
+}
+
+.car-item-header {
+    p {
+        width: 18vw;
+        float: right;
+    }
+}
+
+body .car-item {
+    min-height: 0px;
+    height: 15vh;
+    margin: 1vw;
+    .ng-binding {
+        padding: 0px;
+        line-height: 7vh;
+        //to do: fix that hacky shit
+        padding-top: 7%;
+        padding-left: 1vw;
+        line-height: 7vh;
+        .item-thumbnail-right {
+            min-height: 10vh;
+        }
+    }
+}
+
+.driver-item {
+    padding: 0px;
+    .driver-item-header {
+        padding: 1vh;
+        line-height: 5vh;
+        font-size: 4vh;
+        label {
+            float: right;
+        }
+        p {
+            font-size: 4vh;
+            float: left;
+            max-width: 75vw;
+        }
+        .named-help {
+            clear: both;
+            float: right;
+            font-size: small;
+            margin-left: 1vw;
+        }
+    }
+}
+
+.add-driver-card {
+    margin-top: 0px;
+}
