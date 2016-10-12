@@ -2,6 +2,7 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', '$scope', '$state', '$
     var driversService = $injector.get('driversService');
     //    var insurescanJson = $injector.get('insurescanJson');
     //
+    var insurescanJson = $injector.get('insurescanJson');
     //
     //
     $scope.drivers = driversService.drivers();
@@ -34,5 +35,8 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', '$scope', '$state', '$
     //    $scope.goToNewDriver = function () {
     //        
     //    };
+    $scope.sendQuote = function () {
+        driversService.sendQuote(insurescanJson.insurescanJson);
+    }
     driversService.getQuoteId();
 }]);

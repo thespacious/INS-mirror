@@ -77,5 +77,26 @@ services.factory('driversService', function (BASE_SERVER) {
             return false;
         }
     };
+    this.sendQuote = function (json) {
+        var creds = JSON.parse(sessionStorage.getItem('credentials'));
+        var req = {
+            type: "POST"
+            , url: BASE_SERVER + "quote/" + creds.quoteId
+            , headers: {
+                'SESSIONID': creds.userCreds.sessionId
+            }
+            , async: false
+            , dataTYpe: "json"
+            , data: json
+        };
+        $.ajax(req).done(function (data) {
+            console.log(data);
+            return true;
+        }).fail(function (data) {
+            console.log("send quote return error, find out why:");
+            console.log(data);
+            return false;
+        });
+    }
     return this;
 });
