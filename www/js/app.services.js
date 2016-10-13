@@ -394,7 +394,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
 }).factory('insurescanJson', function () {
     var currentTime = new Date();
     var formattedcurrentTime = formatDate(currentTime);
-    var insurescanJson = {
+    this.insurescanJson = {
         "ACORD": {
             "-xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance"
             , "-xmlns:xsd": "http://www.w3.org/2001/XMLSchema"
@@ -402,12 +402,12 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
             , "SignonRq": {
                 "SignonPswd": {
                     "CustId": {
-                        "SPName": "accuauto.com"
-                        , "CustLoginId": "391528"
+                        "SPName": "InsureScan"
+                        , "CustLoginId": escape("Mark@ms028")
                     }
                     , "CustPswd": {
                         "EncryptionTypeCd": "NONE"
-                        , "Pswd": "yourpassword"
+                        , "Pswd": "Chappell"
                     }
                 }
                 , "ClientDt": "2013-06-12T11:19:04"
@@ -754,18 +754,18 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
         var time = [hour, minute, second].join(':');
         return date.concat(time);
     }
-    insurescanJson.ACORD.SignonRq.SignonPswd.CustId.SPName = "InsureScan";
-    insurescanJson.ACORD.SignonRq.SignonPswd.CustId.CustLoginId = "custLoginId";
-    insurescanJson.ACORD.SignonRq.SignonPswd.CustPswd.Pswd = "password";
-    insurescanJson.ACORD.SignonRq.ClientDt = formattedcurrentTime;
-    insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.TransactionRequestDt = formattedcurrentTime;
-    insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.TransactionEffectiveDt = formattedcurrentTime;
-    insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Producer.GeneralPartyInfo.NameInfo.NonTaxIdentity.NonTaxId = "custLoginId";
-    insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Producer.ProducerInfo.ContractNumber = "custLoginId";
-    insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].ItemIdInfo.AgencyId = "custLoginId";
-    insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].ItemIdInfo.AgencyId = "custLoginId";
-    sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
+    this.insurescanJson.ACORD.SignonRq.SignonPswd.CustId.SPName = "InsureScan";
+    this.insurescanJson.ACORD.SignonRq.SignonPswd.CustId.CustLoginId = escape("Mark@ms028");
+    this.insurescanJson.ACORD.SignonRq.SignonPswd.CustPswd.Pswd = "Chappell";
+    this.insurescanJson.ACORD.SignonRq.ClientDt = formattedcurrentTime;
+    this.insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.TransactionRequestDt = formattedcurrentTime;
+    this.insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.TransactionEffectiveDt = formattedcurrentTime;
+    this.insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Producer.GeneralPartyInfo.NameInfo.NonTaxIdentity.NonTaxId = escape("Mark@ms028");
+    this.insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Producer.ProducerInfo.ContractNumber = escape("Mark@ms028");
+    this.insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].ItemIdInfo.AgencyId = escape("Mark@ms028");
+    this.insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].ItemIdInfo.AgencyId = escape("Mark@ms028");
+    sessionStorage.setItem('this.insurescanJson', JSON.stringify(this.insurescanJson));
     //    sessionStorage.setItem('session', {});
-    //    verifyPassword(custLoginId, password);
+    //    verifyPassword(Mark@ms028, password);
     return this;
 });

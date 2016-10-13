@@ -87,7 +87,9 @@ services.factory('driversService', function (BASE_SERVER) {
             }
             , async: false
             , dataTYpe: "json"
-            , data: json
+            , data: {
+                "request_json": json
+            }
         };
         $.ajax(req).done(function (data) {
             console.log(data);
