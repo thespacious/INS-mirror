@@ -1,12 +1,25 @@
 {
-  "name": "ionic-1",
-  "app_id": "",
-  "gulpStartupTasks": [
-    "sass",
-    "watch"
-  ],
-  "watchPatterns": [
-    "www/**/*",
-    "!www/lib/**/*"
+    "name": "insurescan-alpha"
+    , "app_id": ""
+    , "gulpStartupTasks": [
+    "sass"
+    , "watch"
   ]
+    , "watchPatterns": [
+    "www/**/*"
+    , "!www/lib/**/*"
+  ]
+    , "proxies": [{
+        "path": "/login"
+        , "proxyUrl": "http://is.androidbox.tv/login"
+    }, {
+        "path": "/getquoteid"
+        , "proxyUrl": "http://is.androidbox.tv/getquoteid"
+    }, {
+        "path": "/quote"
+        , "proxyUrl": "http://is.androidbox.tv/quote"
+    }, {
+        "path": "/upload"
+        , "proxyUrl": "http://is.androidbox.tv/upload"
+    }]
 }

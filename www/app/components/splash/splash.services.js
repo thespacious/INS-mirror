@@ -17,7 +17,7 @@ services.factory('splashServices', function ($http, BASE_SERVER, $state) {
         //        alert(atob('Y2xpZW50OnBhc3N3b3Jk'));
         var req = {
             method: "POST"
-            , url: BASE_SERVER + "login"
+            , url: BASE_SERVER + "/login"
             , headers: {
                 'AUTHSTRING': 'Y2xpZW50OnBhc3N3b3Jk'
             }
@@ -41,8 +41,9 @@ services.factory('splashServices', function ($http, BASE_SERVER, $state) {
                 //            , crossDomain: true
                 
             , async: false
-            , url: BASE_SERVER + "login"
+            , url: BASE_SERVER + "/login"
             , headers: {
+                //                'access-control-allow-origin': '*'
                 'AUTHSTRING': authstring
             }
         }).done(function (data) {

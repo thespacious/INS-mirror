@@ -334,7 +334,7 @@ services.factory('newCarService', function (BASE_SERVER) {
             , 'SessionID': creds.userCreds.sessionId
         };
         var ft = new FileTransfer();
-        ft.upload(imageData, encodeURI(BASE_SERVER + "upload/" + creds.quoteId + "/signature"), win, fail, options);
+        ft.upload(imageData, encodeURI(BASE_SERVER + "/upload/" + creds.quoteId + "/signature"), win, fail, options);
     };
     this.uploadImage2 = function () {
         var creds = JSON.parse(sessionStorage.getItem('credentials'));
@@ -350,13 +350,13 @@ services.factory('newCarService', function (BASE_SERVER) {
                 , 'SessionID': creds.userCreds.sessionId
             };
             var ft = new FileTransfer();
-            ft.upload(images[i], encodeURI(BASE_SERVER + "upload/" + creds.quoteId + "/property"), win, fail, options);
+            ft.upload(images[i], encodeURI(BASE_SERVER + "/upload/" + creds.quoteId + "/property"), win, fail, options);
         }
     };
     var win = function (r) {
         console.log("File transferred successfully.");
         try {
-            console.log(r.response["33"]);
+            console.log(r.response);
         }
         catch (err) {
             console.log(r);

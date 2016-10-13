@@ -31,7 +31,9 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', '$scope', '$state', '$
     //
     //    $scope.carIds = test('cars');
     $scope.hiddenCar = {}
-    $scope.removeCar = function (carId) {};
+    $scope.removeCar = function (carId) {
+        alert(carId);
+    };
     //    $scope.goToNewDriver = function () {
     //        
     //    };

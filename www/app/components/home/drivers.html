@@ -51,7 +51,7 @@
                         <label class="checkbox" style="float:right;">
                             <input type="checkbox" checked=""> </label>
                         <ion-option-button class="button-info" ui-sref="newCar.edit({carId:car.id})"> Edit </ion-option-button>
-                        <ion-option-button class="button-assertive" ng-click="removeCar(car.id)"> delete </ion-option-button>
+                        <ion-option-button class="button-assertive" ng-click="removeCar($index)"> delete </ion-option-button>
                     </ion-item>
                 </ion-list>
                 <div class="col col-33 col-offset-66">

@@ -16,9 +16,7 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
     // Learn more here: https://github.com/angular-ui/ui-router
     // Set up the various states which the app can be in.
     // Each state's controller can be found in controllers.js
-    //    $httpProvider.defaults.headers.common = {
-    //        //        'Access-Control-Request-Headers': '*'
-    //    };
+    //    $httpProvider.defaults.headers.common = {};
     //    $httpProvider.defaults.headers.post = {};
     //    $httpProvider.defaults.headers.put = {};
     //    $httpProvider.defaults.headers.patch = {};

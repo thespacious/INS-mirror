@@ -54,7 +54,7 @@ services.factory('driversService', function (BASE_SERVER) {
         var creds = JSON.parse(sessionStorage.getItem('credentials'));
         var req = {
             type: "POST"
-            , url: BASE_SERVER + "getquoteid"
+            , url: BASE_SERVER + "/getquoteid"
             , headers: {
                 'SESSIONID': creds.userCreds.sessionId
             }
@@ -81,15 +81,20 @@ services.factory('driversService', function (BASE_SERVER) {
         var creds = JSON.parse(sessionStorage.getItem('credentials'));
         var req = {
             type: "POST"
-            , url: BASE_SERVER + "quote/" + creds.quoteId
+                //            , url: BASE_SERVER + "quote/" + creds.quoteId
+                
+            , url: BASE_SERVER + "/quote/" + "228"
             , headers: {
                 'SESSIONID': creds.userCreds.sessionId
             }
             , async: false
-            , dataTYpe: "json"
-            , data: {
-                "request_json": json
-            }
+            , dataType: "json"
+            , contentType: 'application/json; charset=UTF-8'
+                //            , data: {
+                //                data: JSON.stringify(json)
+                //            }
+                
+            , data: JSON.stringify(json)
         };
         $.ajax(req).done(function (data) {
             console.log(data);
