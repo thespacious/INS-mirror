@@ -98,6 +98,7 @@ services.factory('driversService', function (BASE_SERVER) {
         };
         $.ajax(req).done(function (data) {
             console.log(data);
+            $state.go('newCar');
             return true;
         }).fail(function (data) {
             console.log("send quote return error, find out why:");
