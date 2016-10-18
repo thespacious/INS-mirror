@@ -4,6 +4,8 @@ controllers.controller('splashCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
     //        $state.go('main');
     //    };
     var services = $injector.get('splashServices');
+    var json = $injector.get('newJson');
+    json.getPageBlockItems(json.json, 'drivers', 'dsafd', 'fdsfds');
     $scope.next = function () {
         $ionicSlideBoxDelegate.next();
     };
@@ -15,6 +17,12 @@ controllers.controller('splashCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
         $scope.slideIndex = index;
     };
     $scope.login = function () {
-        services.login(document.getElementById('username').value, document.getElementById('password').value);
+        if (services.login(document.getElementById('username').value, document.getElementById('password').value) == true) {
+            $state.go('home');
+        }
+        else {
+            console.log("login error");
+            alert('login error');
+        }
     };
 }]);

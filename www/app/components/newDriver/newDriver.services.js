@@ -1,8 +1,25 @@
 services.factory('testService', function () {
     ///
     //
-    this.uploadPhoto = function(){
-        
+    this.uploadPhoto = function () {};
+    //
+    //
+    this.seePrimary = function () {
+        try {
+            var session = JSON.parse(sessionStorage.getItem('session'));
+            if (session.drivers == null) {
+                session['drivers'] = {};
+                sessionStorage.setItem('session', JSON.stringify(session));
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (err) {
+            console.log('primary check failed with this error: \n', err);
+            return false;
+        }
     };
     //
     this.checkEdit = function (statename, driverId) {
@@ -150,6 +167,10 @@ services.factory('testService', function () {
         var time = [hour, minute, second].join(':');
         return date.concat(time);
     };
+    this.licenseSubmit = function (driver) {
+        drivers = sessionStorage.getItem('drivers');
+        drivers.push(driver);
+    }
     this.onDriversLicenseSubmit = function (page, primary, driverId) {
         if (primary == true) {
             var driver = {};

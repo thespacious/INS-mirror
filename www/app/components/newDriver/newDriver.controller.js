@@ -2,20 +2,58 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     //Why bother? Well look at the alternative. . .
     var _this = this;
     var session = JSON.parse(sessionStorage.getItem("session"));
-    //    alert($state.current.name);
-    $scope.driverId = $stateParams.driverId;
     //
     //load services
     //
     var loadBlock = $injector.get('loadBlock');
     var test = $injector.get('testService');
     var insurescanJson = $injector.get('insurescanJson');
+    //TODO, all this shit
+    //    var newJson = $injector.get('newJson');
+    //
+    //
+    $scope.getDriverId = function () {
+        if (test.seePrimary() == true) {
+            return 0;
+        }
+        else {
+            try {
+                return Object.keys(session.drivers).length + 1;
+            }
+            catch (err) {
+                console.log('error with session.drivers');
+                return;
+            }
+        }
+    };
+    //
+    $scope.driverId = $scope.getDriverId();
+    //
+    //
+    $scope.checkHidden = function (pageBlock) {
+        return test.checkHidden($scope.pageBlockOptions[pageBlock]);
+    };
+    //
+    //
+    $scope.checkPrimary = function (bool) {
+        if (bool == true && $scope.driverId == "0") {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
     //
     //
     //utilize our loaded template
     //
     $scope.template = $injector.get('loadJsonTemplate');
     $scope.block = "drivers";
+    //
+    //
+    //TODO
+    //    $scope.pages = newJson.getPageBlockItems(newJson.json, 'drivers', true);
+    //
     //
     //parse for useful content first, then build pages, so pages goes last.
     //get page names
@@ -42,8 +80,8 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     //
     //add peripheral functions
     //
-    $scope.checkEdit = $timeout(function () {
-        return test.checkEdit($state.current.name, $scope.driverId);
+    $scope.checkEdit = $timeout(function (_this) {
+        return _this.test.checkEdit($state.current.name, $scope.driverId);
     }, 0);
     //
     $scope.capturePhoto = function () {
@@ -60,9 +98,13 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     //
     //Do UI stuff
     //
+    $scope.change = function (value) {
+        console.log('ng change fired.', value);
+    };
+    //
+    //
     $scope.cardShown = false;
     //
-    //    $scope.watch('$scope.cardShown' , function showCard(newValue, oldvalue) {});
     $scope.showCard = function () {
         if ($scope.cardShown == true) {
             $scope.cardShown = false;
@@ -81,6 +123,8 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
         }
     };
     //
+    //
+    //
     //    $scope.superHacky = function () {
     //        if (driverId != 0) {
     //            var maritalstatus = {
@@ -94,23 +138,19 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     //        }
     //    };
     //
-    //TODO this is hideously inefficient, runs through array multiple times
-    //DIAGNOSE
-    $scope.checkHidden = function (pageBlock) {
-        return test.checkHidden($scope.pageBlockOptions[pageBlock]);
-    };
-    //
-    //
-    $scope.checkPrimary = function (bool) {
-        if (bool == true && $scope.driverId == "0") {
-            return true;
+    $scope.showGaraging = false;
+    $scope.switchGaraging = function () {
+        if ($scope.showGaraging == false) {
+            $scope.showGaraging = true;
+            test.setGaraging(page);
         }
         else {
-            return false;
+            $scope.showGaraging = false;
+            test.unSetGaraging(page);
         }
     };
-    //
-    //
+    //TODO this is hideously inefficient, runs through array multiple times
+    //DIAGNOSE
     $scope.makeVisible = function (page, pageBlock, bool) {
         if (bool == true && document.getElementById('gcheckbox-yes').checked == true) {
             document.getElementById('gcheckbox-no').checked = false;
@@ -132,18 +172,6 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     });
     $scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
         console.log('Slide change is beginning');
-        //        if (data.slider.activeIndex != 0) {
-        //            $scope.$apply(function () {
-        //                $scope.showScanButtons = false;
-        //                $scope.showGaragingCard = false;
-        //            });
-        //        }
-        //        else if (data.slider.activeIndex == 0) {
-        //            $scope.$apply(function () {
-        //                $scope.showScanButtons = true;
-        //                $scope.showGaragingCard = true;
-        //            });
-        //        }
     });
     $scope.$on("$ionicSlides.slideChangeEnd", function (event, data) {
         // note: the indexes are 0-based

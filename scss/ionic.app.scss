@@ -22,3 +22,6 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 @import "www/app/components/splash/splash.scss";
 @import "www/app/components/home/drivers.scss";
 @import "www/app/components/newCar/newCar.scss";
+.bar-footer {
+    height: 6vh;
+}

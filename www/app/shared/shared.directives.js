@@ -38,3 +38,13 @@ app.directive('carPicture', function () {
         templateUrl: 'app/shared/carPicture.html'
     };
 });
+app.directive('testBlock', function () {
+    return {
+        templateUrl: 'app/shared/testBlock.html'
+    };
+})
+app.directive('footer', function () {
+    return {
+        templateUrl: 'app/shared/footer.html'
+    };
+});

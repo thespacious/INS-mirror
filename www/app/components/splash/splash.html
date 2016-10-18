@@ -15,22 +15,24 @@
     </ion-nav-buttons>
     <ion-slide-box on-slide-changed="slideChanged(index)">
         <ion-slide>
-            <h3>Thank you for choosing the Awesome App!</h3>
-            <div id="logo"> <img src="http://code.ionicframework.com/assets/img/app_icon.png"> </div>
-            <p> We've worked super hard to make you happy. </p>
-            <p> But if you are angry, too bad. </p>
+            <h3>Insurescan</h3>
+            <div id="logo"> <img src="img/new_logo.png" style="max-width:100vw;"> </div>
+            <p> Innovators in Insurance </p>
+            <p> Making progress with technology </p>
         </ion-slide>
-        <ion-slide>
-            <h3>Using Awesome</h3>
-            <div id="list">
-                <h5>Just three steps:</h5>
-                <ol>
-                    <li>Be awesome</li>
-                    <li>Stay awesome</li>
-                    <li>There is no step 3</li>
-                </ol>
-            </div>
-        </ion-slide>
+        <!--
+<ion-slide>
+    <h2>Using Awesome</h2>
+    <div id="list">
+        <h4>Make it easy!</h4>
+        <ul>
+            <li>Easily connect with your auto-insurance world</li>
+            <br>
+            <li>Just scan and sit sit back</li>
+            <li>There is no step 3</li>
+        </ul>
+    </div>
+</ion-slide>-->
         <ion-slide>
             <ion-content class="padding has-header">
                 <div class="list list-inset">
@@ -40,6 +42,7 @@
                         <input type="password" placeholder="Password" ng-model="data.password" id="password"> </label>
                 </div>
                 <button class="button button-block button-calm" ng-click="login()">Login</button>
+                <!--                <button class="button button-block button-calm" ui-sref="home ">Login</button>-->
             </ion-content>
         </ion-slide>
     </ion-slide-box>

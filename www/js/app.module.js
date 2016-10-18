@@ -33,13 +33,14 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
         })
         // Each tab has its own nav history stack:
         .state('newDriver', {
-            url: '/newDriver/:driverId'
+            url: '/newDriver'
             , templateUrl: 'app/components/newDriver/newDriver.html'
             , controller: "newDriverCtrl"
-        }).state('newDriver.edit', {
+        }).state('newDriver.primary', {
             url: '/edit'
-            , templateUrl: 'app/components/newDriver/newDriver.html'
-            , controller: "newDriverCtrl"
+                //            , templateUrl: 'app/components/newDriver/newDriver.edit.html'
+                
+            , controller: "newDriverEditCtrl"
         }).state('newCar', {
             url: '/newCar'
             , templateUrl: 'app/components/newCar/newCar.html'
@@ -52,6 +53,10 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             url: '/datePicker'
             , templateUrl: 'app/components/quoteInfo/quoteInfo.datePicker.html'
             , controller: "quoteInfoCtrl"
+        }).state('afterQuote', {
+            url: '/afterQuote'
+            , templateUrl: 'app/components/afterQuote/signature.html'
+            , controller: "afterQuoteController"
         });
     var datePickerObj = {
         inputDate: new Date()

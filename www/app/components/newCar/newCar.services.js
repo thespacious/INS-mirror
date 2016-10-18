@@ -316,7 +316,7 @@ services.factory('newCarService', function (BASE_SERVER) {
         smallImage.style.display = 'block';
         smallImage.src = imageData;
         photoDestination = null;
-        uploadImage(imageData);
+        uploadImage2(imageData);
     };
     this.onFail = function (message) {
         alert('Failed because ' + message);
@@ -336,22 +336,36 @@ services.factory('newCarService', function (BASE_SERVER) {
         var ft = new FileTransfer();
         ft.upload(imageData, encodeURI(BASE_SERVER + "/upload/" + creds.quoteId + "/signature"), win, fail, options);
     };
-    this.uploadImage2 = function () {
+    var uploadImage3 = function (imageData) {
         var creds = JSON.parse(sessionStorage.getItem('credentials'));
         images = ['file:///android_asset/www/img/adam.jpg', 'file:///android_asset/www/img/adam.jpg'];
-        for (var i = 0; i < images.length; i++) {
-            var options = new FileUploadOptions();
-            options.fileKey = "file";
-            options.fileName = i.substr(i.lastIndexOf('/') + 1);
-            options.mimeType = "image/jpeg";
-            options.chunkedMode = false;
-            options.headers = {
-                Connection: "close"
-                , 'SessionID': creds.userCreds.sessionId
-            };
-            var ft = new FileTransfer();
-            ft.upload(images[i], encodeURI(BASE_SERVER + "/upload/" + creds.quoteId + "/property"), win, fail, options);
-        }
+        var options = new FileUploadOptions();
+        options.fileKey = "file";
+        options.fileName = imageData.substr(imageData.lastIndexOf('/') + 1);
+        //        options.mimeType = "image/jpeg";
+        options.chunkedMode = true;
+        options.httpMethod = "POST";
+        //        options.headers = {
+        //            Connection: "close"
+        //            , 'SessionID': creds.userCreds.sessionId
+        //        };
+        var ft = new FileTransfer();
+        ft.upload(imageData, encodeURI(BASE_SERVER + "/accept/" + creds.quoteId), win, fail, options);
+    };
+    var uploadImage2 = function () {
+        var creds = JSON.parse(sessionStorage.getItem('credentials'));
+        images = ['file:///android_asset/www/img/adam.jpg', 'file:///android_asset/www/img/adam.jpg'];
+        var options = new FileUploadOptions();
+        options.fileKey = "file";
+        options.fileName = imageData.substr(imageData.lastIndexOf('/') + 1);
+        options.mimeType = "image/jpeg";
+        options.chunkedMode = false;
+        //        options.headers = {
+        //            Connection: "close"
+        //            , 'SessionID': creds.userCreds.sessionId
+        //        };
+        var ft = new FileTransfer();
+        ft.upload(imageData, encodeURI(BASE_SERVER + "/upload/" + creds.quoteId + "/property"), win, fail, options);
     };
     var win = function (r) {
         console.log("File transferred successfully.");
@@ -547,6 +561,64 @@ services.factory('newCarService', function (BASE_SERVER) {
         else {
             return false;
         }
+    };
+    this.sendEmails = function (json) {
+        var creds = JSON.parse(sessionStorage.getItem('credentials'));
+        var fakeEmails = {
+            "cc": ["bissellmgmt@gmail.com", "pdw0005@gmail.com"]
+            , "recipients": ["pdw00005@gmail.com"]
+        };
+        var req = {
+            type: "POST"
+            , url: BASE_SERVER + "/maildocs/" + creds.quoteId
+            , headers: {
+                                'SESSIONID': creds.userCreds.sessionId
+                            }
+                
+            , async: false
+                //            , dataType: "json"
+                //            , contentType: 'multipart/form-data; charset=UTF-8'
+                
+            , data: {
+                "recipients": recipients
+                , "cc": cc
+            }
+        };
+        $.ajax(req).done(function (data) {
+            console.log(data);
+            //            $state.go('newCar');
+        }).fail(function (data) {
+            console.log("send quote return error, find out why:");
+            console.log(data);
+            //            $state.go('newCar');
+            //            var response = data;
+        });
+    };
+    this.sendQuote = function (json) {
+        var creds = JSON.parse(sessionStorage.getItem('credentials'));
+        var req = {
+            type: "POST"
+                //            , url: BASE_SERVER + "quote/" + creds.quoteId
+                
+            , url: BASE_SERVER + "/quote/" + creds.quoteId
+                //            , headers: {
+                //                'SESSIONID': creds.userCreds.sessionId
+                //            }
+                
+            , async: false
+            , dataType: "json"
+            , contentType: 'application/json; charset=UTF-8'
+            , data: JSON.stringify(json)
+        };
+        $.ajax(req).done(function (data) {
+            console.log(data);
+            //            $state.go('newCar');
+        }).fail(function (data) {
+            console.log("send quote return error, find out why:");
+            console.log(data);
+            //            $state.go('newCar');
+            //            var response = data;
+        });
     };
     return this;
 });

@@ -1,6 +1,6 @@
 <ion-header-bar class="bar-positive">
     <h1 class="title">Quote Info</h1> </ion-header-bar>
-<ion-view scroll="true" overflow-scroll="true" ng-init="createDiscounts()">
+<ion-view scroll="true" overflow-scroll="true" ng-init="createDiscounts()" class="has-header has-footer">
     <ion-content>
         <ion-slides options="options" slider="data.slider" style="height=80vh">
             <ion-slide-page scroll="true" ng-repeat="page in pageNames" class="block">
@@ -11,4 +11,5 @@
         </ion-slides>
     </ion-content>
 </ion-view>
+<div footer></div>
 <!--<div ng-init="newDatePicker(pageNames[1])"></div>-->

@@ -15,31 +15,13 @@ services.factory('splashServices', function ($http, BASE_SERVER, $state) {
         session['userCreds'] = this.b64encode(login, password);
         var authstring = session.userCreds.Authstring;
         //        alert(atob('Y2xpZW50OnBhc3N3b3Jk'));
-        var req = {
-            method: "POST"
-            , url: BASE_SERVER + "/login"
-            , headers: {
-                'AUTHSTRING': 'Y2xpZW50OnBhc3N3b3Jk'
-            }
-        };
         sessionStorage.setItem('session', JSON.stringify({}));
         var returnData;
-        //        $http(req).then(function (data) {
-        //            console.log(data);
-        //            //            JSON.parse(data);
-        //            session.userCreds['sessionId'] = data.sessionID;
-        //            sessionStorage.setItem('credentials', JSON.stringify(session));
-        //            returnData = data;
-        //            $state.go('home');
-        //        }, function (data) {
-        //            console.log("login failed, find out why: \n");
-        //            console.log(data);
-        //            returnData = data;
-        //        });
         $.ajax({
             type: "POST"
                 //            , crossDomain: true
                 
+            , contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
             , async: false
             , url: BASE_SERVER + "/login"
             , headers: {
@@ -48,13 +30,20 @@ services.factory('splashServices', function ($http, BASE_SERVER, $state) {
             }
         }).done(function (data) {
             console.log(data);
-            //            JSON.parse(data);
-            session.userCreds['sessionId'] = data.sessionID;
-            sessionStorage.setItem('credentials', JSON.stringify(session));
-            returnData = data;
-            $state.go('home');
+            try {
+                session.userCreds['sessionId'] = data.sessionID;
+                sessionStorage.setItem('credentials', JSON.stringify(session));
+                returnData = true;
+            }
+            catch (err) {
+                console.log("login failed, got a null response, find out why:");
+                console.log(data);
+                console.log('and the catch error: \n');
+                console.log(err);
+                returnData = data;
+            }
         }).fail(function (data) {
-            console.log("login failed, find out why: \n");
+            console.log("login failed, on network level, find out why:");
             console.log(data);
             returnData = data;
         });

@@ -2,6 +2,7 @@ controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
     var _this = this;
     var loadBlock = $injector.get('loadBlock');
     var test = $injector.get('newCarService');
+    var insurescanJson = $injector.get('insurescanJson');
     $scope.template = $injector.get('loadJsonTemplate');
     $scope.block = "cars";
     //
@@ -30,7 +31,8 @@ controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
     };
     //
     $scope.takeCarPicture = function () {
-        return test.takePhotoCar();
+        //        return test.takePhotoCar();
+        test.selectPhotoCar();
     };
     //
     $scope.capturePhoto = function () {
@@ -56,14 +58,28 @@ controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
     };
     //
     $scope.submitForms = function () {
-        return test.submitForms();
+        //        return test.submitForms();
+        //        test.sendEmails();
+        //        test.sendQuote();
+        $state.go('afterQuote');
+    };
+    //
+    //
+    $scope.sendQuote = function () {
+        test.sendQuote(insurescanJson.insurescanJson);
+        $state.go('afterQuote');
     };
     //
     //TODO this is hideously inefficient, runs through array multiple times
+    //
+    $scope.showGaraging = false;
     //DIAGNOSE
-    $scope.checkHidden = function (pageBlock) {
-        return test.checkHidden($scope.pageBlockOptions[pageBlock]);
-    };
+    //    $scope.checkHidden = function (pageBlock) {
+    //        //        return test.checkHidden($scope.pageBlockOptions[pageBlock]);
+    //        if (pageBlock == "garaging_address") {
+    //            return false
+    //        }
+    //    };
     //
     //default slide behaviour
     //

@@ -1,0 +1,4 @@
+"
+["\/var\/www\/html\/insurescan\/docs\/pdf\/application_256.pdf"]<br />
+<b>Fatal error</b>:  Cannot declare class generatePDF, because the name is already in use in <b>/var/www/html/insurescan/lib/generatepdf.php</b> on line <b>0</b><br />
+"

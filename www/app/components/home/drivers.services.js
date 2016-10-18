@@ -1,4 +1,4 @@
-services.factory('driversService', function (BASE_SERVER) {
+services.factory('driversService', function (BASE_SERVER, $state) {
     this.session = function () {
         return JSON.parse(sessionStorage.getItem('session'));
     };
@@ -51,25 +51,27 @@ services.factory('driversService', function (BASE_SERVER) {
         return this.cars();
     };
     this.getQuoteId = function () {
+        if (sessionStorage.getItem('credentials') == null) {
+            sessionStorage.setItem('credentials', JSON.stringify({}));
+        }
         var creds = JSON.parse(sessionStorage.getItem('credentials'));
         var req = {
             type: "POST"
             , url: BASE_SERVER + "/getquoteid"
-            , headers: {
-                'SESSIONID': creds.userCreds.sessionId
-            }
+                //            , headers: {
+                //                'SESSIONID': creds.userCreds.sessionId
+                //            }
+                
             , async: false
         };
-        if (creds['quote_id'] == null) {
+        if (creds['quoteId'] == null) {
             $.ajax(req).done(function (data) {
                 var creds = JSON.parse(sessionStorage.getItem('credentials'));
                 creds['quoteId'] = data;
                 sessionStorage.setItem('credentials', JSON.stringify(creds));
-                return true;
             }).fail(function (data) {
                 console.log("quote id return error, find out why:");
                 console.log(data);
-                return false;
             });
             return true;
         }
@@ -77,34 +79,31 @@ services.factory('driversService', function (BASE_SERVER) {
             return false;
         }
     };
-    this.sendQuote = function (json) {
-        var creds = JSON.parse(sessionStorage.getItem('credentials'));
-        var req = {
-            type: "POST"
-                //            , url: BASE_SERVER + "quote/" + creds.quoteId
-                
-            , url: BASE_SERVER + "/quote/" + "228"
-            , headers: {
-                'SESSIONID': creds.userCreds.sessionId
-            }
-            , async: false
-            , dataType: "json"
-            , contentType: 'application/json; charset=UTF-8'
-                //            , data: {
-                //                data: JSON.stringify(json)
-                //            }
-                
-            , data: JSON.stringify(json)
-        };
-        $.ajax(req).done(function (data) {
-            console.log(data);
-            $state.go('newCar');
-            return true;
-        }).fail(function (data) {
-            console.log("send quote return error, find out why:");
-            console.log(data);
-            return false;
-        });
-    }
+//    this.sendQuote = function (json) {
+//        var creds = JSON.parse(sessionStorage.getItem('credentials'));
+//        var req = {
+//            type: "POST"
+//                //            , url: BASE_SERVER + "quote/" + creds.quoteId
+//                
+//            , url: BASE_SERVER + "/quote/" + creds.quoteId
+//                //            , headers: {
+//                //                'SESSIONID': creds.userCreds.sessionId
+//                //            }
+//                
+//            , async: false
+//            , dataType: "json"
+//            , contentType: 'application/json; charset=UTF-8'
+//            , data: JSON.stringify(json)
+//        };
+//        $.ajax(req).done(function (data) {
+//            console.log(data);
+//            $state.go('newCar');
+//        }).fail(function (data) {
+//            console.log("send quote return error, find out why:");
+//            console.log(data);
+//            $state.go('newCar');
+//            //            var response = data;
+//        });
+//    };
     return this;
 });
