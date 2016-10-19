@@ -1,4 +1,18 @@
 var services = angular.module('main.services', []).factory('loadJsonTemplate', function () {
+    var newDate = function () {
+        var today = new Date();
+        var month = today.getMonth() + 1;
+        var day = today.getDate();
+        if (month < 10) {
+            month = '0' + month;
+        }
+        if (day < 10) {
+            day = '0' + day;
+        }
+        var formattedToday = today.getFullYear() + '-' + month + '-' + day;
+        return formattedToday;
+    };
+    var today = newDate();
     var jsonTemplate = {
         "quote_type": "auto"
         , "endpoint": "\/quotes\/send\/auto"
@@ -33,17 +47,21 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                             , "validate_exp": ""
                         }
                         , "licensedate": {
-                            "type": "date"
+                            "type": "text"
                             , "size": 20
-                            , "value": "{{date}}"
+                                //                            , "value": today
+                                
+                            , "value": ""
                             , "required": true
                             , "label": "License Issue Date"
                             , "validate_exp": ""
                         }
                         , "dob": {
-                            "type": "date"
+                            "type": "text"
                             , "size": 12
-                            , "value": "{{date}}"
+                                //                            , "value": today
+                                
+                            , "value": ""
                             , "required": true
                             , "label": "Date of Birth"
                             , "validate_exp": ""

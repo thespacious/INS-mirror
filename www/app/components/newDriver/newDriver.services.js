@@ -113,19 +113,19 @@ services.factory('testService', function () {
         }
         document.forms[0].license.value = userDataMap["DAQ"];
         //return date in proper format
-        document.forms[0].dob.value = new Date(userDataMap["DBB"].substr(0, 2) + "-" + userDataMap["DBB"].substr(2, 2) + "-" + userDataMap["DBB"].substr(4));
+        document.forms[0].dob.value = userDataMap["DBB"].substr(0, 2) + "-" + userDataMap["DBB"].substr(2, 2) + "-" + userDataMap["DBB"].substr(4);
         if (document.forms[0].licensedate) {
-            document.forms[0].licensedate = new Date(userDataMap["DBD"].substr(0, 2) + "-" + userDataMap["DBD"].substr(2, 2) + "-" + userDataMap["DBD"].substr(4));
+            document.forms[0].licensedate.value = userDataMap["DBD"].substr(0, 2) + "-" + userDataMap["DBD"].substr(2, 2) + "-" + userDataMap["DBD"].substr(4);
         }
         document.forms[0].state.value = userDataMap["DAJ"];
         document.forms[0].street.value = userDataMap["DAG"];
         document.forms[0].city.value = userDataMap["DAI"];
         document.forms[0].zip.value = userDataMap["DAK"].substr(0, 5);
         document.forms[0].sex.value = ["M", "F"][userDataMap["DBC"] - 1];
-        var driversInputs = document.getElementsByClassName("mdl-textfield");
-        for (var i = 0; i < driversInputs.length; i++) {
-            driversInputs[i].className = driversInputs[i].className + " is-dirty";
-        }
+        //        var driversInputs = document.getElementsByClassName("mdl-textfield");
+        //        for (var i = 0; i < driversInputs.length; i++) {
+        //            driversInputs[i].className = driversInputs[i].className + " is-dirty";
+        //        }
         //        SetGaraging(true); // Auto fill out garaging info after license scan
     };
     //    this.populateUserFields = function (page) {
@@ -185,7 +185,11 @@ services.factory('testService', function () {
     this.licenseSubmit = function (driver) {
         drivers = sessionStorage.getItem('drivers');
         drivers.push(driver);
-    }
+    };
+    var NAMED_INSURED = 0
+        , EXCLUDED = 1
+        , REGULAR = 2
+        , categories = ["named insured", "excluded", "regular"];
     this.onDriversLicenseSubmit = function (page, primary, driverId) {
         if (primary == true) {
             var driver = {};
@@ -207,6 +211,7 @@ services.factory('testService', function () {
             driver["issueDate"] = issueDate;
             driver["expDate"] = expDate;
             driver['id'] = 0;
+            driver
             //        sessionStorage.setItem("driverId", parseInt(sessionStorage.getItem("driverId")) + 1);
             //        driver["id"] = sessionStorage.getItem("driverId");
             sessionStorage.setItem("session", JSON.stringify({

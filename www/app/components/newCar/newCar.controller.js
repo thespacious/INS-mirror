@@ -1,6 +1,8 @@
 controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$stateParams', function (baseUrl, $scope, $state, $ionicSlideBoxDelegate, $injector, $stateParams) {
     var _this = this;
     //
+    $scope.owner = $stateParams.fullname;
+    console.log($scope.owner);
     //
     var loadBlock = $injector.get('loadBlock');
     var test = $injector.get('newCarService');
@@ -41,8 +43,8 @@ controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
     };
     //
     $scope.takeCarPicture = function () {
-        //        return test.takePhotoCar();
-        test.selectPhotoCar();
+        return test.takePhotoCar();
+        //        test.selectPhotoCar();
     };
     //
     $scope.capturePhoto = function () {
@@ -70,15 +72,15 @@ controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
     $scope.submitForms = function () {
         //        test.submitForms();
         //        test.sendEmails();
-        test.sendQuote();
+        test.submitForms($scope.owner);
         $state.go('quoteInfo');
     };
     //
     //
-    $scope.sendQuote = function () {
-        test.sendQuote(insurescanJson.insurescanJson);
-        $state.go('afterQuote');
-    };
+    //    $scope.sendQuote = function () {
+    //        test.sendQuote(insurescanJson.insurescanJson);
+    //        $state.go('afterQuote');
+    //    };
     //
     //TODO this is hideously inefficient, runs through array multiple times
     //

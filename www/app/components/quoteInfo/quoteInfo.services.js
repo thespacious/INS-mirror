@@ -1,4 +1,4 @@
-services.factory('quoteInfoServices', function () {
+services.factory('quoteInfoServices', function (BASE_SERVER) {
     this.ipObj1 = {
         callback: function (val) { //Mandatory
             var dates = {};
@@ -37,7 +37,7 @@ services.factory('quoteInfoServices', function () {
         discounts["PC"] = document.getElementById('prior-cov').checked;
         discounts["MC"] = document.getElementById('multi-car').checked;
         discounts["H"] = document.getElementById('home-owner').checked;
-        discounts["PF"] = document.getElementById('pad-in-full').checked;
+        discounts["PF"] = document.getElementById('paid-in-full').checked;
         discounts["GS"] = document.getElementById('good-student').checked;
         session["discounts"] = discounts;
         sessionStorage.setItem("session", JSON.stringify(session));
@@ -66,8 +66,10 @@ services.factory('quoteInfoServices', function () {
         return date.concat(time);
     };
     this.incrementDate = function () {
-        var oldDate = new Date(document.PolicyTermForm.date.value);
-        document.PolicyTermForm.date2.value = ((oldDate.getMonth() + 7) % 12) + '/' + oldDate.getDate() + '/' + oldDate.getFullYear();
+        console.log($('startDatePicker').datepicker('getDate'));
+        var oldDate = new Date(document.forms.PolicyTermForm.startDatePicker.getDate());
+        var newDate = new Date(((oldDate.getMonth() + 7) % 12) + '/' + oldDate.getDate() + '/' + oldDate.getFullYear());
+        document.forms.PolicyTermForm.endDatePicker.value = newDate;
     };
     this.populateDate = function () {
         var session = JSON.parse(sessionStorage.getItem("session"));
@@ -207,19 +209,51 @@ services.factory('quoteInfoServices', function () {
     };
     this.validatePolcyTerm = function () {
         var session = JSON.parse(sessionStorage.getItem("session"));
-        var policyTerm = document.PolicyTermForm.date.value;
+        var policyTerm = document.forms.PolicyTermForm.startDatePicker.value;
         session["policyTerm"] = policyTerm;
         sessionStorage.setItem("session", JSON.stringify(session));
         //update Insurescan with policy term from and to
         //        var toDate = sessionStorage.getItem("toDate");
-        var toDate = document.PolicyTermForm.date2.value;
+        var toDate = document.forms.PolicyTermForm.endDatePicker.value;
         var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
-        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.ContractTerm.EffectiveDt = formatDate(policyTerm);
-        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.ContractTerm.ExpirationDt = formatDate(toDate);
+        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.ContractTerm.EffectiveDt = this.formatDate(policyTerm);
+        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.ContractTerm.ExpirationDt = this.formatDate(toDate);
         sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
         return true;
         //        document.PolicyTermForm.submit();
     };
+    //
+    //
+    this.sendQuote = function (json) {
+        var creds = JSON.parse(sessionStorage.getItem('credentials'));
+        var req = {
+            type: "POST"
+                //            , url: BASE_SERVER + "quote/" + creds.quoteId
+                
+            , url: BASE_SERVER + "/quote/" + creds.quoteId
+            , headers: {
+                'SESSIONID': creds.userCreds.sessionId
+            }
+            , context: this
+            , async: false
+            , dataType: "json"
+            , contentType: 'application/json; charset=UTF-8'
+            , data: JSON.stringify(json)
+        };
+        $.ajax(req).done(function (data) {
+            console.log(data);
+            return data.responseText;
+            //            $state.go('newCar');
+        }).fail(function (data) {
+            console.log("send quote return error, find out why:");
+            console.log(data);
+            return data.responseText;
+            //            $state.go('newCar');
+            //            var response = data;
+        });
+    };
+    //
+    //
     this.submitForms = function () {
         if (this.validateDiscounts() == true && this.validatePolcyTerm()) {
             return true;

@@ -76,10 +76,9 @@ services.factory('driversService', function (BASE_SERVER, $state) {
         var req = {
             type: "POST"
             , url: BASE_SERVER + "/getquoteid"
-                            , headers: {
-                                'SESSIONID': creds.userCreds.sessionId
-                            }
-                
+            , headers: {
+                'SESSIONID': creds.userCreds.sessionId
+            }
             , async: false
         };
         if (creds['quoteId'] == null) {
@@ -97,7 +96,33 @@ services.factory('driversService', function (BASE_SERVER, $state) {
             return false;
         }
     };
-    this.storeDrivers = function () {
+    var formatDate = function (date) {
+        var d = new Date(date)
+            , month = '' + (d.getMonth() + 1)
+            , day = '' + d.getDate()
+            , year = d.getFullYear();
+        hour = d.getHours();
+        minute = '' + d.getMinutes();
+        second = '' + d.getSeconds();
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+        if (hour.length < 2) {
+            hour = 'T0' + hour;
+        }
+        else {
+            hour = 'T' + hour;
+        }
+        if (minute.length < 2) minute = '0' + minute;
+        if (second.length < 2) second = '0' + second;
+        var date = [year, month, day].join('-');
+        var time = [hour, minute, second].join(':');
+        return date.concat(time);
+    };
+    var NAMED_INSURED = 0
+        , EXCLUDED = 1
+        , REGULAR = 2
+        , categories = ["named insured", "excluded", "regular"];
+    this.storeDrivers = function (drivers) {
         var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
         /*If the user jumps between the screens to and fro, ten we need to make sure that we do not add multiple/duplicate entries. 
         Below logic sanitizes the insurescanJson before updating it every sigle time*/

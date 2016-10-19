@@ -104,13 +104,16 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     };
     //
     //
+    //    $scope.submitForms = function () {
+    //        var primary = $scope.checkPrimary(true);
+    //        test.onDriversLicenseSubmit('license', primary, $scope.driverId);
+    //        if (primary == true) {
+    //            test.onUserInfoSubmit('driver_info', $scope.driverId);
+    //        }
+    //        $state.go('home');
+    //    };
     $scope.submitForms = function () {
-        var primary = $scope.checkPrimary(true);
-        test.onDriversLicenseSubmit('license', primary, $scope.driverId);
-        if (primary == true) {
-            test.onUserInfoSubmit('driver_info', $scope.driverId);
-        }
-        $state.go('home');
+        $ionicSlideBoxDelegate.next();
     };
     //
     //Do UI stuff
@@ -141,19 +144,21 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     };
     //
     //
+    $scope.newDate = function () {
+        var today = new Date();
+        var month = today.getMonth() + 1;
+        var day = today.getDate();
+        if (month < 10) {
+            month = '0' + month;
+        }
+        if (day < 10) {
+            day = '0' + day;
+        }
+        var formattedToday = today.getFullYear() + '-' + month + '-' + day;
+        return formattedToday;
+    };
+    $scope.today = $scope.newDate();
     //
-    //    $scope.superHacky = function () {
-    //        if (driverId != 0) {
-    //            var maritalstatus = {
-    //                "type": "select"
-    //                , "label": "Marital Status"
-    //                , "options": [
-    //                            "single"
-    //                            , "married"]
-    //            }
-    //            $scope.pageBlockItems['maritalstatus'] = maritalstatus;
-    //        }
-    //    };
     //
     $scope.showGaraging = false;
     $scope.switchGaraging = function () {
@@ -183,12 +188,51 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     //
     //default slide behaviour
     //
+    $scope.next = function () {
+        $ionicSlideBoxDelegate.next();
+    };
+    //
+    //
+    $scope.previous = function () {
+        $ionicSlideBoxDelegate.previous();
+    };
+    //
     $scope.$on("$ionicSlides.sliderInitialized", function (event, data) {
         // data.slider is the instance of Swiper
+        if (data.slider.activeIndex == data.slider.slides.length - 1) {
+            $scope.footerText = 'submit';
+            $scope.submitForms = function () {
+                var primary = $scope.checkPrimary(true);
+                test.onDriversLicenseSubmit('license', primary, $scope.driverId);
+                if (primary == true) {
+                    test.onUserInfoSubmit('driver_info', $scope.driverId);
+                }
+                $state.go('home');
+            };
+        }
+        else {
+            $scope.footerText = 'next';
+            $scope.submitForms = $scope.next();
+        }
         $scope.slider = data.slider;
     });
     $scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
         console.log('Slide change is beginning');
+        if (data.slider.activeIndex == data.slider.slides.length - 1) {
+            $scope.footerText = 'submit';
+            $scope.submitForms = function () {
+                var primary = $scope.checkPrimary(true);
+                test.onDriversLicenseSubmit('license', primary, $scope.driverId);
+                if (primary == true) {
+                    test.onUserInfoSubmit('driver_info', $scope.driverId);
+                }
+                $state.go('home');
+            };
+        }
+        else {
+            $scope.footerText = 'next';
+            $scope.submitForms = $scope.next();
+        }
     });
     $scope.$on("$ionicSlides.slideChangeEnd", function (event, data) {
         // note: the indexes are 0-based

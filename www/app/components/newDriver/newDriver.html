@@ -3,15 +3,15 @@
 <ion-view scroll="true" overflow-scroll="true" ng-init="superHacky()" class="has-header has-footer">
     <ion-content>
         <ion-slides options="options" slider="data.slider" style="height=80vh">
-            <ion-slide-page scroll="true" ng-repeat="page in pageNames" class="block overflow-scroll">
+            <ion-slide-page scroll="true" ng-repeat="page in pageNames" class="block overflow-scroll has-footer">
                 <div scan-button ng-show="$first"></div>
                 <div help-card ng-if="$first" ng-show="cardShown" ng-click="showCard()"></div>
                 <div page-block ng-init="checkEdit()"></div>
                 <div show-fields ng-show="checkPrimary($first)"></div>
-                <div footer ng-show="$last"></div>
             </ion-slide-page>
         </ion-slides>
     </ion-content>
+    <div footer></div>
 </ion-view>
 <!--
 <div ng-repeat="page in pageNames">{{page}} {{test}}

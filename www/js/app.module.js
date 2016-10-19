@@ -42,7 +42,7 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
                 
             , controller: "newDriverEditCtrl"
         }).state('newCar', {
-            url: '/newCar'
+            url: '/newCar/:fullname'
             , templateUrl: 'app/components/newCar/newCar.html'
             , controller: "newCarCtrl"
         }).state('quoteInfo', {
@@ -53,6 +53,10 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             url: '/datePicker'
             , templateUrl: 'app/components/quoteInfo/quoteInfo.datePicker.html'
             , controller: "quoteInfoCtrl"
+        }).state('quoteInfo.viewQuote', {
+            url: '/viewQuote'
+            , templateUrl: 'app/components/quoteInfo/quoteInfo.viewQuote.html'
+            , controller: "quoteViewCtrl"
         }).state('afterQuote', {
             url: '/afterQuote'
             , templateUrl: 'app/components/afterQuote/signature.html'

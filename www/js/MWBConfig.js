@@ -10,7 +10,7 @@ var MWBSInitSpace = MWBSInitSpace || {};
 MWBSInitSpace.init = function (mwbs, constants, dvc) {
     console.log('MWBSInitSpace.init Invoked at: ' + (new Date()).getTime());
     //change these registration settings to match your licence keys
-    var ANDROID_KEY = 's5E9eWtH0CbO7QkbRmV4Xqtqwkwgup3WQh/a2czbUB8=';
+    var ANDROID_KEY = 'kwILwP2bCHIfNLMOJadaGwR3V0sRh+kPA6LgV1jyXYY=';
     var registrationCallback = function (registrationResult) {
         switch (parseInt(registrationResult)) {
         case constants.MWB_RTREG_OK:

@@ -1,5 +1,6 @@
 controllers.controller('quoteInfoCtrl', ['BASE_SERVER', '$scope', '$state', '$injector', 'ionicDatePicker', function (baseUrl, $scope, $state, $injector, ionicDatePicker) {
     var _this = this;
+    $scope.footerText = 'submit';
     var loadBlock = $injector.get('loadBlock');
     $scope.datePicker = $injector.get('ionicDatePicker');
     var test = $injector.get('quoteInfoServices');
@@ -38,11 +39,49 @@ controllers.controller('quoteInfoCtrl', ['BASE_SERVER', '$scope', '$state', '$in
         }
     };
     //
-    //
     $scope.newDate = function () {
-        return new Date();
+        var today = new Date();
+        var month = today.getMonth() + 1;
+        var day = today.getDate();
+        if (month < 10) {
+            month = '0' + month;
+        }
+        if (day < 10) {
+            day = '0' + day;
+        }
+        var formattedToday = today.getFullYear() + '-' + month + '-' + day;
+        return formattedToday;
+    };
+    $scope.newnewDate = function () {
+        var today = new Date();
+        var day = today.getDate();
+        var month = today.getMonth() + 1;
+        if (month < 10) {
+            month = '0' + month;
+        }
+        if (day < 10) {
+            day = '0' + day;
+        }
+        var year = today.getFullYear();
+        if ((month + 6) > 12) {
+            month = (month + 6) % 12;
+            month = '0' + month;
+            year = year + 1;
+        }
+        var formattedToday = year + '-' + month + '-' + day;
+        return formattedToday;
     };
     //
+    $scope.today = $scope.newDate();
+    //
+    $scope.todayasdate = new Date();
+    //
+    $scope.sixmonths = $scope.newnewDate();
+    //
+    var tempdate = new Date();
+    //
+    $scope.sixmonthsasdate = tempdate.setMonth(tempdate.getMonth() + 6)
+        //
     $scope.createDiscounts = function () {
         return test.createDiscounts();
     };
@@ -74,4 +113,24 @@ controllers.controller('quoteInfoCtrl', ['BASE_SERVER', '$scope', '$state', '$in
         $scope.activeIndex = data.activeIndex;
         $scope.previousIndex = data.previousIndex;
     });
+    //
+    $scope.incrementDate = function () {
+        test.incrementDate();
+    };
+    //
+    $scope.submitForms = function () {
+        var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
+        if (test.submitForms() == true) {
+            try {
+                test.sendQuote(insurescanJson);
+                $state.go('quoteInfo.viewQuote');
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+        else {
+            alert('submit quote failed');
+        }
+    };
 }]);

@@ -14,7 +14,7 @@
 <div class="view-container">
     <ion-header-bar class="bar-positive">
         <h1 class="title">Drivers</h1> </ion-header-bar>
-    <ion-scroll class="has-header overflow-scroll" style="height:93vh;">
+    <ion-scroll class="has-header has-footer overflow-scroll" style="height:85vh;">
         <ion-list>
             <div class="card" ng-show="drivers.length < 1">Click add driver to get started</div>
             <ion-item ng-repeat="driver in drivers" item="driver" class="card driver-item" can-swipe="false">
@@ -22,7 +22,7 @@
                     <div class="row">
                         <div class="col-66"> Check toggle for each
                             <br>named insured (2 max)</div>
-                        <button type="button" class="button icon ion-close-circled" onclick="hideCard()" style="float: right;margin-left: auto;"></button>
+                        <button type="button" class="button icon ion-close-circled" onclick="hideCard()" style="float: right;margin-left: auto;" ng-checked="$first"></button>
                     </div>
                 </div>
                 <div class="item item-divider driver-item-header">
@@ -55,7 +55,7 @@
                     </ion-item>
                 </ion-list>
                 <div class="col col-33 col-offset-66">
-                    <button class="button button icon-right icon ion-plus-round button-balanced" ui-sref="newCar">add car</button>
+                    <button class="button button icon-right icon ion-plus-round button-balanced" ui-sref="newCar({fullname:$parent.$index})">add car</button>
                 </div>
             </ion-item>
         </ion-list>

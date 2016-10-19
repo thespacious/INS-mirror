@@ -387,7 +387,7 @@ services.factory('newCarService', function (BASE_SERVER) {
     //Validate and store
     //
     //
-    this.storeCar = function () {
+    this.storeCar = function (owner) {
         var session = JSON.parse(sessionStorage.getItem("session"));
         var cars = [];
         var car = {};
@@ -395,9 +395,9 @@ services.factory('newCarService', function (BASE_SERVER) {
         car["year"] = document.carInfo.year.value;
         car["make"] = document.carInfo.make.value;
         car["model"] = document.carInfo.model.value;
-        //        car["owner"] = document.carInfo.drivers.value;
+        car["owner"] = session.drivers[owner].fullname;
         car["photo1"] = document.getElementById('photo1').src;
-        //  car["photo2"] = document.getElementById('photo2').src;
+        car["photo2"] = document.getElementById('photo2').src;
         cars.push(car);
         session["cars"] = cars;
         sessionStorage.setItem("session", JSON.stringify(session));
@@ -554,8 +554,8 @@ services.factory('newCarService', function (BASE_SERVER) {
         //alert("Finally the insurescanJson looks like: " + JSON.stringify(insurescanJson) )
         window.history.back();
     };
-    this.submitForms = function () {
-        if (this.storeCar() == true && this.validateCoverages('coverages')) {
+    this.submitForms = function (owner) {
+        if (this.storeCar(owner) == true && this.validateCoverages('coverages')) {
             return true;
         }
         else {
@@ -572,9 +572,8 @@ services.factory('newCarService', function (BASE_SERVER) {
             type: "POST"
             , url: BASE_SERVER + "/maildocs/" + creds.quoteId
             , headers: {
-                                'SESSIONID': creds.userCreds.sessionId
-                            }
-                
+                'SESSIONID': creds.userCreds.sessionId
+            }
             , async: false
                 //            , dataType: "json"
                 //            , contentType: 'multipart/form-data; charset=UTF-8'

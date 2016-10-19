@@ -1,11 +1,9 @@
-<ion-footer-bar align-title="right" class="bar-mellow" style="height:6vh">
-    <!--
-<div class="buttons">
+<ion-footer-bar align-title="right" class="bar-mellow">
+    <!-- <div class="buttons">
     <button class="button">Left Button</button>
-</div>
--->
+    </div> -->
     <!--        <h1 class="title">Title!</h1>-->
     <div class="buttons button col col-33 col-offset-66" style="text-align:center;float:right;background-color:transparent;">
-        <button class="button button-clear button-calm" style="float:right;margin-left:33%;margin-top:-3%;" ng-click="submitForms()">{{footerText}}</button>
+        <button class="button button-clear button-calm" style="float:right;margin-left:33%;/* margin-top:-3%; */width: 100%;height: 100%;margin-top: auto;" ng-click="submitForms()" ng-model="footerText">{{footerText}}</button>
     </div>
 </ion-footer-bar>
