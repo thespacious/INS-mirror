@@ -1,5 +1,8 @@
 services.factory('driversService', function (BASE_SERVER, $state) {
     this.session = function () {
+        if (!JSON.parse(sessionStorage.getItem('session'))) {
+            sessionStorage.setItem('session', JSON.stringify({}));
+        }
         return JSON.parse(sessionStorage.getItem('session'));
     };
     this.checkDrivers = function (session) {
@@ -18,13 +21,16 @@ services.factory('driversService', function (BASE_SERVER, $state) {
             return false;
         }
     };
-    this.drivers = function (driverId) {
+    this.drivers = function () {
         if (this.checkDrivers(this.session()) == true) {
             var sess = this.session();
             return sess.drivers;
         }
         else {
-            return [];
+            var session = this.session();
+            session['drivers'] = [];
+            sessionStorage.setItem('session', JSON.stringify(session));
+            return session.drivers;
         }
     };
     this.checkCars = function (session) {
@@ -41,7 +47,10 @@ services.factory('driversService', function (BASE_SERVER, $state) {
             return sess.cars;
         }
         else {
-            return [];
+            var sess = this.session();
+            sess['cars'] = [];
+            sessionStorage.setItem('session', JSON.stringify(sess));
+            return sess.cars;
         };
     };
     this.removeCar = function (position) {
@@ -49,6 +58,15 @@ services.factory('driversService', function (BASE_SERVER, $state) {
         cars.splice(position, 1);
         sessionStorage.setItem("session", JSON.stringify(session));
         return this.cars();
+    };
+    this.removeDriver = function (position) {
+        var drivers = this.drivers();
+        drivers.splice(position, 1);
+        sessionStorage.setItem("session", JSON.stringify({
+            "drivers": drivers
+        }));
+        // Make it visual that it is possible to add a new driver
+        return this.drivers();
     };
     this.getQuoteId = function () {
         if (sessionStorage.getItem('credentials') == null) {
@@ -58,9 +76,9 @@ services.factory('driversService', function (BASE_SERVER, $state) {
         var req = {
             type: "POST"
             , url: BASE_SERVER + "/getquoteid"
-                //            , headers: {
-                //                'SESSIONID': creds.userCreds.sessionId
-                //            }
+                            , headers: {
+                                'SESSIONID': creds.userCreds.sessionId
+                            }
                 
             , async: false
         };
@@ -79,31 +97,172 @@ services.factory('driversService', function (BASE_SERVER, $state) {
             return false;
         }
     };
-//    this.sendQuote = function (json) {
-//        var creds = JSON.parse(sessionStorage.getItem('credentials'));
-//        var req = {
-//            type: "POST"
-//                //            , url: BASE_SERVER + "quote/" + creds.quoteId
-//                
-//            , url: BASE_SERVER + "/quote/" + creds.quoteId
-//                //            , headers: {
-//                //                'SESSIONID': creds.userCreds.sessionId
-//                //            }
-//                
-//            , async: false
-//            , dataType: "json"
-//            , contentType: 'application/json; charset=UTF-8'
-//            , data: JSON.stringify(json)
-//        };
-//        $.ajax(req).done(function (data) {
-//            console.log(data);
-//            $state.go('newCar');
-//        }).fail(function (data) {
-//            console.log("send quote return error, find out why:");
-//            console.log(data);
-//            $state.go('newCar');
-//            //            var response = data;
-//        });
-//    };
+    this.storeDrivers = function () {
+        var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
+        /*If the user jumps between the screens to and fro, ten we need to make sure that we do not add multiple/duplicate entries. 
+        Below logic sanitizes the insurescanJson before updating it every sigle time*/
+        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver.splice(1, insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver.length - 1);
+        sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
+        var driversIninsurescanJson = {
+            "-id": "Drv1"
+            , "GeneralPartyInfo": {
+                "NameInfo": {
+                    "PersonName": {
+                        "Surname": "TESTERMAN"
+                        , "GivenName": "MICHAEL"
+                    }
+                }
+            }
+            , "DriverInfo": {
+                "PersonInfo": {
+                    "GenderCd": "M"
+                    , "BirthDt": "1980-03-28"
+                    , "MaritalStatusCd": "S"
+                    , "OccupationDesc": "UNKNOWN(UN)"
+                    , "OccupationClassCd": "UN"
+                    , "LengthTimeCurrentOccupation": {
+                        "NumUnits": "0"
+                        , "UnitMeasurementCd": "ANN"
+                    }
+                }
+                , "License": {
+                    "LicenseStatusCd": "Active"
+                    , "LicensedDt": "2004-03-28"
+                    , "FirstLicensedCurrentStateDt": "2004-03-28"
+                    , "LicensePermitNumber": "090561329"
+                    , "StateProvCd": "SC"
+                    , "StateProv": "SC"
+                    , "CountryCd": "US"
+                }
+            }
+            , "PersDriverInfo": {
+                "-VehPrincipallyDrivenRef": "Veh1"
+                , "DefensiveDriverCd": "N"
+                , "DistantStudentInd": "0"
+                , "DriverRelationshipToApplicantCd": "IN"
+                , "DriverTrainingInd": "0"
+                , "FinancialResponsibilityFiling": {
+                    "NameInfo": {
+                        "PersonName": {
+                            "Surname": "TESTERMAN"
+                            , "GivenName": "MICHAEL"
+                        }
+                    }
+                    , "FilingStatusCd": "N"
+                }
+                , "GoodDriverInd": "0"
+                , "GoodStudentCd": "N"
+                , "MatureDriverInd": "0"
+                , "RestrictedInd": "0"
+            }
+        };
+        for (i = 0; i < drivers.length; i++) {
+            if (i > 0) {
+                var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
+                var indexDriver = i + 1;
+                driversIninsurescanJson["-id"] = "drv" + indexDriver;
+                //alert("The driver id inserted is : " + driversIninsurescanJson["-id"]);
+                driversIninsurescanJson.GeneralPartyInfo.NameInfo.PersonName.Surname = drivers[i]["fullname"].split(" ")[1];
+                driversIninsurescanJson.GeneralPartyInfo.NameInfo.PersonName.GivenName = drivers[i]["fullname"].split(" ")[0];
+                driversIninsurescanJson.PersDriverInfo.FinancialResponsibilityFiling.NameInfo.PersonName.Surname = drivers[i]["fullname"].split(" ")[1];
+                driversIninsurescanJson.PersDriverInfo.FinancialResponsibilityFiling.NameInfo.PersonName.GivenName = drivers[i]["fullname"].split(" ")[0];
+                driversIninsurescanJson.DriverInfo.PersonInfo.GenderCd = drivers[i]["sex"];
+                driversIninsurescanJson.DriverInfo.PersonInfo.BirthDt = drivers[i]["dob"];
+                driversIninsurescanJson.DriverInfo.PersonInfo.MaritalStatusCd = drivers[i]["maritalState"];
+                driversIninsurescanJson.DriverInfo.License.LicensePermitNumber = drivers[i]["license"];
+                //Here we need to progress the dates by 16 years
+                var myDate = new Date(drivers[i]["dob"]);
+                myDate.setYear(myDate.getFullYear() + 16);
+                //alert("Progressed date: " + formatDate(myDate));
+                driversIninsurescanJson.DriverInfo.License.LicensedDt = formatDate(myDate);
+                driversIninsurescanJson.DriverInfo.License.FirstLicensedCurrentStateDt = formatDate(myDate);
+                driversIninsurescanJson.DriverInfo.License.StateProvCd = drivers[i]["state"];
+                driversIninsurescanJson.DriverInfo.License.StateProv = drivers[i]["state"];
+                //Add this driver to the insurescanJson
+                insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver.push(driversIninsurescanJson);
+                sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
+            }
+        }
+    };
+    this.storeNamedInsured = function () {
+        var drivers = this.drivers();
+        var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
+        /*If the user jumps between the screens to and fro, ten we need to make sure that we do not add multiple/duplicate entries. 
+        Below logic sanitizes the insurescanJson before updating it every sigle time*/
+        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal.splice(1, insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal.length - 1);
+        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal.splice(1, insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal.length - 1);
+        var namedInsuredQuantity = 0;
+        // Counts how many named insured are saved in the session
+        for (i = 0; i < drivers.length; i++) {
+            if (drivers[i]["category"] == categories[NAMED_INSURED]) namedInsuredQuantity++;
+            if (i == 1) {
+                var additionalInsuredOrPrincipalName = drivers[i]["fullname"];
+                var additionalInsuredOrPrincipalLicense = drivers[i]["license"];
+                var additionalInsuredOrPrincipalDOB = drivers[i]["dob"];
+                var additionalInsuredOrPrincipalstate = drivers[i]["state"];
+                var additionalInsuredOrPrincipalsex = drivers[i]["sex"];
+                var additionalInsuredOrPrincipalmaritalstatus = drivers[i]["maritalState"];
+            }
+        }
+        if (namedInsuredQuantity == 2) {
+            //Here is what we are gonna add to the insurescanJson for additional nameinsured
+            var additionalInsuredOrPrincipal = {
+                "GeneralPartyInfo": {
+                    "NameInfo": {
+                        "PersonName": {
+                            "Surname": "TESTERMAN"
+                            , "GivenName": "MITCHELL"
+                        }
+                    }
+                    , "Addr": {
+                        "AddrTypeCd": "MailingAddress"
+                        , "Addr1": "1234 e main st"
+                        , "City": "Travelers Rest"
+                        , "StateProvCd": "SC"
+                        , "StateProv": "SC"
+                        , "PostalCode": "29690"
+                        , "CountryCd": "US"
+                        , "Country": "USA"
+                        , "County": "Greenville"
+                    }
+                }
+                , "InsuredOrPrincipalInfo": {
+                    "InsuredOrPrincipalRoleCd": "Insured"
+                    , "InsuredOrPrincipalRoleDesc": "Insured"
+                }
+            };
+            /*Add the new name insured to the insurescanJson in two places*/
+            if (insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal.length < 2) {
+                insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal.push(additionalInsuredOrPrincipal);
+                insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal.push(additionalInsuredOrPrincipal);
+            }
+            /*Update the address in two places*/
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[1].GeneralPartyInfo.NameInfo.PersonName.Surname = additionalInsuredOrPrincipalName.split(" ")[1];
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[1].GeneralPartyInfo.NameInfo.PersonName.GivenName = additionalInsuredOrPrincipalName.split(" ")[0];
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[1].GeneralPartyInfo.Addr.AddrTypeCd = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.AddrTypeCd;
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[1].GeneralPartyInfo.Addr.Addr1 = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.Addr1;
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[1].GeneralPartyInfo.Addr.City = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.City;
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[1].GeneralPartyInfo.Addr.StateProvCd = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.StateProvCd;
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[1].GeneralPartyInfo.Addr.StateProv = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.StateProv;
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[1].GeneralPartyInfo.Addr.PostalCode = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.PostalCode;
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[1].GeneralPartyInfo.Addr.CountryCd = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.CountryCd;
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[1].GeneralPartyInfo.Addr.Country = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.Country;
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[1].GeneralPartyInfo.Addr.County = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.County;
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[1].GeneralPartyInfo.NameInfo.PersonName.Surname = additionalInsuredOrPrincipalName.split(" ")[1];
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[1].GeneralPartyInfo.NameInfo.PersonName.GivenName = additionalInsuredOrPrincipalName.split(" ")[0];
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[1].GeneralPartyInfo.Addr.AddrTypeCd = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.AddrTypeCd;
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[1].GeneralPartyInfo.Addr.Addr1 = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.Addr1;
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[1].GeneralPartyInfo.Addr.City = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.City;
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[1].GeneralPartyInfo.Addr.StateProvCd = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.StateProvCd;
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[1].GeneralPartyInfo.Addr.StateProv = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.StateProv;
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[1].GeneralPartyInfo.Addr.PostalCode = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.PostalCode;
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[1].GeneralPartyInfo.Addr.CountryCd = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.CountryCd;
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[1].GeneralPartyInfo.Addr.Country = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.Country;
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[1].GeneralPartyInfo.Addr.County = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.County;
+            //alert(JSON.stringify(insurescanJson));
+        }
+        sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
+    };
+    this.session();
     return this;
 });

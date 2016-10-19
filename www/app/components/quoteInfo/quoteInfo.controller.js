@@ -1,4 +1,4 @@
-controllers.controller('quoteInfoCtrl', ['BASE_SERVER', '$scope', '$state', '$injector', 'ionicDatePicker'function (baseUrl, $scope, $state, $injector, ionicDatePicker) {
+controllers.controller('quoteInfoCtrl', ['BASE_SERVER', '$scope', '$state', '$injector', 'ionicDatePicker', function (baseUrl, $scope, $state, $injector, ionicDatePicker) {
     var _this = this;
     var loadBlock = $injector.get('loadBlock');
     $scope.datePicker = $injector.get('ionicDatePicker');

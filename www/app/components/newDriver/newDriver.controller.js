@@ -3,6 +3,8 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     var _this = this;
     var session = JSON.parse(sessionStorage.getItem("session"));
     //
+    //
+    $scope.footerText = 'next';
     //load services
     //
     var loadBlock = $injector.get('loadBlock');
@@ -26,6 +28,9 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
             }
         }
     };
+    //
+    //
+    $scope.date = new Date();
     //
     $scope.driverId = $scope.getDriverId();
     //
@@ -80,13 +85,25 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     //
     //add peripheral functions
     //
-    $scope.checkEdit = $timeout(function (_this) {
-        return _this.test.checkEdit($state.current.name, $scope.driverId);
+    $scope.checkEdit = $timeout(function () {
+        return test.checkEdit($state.current.name, $scope.driverId);
     }, 0);
+    //
+    //
+    $scope.checkEdit = function () {
+        return test.checkEdit($state.current.name, $scope.driverId);
+    };
     //
     $scope.capturePhoto = function () {
         return test.capturePhoto();
     };
+    //
+    //
+    $scope.getPhoto = function () {
+        return test.uploadPhoto();
+    };
+    //
+    //
     $scope.submitForms = function () {
         var primary = $scope.checkPrimary(true);
         test.onDriversLicenseSubmit('license', primary, $scope.driverId);
@@ -142,11 +159,11 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     $scope.switchGaraging = function () {
         if ($scope.showGaraging == false) {
             $scope.showGaraging = true;
-            test.setGaraging(page);
+            test.setGaraging();
         }
         else {
             $scope.showGaraging = false;
-            test.unSetGaraging(page);
+            test.unSetGaraging();
         }
     };
     //TODO this is hideously inefficient, runs through array multiple times

@@ -19,7 +19,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         "fullname": {
                             "type": "text"
                             , "size": 200
-                            , "default_value": null
+                            , "value": null
                             , "required": true
                             , "label": "Full Name"
                             , "validate_exp": "[a-zA-Z]"
@@ -27,7 +27,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         , "license": {
                             "type": "number"
                             , "size": 20
-                            , "default_value": null
+                            , "value": null
                             , "required": true
                             , "label": "License No."
                             , "validate_exp": ""
@@ -35,7 +35,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         , "licensedate": {
                             "type": "date"
                             , "size": 20
-                            , "default_value": null
+                            , "value": "{{date}}"
                             , "required": true
                             , "label": "License Issue Date"
                             , "validate_exp": ""
@@ -43,7 +43,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         , "dob": {
                             "type": "date"
                             , "size": 12
-                            , "default_value": null
+                            , "value": "{{date}}"
                             , "required": true
                             , "label": "Date of Birth"
                             , "validate_exp": ""
@@ -51,7 +51,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         , "street": {
                             "type": "text"
                             , "size": 200
-                            , "default_value": null
+                            , "value": null
                             , "required": true
                             , "label": "Street"
                             , "validate_exp": ""
@@ -59,7 +59,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         , "city": {
                             "type": "text"
                             , "size": 50
-                            , "default_value": null
+                            , "value": null
                             , "required": true
                             , "label": "City"
                             , "validate_exp": "[a-zA-Z]"
@@ -67,7 +67,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         , "state": {
                             "type": "text"
                             , "size": 2
-                            , "default_value": null
+                            , "value": null
                             , "required": true
                             , "label": "State"
                             , "validate_exp": "[a-zA-Z]"
@@ -75,7 +75,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         , "zip": {
                             "type": "tel"
                             , "size": 5
-                            , "default_value": null
+                            , "value": null
                             , "required": true
                             , "label": "Zip"
                             , "validate_exp": "[0-9]"
@@ -97,7 +97,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         , "gstreet": {
                             "type": "text"
                             , "size": 200
-                            , "default_value": null
+                            , "value": null
                             , "required": true
                             , "label": "Street"
                             , "validate_exp": ""
@@ -105,7 +105,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         , "gcity": {
                             "type": "text"
                             , "size": 50
-                            , "default_value": null
+                            , "value": null
                             , "required": true
                             , "label": "City"
                             , "validate_exp": "[a-zA-Z]"
@@ -113,7 +113,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         , "gstate": {
                             "type": "text"
                             , "size": 2
-                            , "default_value": null
+                            , "value": null
                             , "required": true
                             , "label": "State"
                             , "validate_exp": "[a-zA-Z]"
@@ -121,7 +121,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         , "gzip": {
                             "type": "tel"
                             , "size": 5
-                            , "default_value": null
+                            , "value": null
                             , "required": true
                             , "label": "Zip"
                             , "validate_exp": "[0-9]"
@@ -139,7 +139,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         "county": {
                             "type": "text"
                             , "size": 5
-                            , "default_value": null
+                            , "value": null
                             , "required": true
                             , "label": "County"
                             , "validate_exp": "[0-9]"
@@ -147,7 +147,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         , "phone": {
                             "type": "text"
                             , "size": 5
-                            , "default_value": null
+                            , "value": null
                             , "required": true
                             , "label": "Phone"
                             , "validate_exp": "[0-9]"
@@ -155,7 +155,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         , "email": {
                             "type": "email"
                             , "size": 5
-                            , "default_value": null
+                            , "value": null
                             , "required": true
                             , "label": "Email"
                             , "validate_exp": "[0-9]"
@@ -179,7 +179,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         "vin": {
                             "type": "text"
                             , "size": 200
-                            , "default_value": null
+                            , "value": null
                             , "required": true
                             , "label": "Vin no."
                             , "validate_exp": ""
@@ -187,7 +187,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         , "year": {
                             "type": "number"
                             , "size": 200
-                            , "default_value": null
+                            , "value": null
                             , "required": true
                             , "label": "Year"
                             , "validate_exp": ""
@@ -195,7 +195,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         , "make": {
                             "type": "text"
                             , "size": 200
-                            , "default_value": null
+                            , "value": null
                             , "required": true
                             , "label": "Make"
                             , "validate_exp": ""
@@ -203,7 +203,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         , "model": {
                             "type": "text"
                             , "size": 200
-                            , "default_value": null
+                            , "value": null
                             , "required": true
                             , "label": "Model"
                             , "validate_exp": ""

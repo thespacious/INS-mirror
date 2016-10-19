@@ -4,7 +4,7 @@
 <ion-header-bar class="bar-positive">
     <h1 class="title">Login</h1> </ion-header-bar>
 <!--<script id="templates/intro.html" type="text/ng-template">-->
-<ion-view view-title="Intro">
+<ion-view view-title="Intro" class="has-footer">
     <ion-nav-buttons side="left">
         <button class="button button-positive button-clear no-animation" ng-click="startApp()" ng-show="!slideIndex"> Skip Intro </button>
         <button class="button button-positive button-clear no-animation" ng-click="previous()" ng-show="slideIndex > 0"> Previous Slide </button>
@@ -19,6 +19,7 @@
             <div id="logo"> <img src="img/new_logo.png" style="max-width:100vw;"> </div>
             <p> Innovators in Insurance </p>
             <p> Making progress with technology </p>
+            <div footer></div>
         </ion-slide>
         <!--
 <ion-slide>

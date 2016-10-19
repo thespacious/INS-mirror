@@ -1,8 +1,14 @@
 controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$stateParams', function (baseUrl, $scope, $state, $ionicSlideBoxDelegate, $injector, $stateParams) {
     var _this = this;
+    //
+    //
     var loadBlock = $injector.get('loadBlock');
     var test = $injector.get('newCarService');
     var insurescanJson = $injector.get('insurescanJson');
+    //
+    //
+    $scope.footerText = "submit";
+    //
     $scope.template = $injector.get('loadJsonTemplate');
     $scope.block = "cars";
     //
@@ -24,6 +30,10 @@ controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
     //
     //
     //Do UI stuff
+    //
+    $scope.checkHidden = function () {
+        return true;
+    };
     //
     $scope.uploadCarPicture = function (photoId) {
         return test.selectPhotoCar(photoId);
@@ -58,10 +68,10 @@ controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
     };
     //
     $scope.submitForms = function () {
-        //        return test.submitForms();
+        //        test.submitForms();
         //        test.sendEmails();
-        //        test.sendQuote();
-        $state.go('afterQuote');
+        test.sendQuote();
+        $state.go('quoteInfo');
     };
     //
     //

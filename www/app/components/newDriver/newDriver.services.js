@@ -1,13 +1,10 @@
 services.factory('testService', function () {
-    ///
-    //
-    this.uploadPhoto = function () {};
     //
     //
     this.seePrimary = function () {
         try {
             var session = JSON.parse(sessionStorage.getItem('session'));
-            if (session.drivers == null) {
+            if (session.drivers == null || (Object.keys(session.drivers).length == 0)) {
                 session['drivers'] = {};
                 sessionStorage.setItem('session', JSON.stringify(session));
                 return true;
@@ -81,6 +78,21 @@ services.factory('testService', function () {
     this.capturePhoto = function () {
         scanner.startScanning(MWBSInitSpace.init, InsureScan.onLicensePhoto);
     };
+    //
+    this.uploadPhoto = function () {
+        //        if (photoID != null) photoDestination = photoID.toString();
+        navigator.camera.getPicture(this.uploadsuccess, this.uploadfail, {
+            quality: 50
+            , destinationType: Camera.DestinationType.FILE_URI
+            , sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+        });
+    };
+    this.uploadsuccess = function (imageData) {
+        scanner.scanImage(MWBSInitSpace.init, InsureScan.onLicensePhoto, imageData);
+    };
+    this.uploadfail = function (imageData) {
+        console.log('image upload failed: \n', imageData);
+    };
     //defines insurescan object and parses response from manatee
     if (typeof InsureScan === 'undefined' || InsureScan === null) {
         InsureScan = {};
@@ -101,7 +113,10 @@ services.factory('testService', function () {
         }
         document.forms[0].license.value = userDataMap["DAQ"];
         //return date in proper format
-        document.forms[0].dob.value = userDataMap["DBB"].substr(0, 2) + "/" + userDataMap["DBB"].substr(2, 2) + "/" + userDataMap["DBB"].substr(4);
+        document.forms[0].dob.value = new Date(userDataMap["DBB"].substr(0, 2) + "-" + userDataMap["DBB"].substr(2, 2) + "-" + userDataMap["DBB"].substr(4));
+        if (document.forms[0].licensedate) {
+            document.forms[0].licensedate = new Date(userDataMap["DBD"].substr(0, 2) + "-" + userDataMap["DBD"].substr(2, 2) + "-" + userDataMap["DBD"].substr(4));
+        }
         document.forms[0].state.value = userDataMap["DAJ"];
         document.forms[0].street.value = userDataMap["DAG"];
         document.forms[0].city.value = userDataMap["DAI"];
@@ -123,27 +138,27 @@ services.factory('testService', function () {
     //        document.forms[page].zip.value = userDataMap["DAK"].substr(page, 5);
     //        document.forms[page].sex.value = ["M", "F"][userDataMap["DBC"] - 1];
     //    };
-    this.cleanFields = function cleanFields(page) {
-        document.forms[page].fullname.value = "";
-        document.forms[page].street.value = "";
-        document.forms[page].license.value = "";
-        document.forms[page].dob.value = "";
-        document.forms[page].city.value = "";
-        document.forms[page].state.value = "";
-        document.forms[page].zip.value = "";
-        document.forms[page].sex.value = "";
+    this.cleanFields = function cleanFields() {
+        document.forms[0].fullname.value = "";
+        document.forms[0].street.value = "";
+        document.forms[0].license.value = "";
+        document.forms[0].dob.value = "";
+        document.forms[0].city.value = "";
+        document.forms[0].state.value = "";
+        document.forms[0].zip.value = "";
+        document.forms[0].sex.value = "";
     };
-    this.setGaraging = function (page) {
-        document.forms[page].gstreet.value = document.forms[page].street.value;
-        document.forms[page].gcity.value = document.forms[page].city.value;
-        document.forms[page].gstate.value = document.forms[page].state.value;
-        document.forms[page].gzip.value = document.forms[page].zip.value;
+    this.setGaraging = function () {
+        document.forms[0].gstreet.value = document.forms[0].street.value;
+        document.forms[0].gcity.value = document.forms[0].city.value;
+        document.forms[0].gstate.value = document.forms[0].state.value;
+        document.forms[0].gzip.value = document.forms[0].zip.value;
     };
-    this.unSetGaraging = function (page) {
-        document.forms[page].gstreet.value = '';
-        document.forms[page].gcity.value = '';
-        document.forms[page].gstate.value = '';
-        document.forms[page].gzip.value = '';
+    this.unSetGaraging = function () {
+        document.forms[0].gstreet.value = '';
+        document.forms[0].gcity.value = '';
+        document.forms[0].gstate.value = '';
+        document.forms[0].gzip.value = '';
     };
     this.formatDate = function (date) {
         var d = new Date(date)

@@ -5,8 +5,8 @@
             <ion-list>
                 <ion-item ng-repeat="(key, pageBlockItem) in pageBlockItems[pageBlock]" class="item item-input item-stacked-label pageBlockItem">
                     <label> <span class="input-label">{{pageBlockItem.label}}</span>
-                        <input type="{{pageBlockItem.type}}" placeholder="{{pageBlockItem.label}}" id="{{key}}" name="{{key}}" ng-pattern="{{pageBlockItem.validate_exp}}" value="{{pageBlockItem.default_value}}" ng-if="checkType(pageBlockItem.type)">
-                        <select ng-if="!checkType(pageBlockItem.type)" name="{{key}}" id="{{key}}" style="float:right;margin-right:3vw;height:10vh;border:none;">
+                        <input type="{{pageBlockItem.type}}" placeholder="{{pageBlockItem.label}}" id="{{key}}" name="{{key}}" ng-pattern="{{pageBlockItem.validate_exp}}" value="{{pageBlockItem.value}}" ng-if="checkType(pageBlockItem.type)">
+                        <select ng-if="!checkType(pageBlockItem.type)" name="{{key}}" id="{{key}}" style="margin-right:3vw;float:right;border:none;">
                             <option ng-repeat="option in pageBlockItem['options']" ng-value="{{pageBlockItem.options[option]}}">{{option}} </option>
                         </select>
                     </label>

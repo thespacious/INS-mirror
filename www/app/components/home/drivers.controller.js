@@ -5,8 +5,7 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', '$scope', '$state', '$
     var insurescanJson = $injector.get('insurescanJson');
     //
     //
-    //    $scope.drivers = driversService.drivers();
-    $scope.drivers = [];
+    $scope.drivers = driversService.drivers();
     //
     //
     $scope.driverId = $scope.drivers.length;
@@ -15,17 +14,9 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', '$scope', '$state', '$
         return driversService.primaryDriver(driverId);
     };
     //
-    //    $scope.cars = driversService.cars(driversService.session);
-    $scope.cars = [];
+    $scope.cars = driversService.cars(driversService.session);
+    //    $scope.cars = [];
     //
-    //
-    //    var testarr = [];
-    //    var test = function (cars) {
-    //        for (car in cars) {
-    //            testarr.push(car.id);
-    //        }
-    //        console.log(testarr);
-    //    };
     $scope.data = {
         showDelete: false
     };
@@ -37,6 +28,15 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', '$scope', '$state', '$
         $scope.cars = driversSevice.removeCar();
     };
     //
+    $scope.submitForms = function () {
+        try {
+            driversService.storeDrivers();
+            driversService.storeNamedInsured();
+        }
+        catch (err) {
+            console.log('driver storage error: \n', err);
+        }
+    };
     //
     driversService.getQuoteId();
 }]);

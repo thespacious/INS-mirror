@@ -5,14 +5,14 @@
         <ion-slides options="options" slider="data.slider" style="height=80vh">
             <ion-slide-page scroll="true" ng-repeat="page in pageNames" class="block overflow-scroll">
                 <div scan-button ng-show="$first"></div>
-                <div page-block ng-init="checkEdit()"></div>
                 <div help-card ng-if="$first" ng-show="cardShown" ng-click="showCard()"></div>
+                <div page-block ng-init="checkEdit()"></div>
                 <div show-fields ng-show="checkPrimary($first)"></div>
+                <div footer ng-show="$last"></div>
             </ion-slide-page>
         </ion-slides>
     </ion-content>
 </ion-view>
-<div footer></div>
 <!--
 <div ng-repeat="page in pageNames">{{page}} {{test}}
     <div ng-repeat="pageBlock in pageBlocks[page]">{{pageBlock}}

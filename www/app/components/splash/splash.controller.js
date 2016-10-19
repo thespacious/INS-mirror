@@ -3,6 +3,7 @@ controllers.controller('splashCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
     //    $scope.startApp = function () {
     //        $state.go('main');
     //    };
+    $scope.footerText = 'next';
     var services = $injector.get('splashServices');
     var json = $injector.get('newJson');
     json.getPageBlockItems(json.json, 'drivers', 'dsafd', 'fdsfds');
@@ -24,5 +25,8 @@ controllers.controller('splashCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
             console.log("login error");
             alert('login error');
         }
+    };
+    $scope.submitForms = function () {
+        $scope.next();
     };
 }]);

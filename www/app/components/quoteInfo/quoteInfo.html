@@ -4,7 +4,7 @@
     <ion-content>
         <ion-slides options="options" slider="data.slider" style="height=80vh">
             <ion-slide-page scroll="true" ng-repeat="page in pageNames" class="block">
-                <div page-block-checkbox ng-show="page == 'discounts'"></div>
+                <div page-block-checkbox ng-if="page == 'discounts'"></div>
                 <div date-picker ng-show="pageCheck('{{page}}')"></div>
                 <div submit-button ng-if="$last"></div>
             </ion-slide-page>
