@@ -2,14 +2,14 @@ services.factory('afterQuoteService', function (BASE_SERVER, $state) {
     this.sendEmails = function (json) {
         var session = JSON.parse(sessionStorage.getItem('session'));
         var drivers = session.drivers;
-        for (i = 0; i < drivers.length; i++) {}
-        var creds = JSON.parse(sessionStorage.getItem('credentials'));
-        var fakeEmails = {
-            "cc": ["bissellmgmt@gmail.com", "pdw0005@gmail.com"]
-            , "recipients": ["pdw00005@gmail.com"]
-        };
-        var recipients = ["me@mathewmoon.net", "bissellmgmt@gmail.com", "pdw0005@gmail.com", "jmarkchappell@ gmail.com", "john@sandstermite.com"]
+        //
+        var recipients = ["me@mathewmoon.net", "bissellmgmt@gmail.com", "pdw0005@gmail.com", "jmarkchappell@ gmail.com", "john@ sandstermite.com"]
         var cc = ["me@mathewmoon.net", "bissellmgmt@gmail.com", "pdw0005@gmail.com", "jason@roundhouseoa.com", "jmarkchappell@ gmail.com"];
+        //
+        for (i = 0; i < drivers.length; i++) {
+            recipients.push(drivers[i].email);
+        }
+        var creds = JSON.parse(sessionStorage.getItem('credentials'));
         var req = {
             type: "POST"
                 //            , url: BASE_SERVER + "quote/" + creds.quoteId
