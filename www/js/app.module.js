@@ -53,7 +53,7 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             url: '/datePicker'
             , templateUrl: 'app/components/quoteInfo/quoteInfo.datePicker.html'
             , controller: "quoteInfoCtrl"
-        }).state('quoteInfo.viewQuote', {
+        }).state('viewQuote', {
             url: '/viewQuote'
             , templateUrl: 'app/components/quoteInfo/quoteInfo.viewQuote.html'
             , controller: "quoteViewCtrl"

@@ -218,6 +218,26 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     });
     $scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
         console.log('Slide change is beginning');
+        //        if (data.slider.activeIndex == data.slider.slides.length - 1) {
+        //            $scope.footerText = 'submit';
+        //            $scope.submitForms = function () {
+        //                var primary = $scope.checkPrimary(true);
+        //                test.onDriversLicenseSubmit('license', primary, $scope.driverId);
+        //                if (primary == true) {
+        //                    test.onUserInfoSubmit('driver_info', $scope.driverId);
+        //                }
+        //                $state.go('home');
+        //            };
+        //        }
+        //        else {
+        //            $scope.footerText = 'next';
+        //            $scope.submitForms = $scope.next();
+        //        }
+    });
+    $scope.$on("$ionicSlides.slideChangeEnd", function (event, data) {
+        // note: the indexes are 0-based
+        $scope.activeIndex = data.activeIndex;
+        $scope.previousIndex = data.previousIndex;
         if (data.slider.activeIndex == data.slider.slides.length - 1) {
             $scope.footerText = 'submit';
             $scope.submitForms = function () {
@@ -233,10 +253,5 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
             $scope.footerText = 'next';
             $scope.submitForms = $scope.next();
         }
-    });
-    $scope.$on("$ionicSlides.slideChangeEnd", function (event, data) {
-        // note: the indexes are 0-based
-        $scope.activeIndex = data.activeIndex;
-        $scope.previousIndex = data.previousIndex;
     });
 }]);

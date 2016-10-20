@@ -122,8 +122,8 @@ controllers.controller('quoteInfoCtrl', ['BASE_SERVER', '$scope', '$state', '$in
         var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
         if (test.submitForms() == true) {
             try {
-                test.sendQuote(insurescanJson);
-                $state.go('quoteInfo.viewQuote');
+                //                test.sendQuote(insurescanJson);
+                $state.go('viewQuote');
             }
             catch (err) {
                 console.log(err);

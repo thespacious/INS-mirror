@@ -226,6 +226,7 @@ services.factory('quoteInfoServices', function (BASE_SERVER) {
     //
     this.sendQuote = function (json) {
         var creds = JSON.parse(sessionStorage.getItem('credentials'));
+        var returnData = "";
         var req = {
             type: "POST"
                 //            , url: BASE_SERVER + "quote/" + creds.quoteId
@@ -236,21 +237,22 @@ services.factory('quoteInfoServices', function (BASE_SERVER) {
             }
             , context: this
             , async: false
-            , dataType: "json"
+                //            , dataType: "json"
+                
             , contentType: 'application/json; charset=UTF-8'
             , data: JSON.stringify(json)
         };
         $.ajax(req).done(function (data) {
             console.log(data);
-            return data.responseText;
-            //            $state.go('newCar');
+            returnData = data;
+            //            return data;
         }).fail(function (data) {
             console.log("send quote return error, find out why:");
             console.log(data);
-            return data.responseText;
-            //            $state.go('newCar');
-            //            var response = data;
+            returnData = data;
+            //            return data.responseText;
         });
+        return returnData;
     };
     //
     //

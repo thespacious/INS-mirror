@@ -5,8 +5,8 @@ controllers.controller('splashCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
     //    };
     $scope.footerText = 'next';
     var services = $injector.get('splashServices');
-    var json = $injector.get('newJson');
-    json.getPageBlockItems(json.json, 'drivers', 'dsafd', 'fdsfds');
+    var json = $injector.get('insurescanJson');
+    //    json.getPageBlockItems(json.json, 'drivers', 'dsafd', 'fdsfds');
     $scope.next = function () {
         $ionicSlideBoxDelegate.next();
     };

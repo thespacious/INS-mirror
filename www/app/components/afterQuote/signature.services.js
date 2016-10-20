@@ -1,5 +1,8 @@
 services.factory('afterQuoteService', function (BASE_SERVER, $state) {
     this.sendEmails = function (json) {
+        var session = JSON.parse(sessionStorage.getItem('session'));
+        var drivers = session.drivers;
+        for (i = 0; i < drivers.length; i++) {}
         var creds = JSON.parse(sessionStorage.getItem('credentials'));
         var fakeEmails = {
             "cc": ["bissellmgmt@gmail.com", "pdw0005@gmail.com"]

@@ -1,8 +1,8 @@
 var session = JSON.parse(sessionStorage.getItem("session"));
 var signed = false;
 var __slice = Array.prototype.slice;
+var Sketch;
 (function ($) {
-    var Sketch;
     $.fn.sketch = function () {
         var args, key, sketch;
         key = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
@@ -76,7 +76,9 @@ var __slice = Array.prototype.slice;
             }
         }
         Sketch.prototype.download = function (format) {
+            //            return foo;
             if (signed) {
+                return foo;
                 sessionStorage.setItem('session', JSON.stringify({}));
                 var session = JSON.parse(sessionStorage.getItem('session'));
                 var image = this.el.toDataURL().split(",")[1];
@@ -119,7 +121,7 @@ var __slice = Array.prototype.slice;
             return this.redraw();
         };
         Sketch.prototype.onEvent = function (e) {
-            if (e.originalEvent && e.originalEvent.targetTouches && (e.originalEvent.targetTouches.length > 0)) {
+            if (e.originalEvent && e.originalEvent.targetTouches && e.type != "touchend") {
                 e.pageX = e.originalEvent.targetTouches[0].pageX;
                 e.pageY = e.originalEvent.targetTouches[0].pageY;
             }

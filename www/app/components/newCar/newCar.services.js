@@ -490,10 +490,10 @@ services.factory('newCarService', function (BASE_SERVER) {
             var MPJSON = {
                 "CoverageCd": "MEDPM"
                 , "CoverageDesc": "Medical Payments"
-                , "Limit": {
+                , "Limit": [{
                     "FormatInteger": "1000"
                     , "LimitAppliesToCd": "PerPerson"
-                }
+                }]
             };
             insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[position].Coverage.push(MPJSON);
             //alert("After the MEDPM push:" + JSON.stringify(insurescanJson));
@@ -502,10 +502,10 @@ services.factory('newCarService', function (BASE_SERVER) {
             var compdeductJSON = {
                 "CoverageCd": "COMP"
                 , "CoverageDesc": "Comprehensive Coverage"
-                , "Deductible": {
+                , "Deductible": [{
                     "FormatInteger": "250"
                     , "DeductibleAppliesToCd": "ALLPeril"
-                }
+                }]
             };
             compdeductJSON.Deductible.FormatInteger = session["cars"][position]["coverage"]["compdeduct"];
             insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[position].Coverage.push(compdeductJSON);
@@ -515,10 +515,10 @@ services.factory('newCarService', function (BASE_SERVER) {
             var colldeductJSON = {
                 "CoverageCd": "COLL"
                 , "CoverageDesc": "Collision Coverage"
-                , "Deductible": {
+                , "Deductible": [{
                     "FormatInteger": "250"
                     , "DeductibleAppliesToCd": "ALLPeril"
-                }
+                }]
             };
             colldeductJSON.Deductible.FormatInteger = session["cars"][position]["coverage"]["colldeduct"];
             insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[position].Coverage.push(colldeductJSON);
@@ -541,10 +541,10 @@ services.factory('newCarService', function (BASE_SERVER) {
         var TLJSON = {
             "CoverageCd": "TL"
             , "CoverageDesc": "Towing and Labor"
-            , "Limit": {
+            , "Limit": [{
                 "FormatInteger": "50"
                 , "LimitAppliesToCd": "PerOcc"
-            }
+            }]
         };
         insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[position].Coverage.push(TLJSON);
         sessionStorage.setItem("session", JSON.stringify(session));
