@@ -7,10 +7,11 @@ controllers.controller('afterQuoteController', ['BASE_SERVER', '$scope', '$state
     //        $('#signature').jSignature();
     //        //        sketch = document.getElementById('SketchPad');
     //    };
-    //    $(function () {
-    //        sketch = $('#SketchPad').sketch();
-    //        //        sketch = document.getElementById('SketchPad');
-    //    });
+    $(function () {
+        sketch = $('#SketchPad').sketch();
+        sketch = document.getElementById('SketchPad');
+    });
+
     function getBase64Sig() {
         // get the element where the signature have been put
         var $sigdiv = $("#signature");
