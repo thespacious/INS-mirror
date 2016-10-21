@@ -47,7 +47,7 @@
                     <div class="item item-divider car-item-header">Cars
                         <p>primary<i class="fa fa-question-circle" aria-hidden="true"></i></p>
                     </div>
-                    <ion-item ng-repeat="car in cars" item="car" class="item item-avatar item-button-right item-thumbnail-right car-item" id="{{car.id}}"> <i class="fa fa-car" aria-hidden="true"></i> {{car.vin}}
+                    <ion-item ng-repeat="car in cars" item="car" class="item item-avatar item-button-right item-thumbnail-right car-item" id="{{car.id}}" ng-if="checkOwner($parent.$index, $index)"> <i class="fa fa-car" aria-hidden="true"></i> {{car.vin}}
                         <label class="checkbox" style="float:right;">
                             <input type="checkbox" checked=""> </label>
                         <ion-option-button class="button-info" ui-sref="newCar.edit({carId:car.id})"> Edit </ion-option-button>

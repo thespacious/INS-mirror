@@ -1,0 +1,245 @@
+#quoteView img {
+    max-width: 90%;
+    display: inline-block;
+}
+
+#quoteView img.property {
+    display: block;
+    margin: 0px auto;
+    margin-bottom: 10px;
+}
+
+#quoteView span.signature {
+    display: inline-block;
+    min-width: 100px;
+}
+
+#quoteView h4,
+#quoteView h3 {
+    margin: 0px;
+}
+
+#quoteView table {
+    padding: 0px;
+    border: 0;
+    display: inline-table;
+    margin: 0px auto;
+    margin-bottom: 25px;
+    border-collapse: collapse;
+}
+
+#quoteView table.policy,
+#quoteView table.limits {
+    display: inline-block;
+}
+
+#quoteView img.signature {
+    max-width: 400px;
+    max-height: 100px;
+    border-bottom: solid thin black;
+    margin-right: 25px;
+    margin-left: 10px;
+}
+
+#quoteView table.applicant {
+    margin-top: 50px;
+    width: 100%;
+}
+
+#quoteView table.amount_due td {
+    overflow: hidden;
+    min-width: 65px;
+    max-width: 65px;
+}
+
+#quoteView table.producer {
+    width: 100%;
+}
+
+#quoteView table.limits td {
+    max-width: 20px;
+    overflow: hidden;
+}
+
+#quoteView table.limits td {
+    max-width: 9%;
+    overflow: hidden;
+}
+
+#quoteView table.vehicle {
+    width: 100%;
+}
+
+#quoteView table.coverages {
+    width: 100%;
+}
+
+#quoteView table.points {
+    width: 100%;
+}
+
+#quoteView td.description {
+    width: 700px;
+}
+
+#quoteView table.amount_due {
+    float: right;
+    display: inline;
+}
+
+#quoteView table.lien {
+    width: 100%;
+}
+
+#quoteView table.discounts {
+    width: 100%;
+}
+
+#quoteView table.check {
+    float: right;
+    border: solid thin black;
+    margin-right: 15px;
+}
+
+#quoteView table.signatures {
+    width: 100%;
+}
+
+#quoteView table.signatures td {
+    text-align: left;
+    padding: 10px;
+}
+
+#quoteView tr.heading th {
+    font-size: 14px;
+    background-color: #e0e0d1;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: none;
+}
+
+#quoteView tr.section th {
+    color: white;
+    background-color: black;
+    border: 1px solid black;
+}
+
+#quoteView tr.labels th {
+    text-align: left;
+    font-size: 9px;
+    text-decoration: none;
+    border-bottom: none;
+}
+
+#quoteView td {
+    height: 20px;
+    overflow: hidden;
+    text-align: center;
+    font-size: 12px;
+}
+
+#quoteView td.date {
+    width: 120px;
+}
+
+#quoteView td.border-all {
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+}
+
+#quoteView td.single-digit {
+    width: 20px;
+}
+
+#quoteView td.state {
+    width: 40px;
+}
+
+#quoteView td.social {
+    width: 150px;
+}
+
+#quoteView .border-left {
+    border-left: 1px solid black;
+}
+
+#quoteView .border-right {
+    border-right: 1px solid black;
+}
+
+#quoteView .border-sides {
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+}
+
+#quoteView .border-bottom {
+    border-bottom: 1px solid black;
+}
+
+#quoteView .no-top {
+    border-bottom: none;
+}
+
+#quoteView td.label {
+    padding: 5px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+#quoteView td.checkbox {
+    text-align: center;
+    width: 20px;
+}
+
+#quoteView td.info {
+    border: 1px solid black;
+    vertical-align: middle;
+}
+
+#quoteView tr.total td {
+    background-color: #e3e6ea;
+}
+
+#quoteView .year {
+    width: 30px;
+}
+
+#quoteView .sym {
+    width: 30px;
+}
+
+#quoteView ul {
+    background-color: #e0e0d1;
+    margin: 0px;
+    padding: 3px;
+    border: 1px solid black;
+    display: inline-block;
+    list-style: none;
+}
+
+#quoteView div.checkbox {
+    font-weight: bold;
+    text-align: center;
+    overflow: hidden;
+    min-width: 10px;
+    max-width: 10px;
+    min-height: 10px;
+    font-size: 10px;
+    display: inline-block;
+    border: solid thin black;
+    margin-right: 5px;
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+#quoteView table.company {
+    float: left;
+}
+
+#quoteView table.underwriter {
+    float: right;
+}
+
+#quoteView table.header td {
+    text-align: left;
+}

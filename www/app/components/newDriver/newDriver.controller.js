@@ -161,6 +161,8 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     //
     //
     $scope.showGaraging = false;
+    //
+    //
     $scope.switchGaraging = function () {
         if ($scope.showGaraging == false) {
             $scope.showGaraging = true;
@@ -171,6 +173,13 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
             test.unSetGaraging();
         }
     };
+    //
+    //
+    $scope.checkboxModel = [{
+        "checkbox1": true
+        }, {
+        "checkbox2": false
+        }];
     //TODO this is hideously inefficient, runs through array multiple times
     //DIAGNOSE
     $scope.makeVisible = function (page, pageBlock, bool) {
@@ -254,4 +263,7 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
             $scope.submitForms = $scope.next();
         }
     });
+    $scope.checkGaraging = function () {
+        return test.setGaraging();
+    };
 }]);

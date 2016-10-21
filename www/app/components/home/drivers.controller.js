@@ -23,6 +23,14 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', '$scope', '$state', '$
         showDelete: false
     };
     //
+    $scope.checkOwner = function (driverindex, carindex) {
+        if (driver[driverindex].fullname == cars[carindex].owner) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
     //
     //    $scope.carIds = test('cars');
     $scope.hiddenCar = {};

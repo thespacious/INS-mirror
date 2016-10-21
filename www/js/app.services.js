@@ -271,7 +271,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         }
                         , "colldeduct": {
                             "type": "select"
-                            , "label": "Comprehensive Obese Deductible"
+                            , "label": "Comprehensive  Deductible"
                             , "options": [
                             "250"
                             , "500", "1000"]
@@ -458,8 +458,8 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                                 "AddrTypeCd": "MailingAddress"
                                 , "Addr1": "6037 FINANCIAL DRIVE"
                                 , "City": "NORCROSS"
-                                , "StateProvCd": "MS"
-                                , "StateProv": "MS"
+                                , "StateProvCd": "SC"
+                                , "StateProv": "SC"
                                 , "PostalCode": "30071"
                                 , "CountryCd": "US"
                                 , "Country": "USA"

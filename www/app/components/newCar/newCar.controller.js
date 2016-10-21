@@ -37,8 +37,8 @@ controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
         return true;
     };
     //
-    $scope.uploadCarPicture = function (photoId) {
-        return test.selectPhotoCar(photoId);
+    $scope.uploadCarPicture = function () {
+        return test.selectPhotoCar();
         //        return test.uploadImage2();
     };
     //
@@ -73,7 +73,7 @@ controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
         //        test.submitForms();
         //        test.sendEmails();
         test.submitForms($scope.owner);
-        $state.go('quoteInfo');
+        $state.go('home');
     };
     //
     //

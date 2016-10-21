@@ -36,11 +36,6 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             url: '/newDriver'
             , templateUrl: 'app/components/newDriver/newDriver.html'
             , controller: "newDriverCtrl"
-        }).state('newDriver.primary', {
-            url: '/edit'
-                //            , templateUrl: 'app/components/newDriver/newDriver.edit.html'
-                
-            , controller: "newDriverEditCtrl"
         }).state('newCar', {
             url: '/newCar/:fullname'
             , templateUrl: 'app/components/newCar/newCar.html'
@@ -61,6 +56,10 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             url: '/afterQuote'
             , templateUrl: 'app/components/afterQuote/signature.html'
             , controller: "afterQuoteController"
+        }).state('payment', {
+            url: '/payment'
+            , templateUrl: 'app/components/afterQuote/mock-payment.html'
+            , controller: "splashCtrl"
         });
     var datePickerObj = {
         inputDate: new Date()
