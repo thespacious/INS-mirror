@@ -397,7 +397,7 @@ services.factory('newCarService', function (BASE_SERVER) {
         car["year"] = document.carInfo.year.value;
         car["make"] = document.carInfo.make.value;
         car["model"] = document.carInfo.model.value;
-        car["owner"] = session.drivers[owner].fullname;
+        car["owner"] = owner;
         car["photo1"] = document.getElementById('photo1').src;
         car["photo2"] = document.getElementById('photo2').src;
         cars.push(car);

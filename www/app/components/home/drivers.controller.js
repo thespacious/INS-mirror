@@ -24,7 +24,7 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', '$scope', '$state', '$
     };
     //
     $scope.checkOwner = function (driverindex, carindex) {
-        if (driver[driverindex].fullname == cars[carindex].owner) {
+        if ($scope.drivers[driverindex].fullname == $scope.cars[carindex].owner) {
             return true;
         }
         else {
