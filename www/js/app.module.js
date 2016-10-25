@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', 'main.controllers']).run(function ($ionicPlatform) {
+var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', 'main.controllers']).run(function ($ionicPlatform, $state) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -11,6 +11,46 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             StatusBar.styleDefault();
         }
     });
+    $ionicPlatform.registerBackButtonAction(function () {
+        //        if (condition) {
+        //            navigator.app.exitApp();
+        //        }
+        //        else {
+        //            
+        //        }
+        if (location.hash != '#/' && location.hash != '#/home') {
+            navigator.app.backHistory();
+        }
+        else {
+            navigator.app.overrideBackbutton();
+        }
+    }, 100);
+    //    document.addEventListener("deviceready", onDeviceReady, false);
+    //
+    //    function onDeviceReady() {
+    //        document.addEventListener("backbutton", function (e) {
+    //            if (location.hash == '#/') {
+    //                //                e.preventDefault();
+    //                //                e.stopImmediatePropagation();
+    //                //                e.stopPropagation();
+    //                //                navigator.app.exitApp();
+    //                //                return true;
+    //                //                navigator.app.cancelLoadUrl();
+    //            }
+    //            else if (location.hash == '#/home') {
+    //                e.preventDefault();
+    //                e.stopImmediatePropagation();
+    //                e.stopPropagation();
+    //                navigator.app.cancelLoadUrl();
+    //            }
+    //            else {
+    //                e.preventDefault();
+    //                e.stopImmediatePropagation();
+    //                e.stopPropagation();
+    //                navigator.app.backHistory();
+    //            }
+    //        }, false);
+    //    }
 }).config(function ($stateProvider, $urlRouterProvider, ionicDatePickerProvider, $httpProvider) {
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
