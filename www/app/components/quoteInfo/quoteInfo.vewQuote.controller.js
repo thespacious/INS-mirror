@@ -8,8 +8,8 @@ controllers.controller('quoteViewCtrl', ['BASE_SERVER', '$scope', '$state', '$in
         $scope.data = newdata;
         //        document.getElementById('viewQuote').html = newdata;
     };
-    $scope.submitForms = function () {
-        $state.go('afterQuote');
-    };
+    //    $scope.submitForms2 = function () {
+    //        $state.go('afterQuote');
+    //    };
     //    init();
 }]);

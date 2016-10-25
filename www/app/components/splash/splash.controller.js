@@ -45,8 +45,12 @@ controllers.controller('splashCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
         //            });
         //        };
         //        asyncHelper();
-        services.login(username, password);
-        $state.go('home');
+        if (services.login(username, password) == true) {
+            $state.go('home');
+        }
+        else {
+            alert("login error");
+        }
     };
     $scope.submitForms = function () {
         $scope.next();

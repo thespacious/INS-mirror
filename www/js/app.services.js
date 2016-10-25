@@ -238,43 +238,58 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                             "type": "select"
                             , "label": "Bodily Injury"
                             , "options": [
-                            "250"
-                            , "500", "1000"]
+                            "$25,000/$50,000"]
                         }
                         , "PD": {
                             "type": "select"
                             , "label": "Property Destruction"
                             , "options": [
-                            "250"
-                            , "500", "1000"]
+                            "$25,000"]
                         }
                         , "UML": {
                             "type": "select"
-                            , "label": "Uninsured/Unserinsured Motorist"
+                            , "label": "Uninsured/Underinsured Motorist Bodily Injury"
                             , "options": [
-                            "accept"
-                            , "reject"]
+                            "Accept"
+                            , "Reject"]
+                        }
+                        , "UMP": {
+                            "type": "select"
+                            , "label": "Uninsured/Underinsured Motorist Property Damage"
+                            , "options": [
+                            "Accept"
+                            , "Reject"]
                         }
                         , "MP": {
                             "type": "select"
                             , "label": "Medical Payments"
                             , "options": [
-                             "accept"
-                            , "reject"]
+                             "$500"
+                            , "$1,000"]
                         }
                         , "compdeduct": {
                             "type": "select"
                             , "label": "Comprehensive Deductible"
-                            , "options": [
-                             "250"
-                            , "500", "1000"]
+                            , "options": ["$200"
+                             , "$250"
+                            , "$500", "$1,000"]
                         }
                         , "colldeduct": {
                             "type": "select"
-                            , "label": "Comprehensive  Deductible"
-                            , "options": [
-                            "250"
-                            , "500", "1000"]
+                            , "label": "Collision  Deductible"
+                            , "options": ["$200"
+                            , "$250"
+                            , "$500", "$1,000"]
+                        }
+                        , "towing": {
+                            "type": "select"
+                            , "label": "Towing"
+                            , "options": ["Accept", "Reject"]
+                        }
+                        , "RR": {
+                            "type": "select"
+                            , "label": "Rental Reimbursement"
+                            , "options": ["Accept", "Reject"]
                         }
                     }
                 }
@@ -771,7 +786,21 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                                                 , "LimitAppliesToCd": "PerAcc"
                     }
                   ]
-                }
+                }, {
+                                        "CoverageCd": "COLL"
+                                        , "CoverageDesc": "Collision Coverage"
+                                        , "Deductible": [{
+                                            "FormatInteger": "250"
+                                            , "DeductibleAppliesToCd": "ALLPeril"
+                }]
+            }, {
+                                        "CoverageCd": "COMP"
+                                        , "CoverageDesc": "Comprehensive Coverage"
+                                        , "Deductible": [{
+                                            "FormatInteger": "250"
+                                            , "DeductibleAppliesToCd": "ALLPeril"
+                }]
+            }
                                     , {
                                         "CoverageCd": "MEDPM"
                                         , "CoverageDesc": "Medical Payments"
@@ -837,14 +866,14 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                             }
                             , "Addr": {
                                 "AddrTypeCd": "GaragingAddress"
-                                , "Addr1": "211 W LONGLEAF DR"
-                                , "City": "OXFORD"
+                                , "Addr1": "140 Kristen CtR"
+                                , "City": "Jackson"
                                 , "StateProvCd": "MS"
                                 , "StateProv": "MS"
-                                , "PostalCode": "38655"
+                                , "PostalCode": "39211"
                                 , "CountryCd": "US"
                                 , "Country": "USA"
-                                , "County": "Lafayette"
+                                , "County": "Jackson"
                             }
           }
         ]
