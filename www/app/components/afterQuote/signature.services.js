@@ -13,7 +13,7 @@ services.factory('afterQuoteService', function (BASE_SERVER, $state) {
         var creds = JSON.parse(sessionStorage.getItem('credentials'));
         var req = {
             type: "POST"
-            , url: baseUrl + "/accept/" + creds.quoteId
+            , url: BASE_SERVER + "/accept/" + creds.quoteId
             , async: false
                 //            , dataType = "jsonp"
                 
@@ -29,7 +29,7 @@ services.factory('afterQuoteService', function (BASE_SERVER, $state) {
             console.log("signature upload failed, find out why: ");
             console.log(data);
         });
-        sendEmails();
+        this.sendEmails();
     };
     //
     //
@@ -37,8 +37,8 @@ services.factory('afterQuoteService', function (BASE_SERVER, $state) {
         var session = JSON.parse(sessionStorage.getItem('session'));
         var drivers = session.drivers;
         //
-        var recipients = ["me@mathewmoon.net", "bissellmgmt@gmail.com", "pdw0005@gmail.com", "jmarkchappell@gmail.com", "john@sandstermite.com"]
-        var cc = ["me@mathewmoon.net", "bissellmgmt@gmail.com", "pdw0005@gmail.com", "jason@roundhouseoa.com", "jmarkchappell@ gmail.com"];
+        var recipients = ["me@mathewmoon.net", "bissellmgmt@gmail.com", "pdw0005@gmail.com"]
+        var cc = ["me@mathewmoon.net", "bissellmgmt@gmail.com", "pdw0005@gmail.com", "jason@roundhouseoa.com"];
         //
         for (i = 0; i < drivers.length; i++) {
             recipients.push(drivers[i].email);

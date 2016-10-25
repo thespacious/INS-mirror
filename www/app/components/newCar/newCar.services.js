@@ -43,7 +43,7 @@ services.factory('newCarService', function (BASE_SERVER) {
         });
     };
     this.scannerSuccess = function (result) {
-        getInfoFromWeb(result.VINCode);
+        this.getInfoFromWeb(result.VINCode);
     };
     this.scannerFailure = function (message) {
         alert("scanner error");
@@ -54,7 +54,7 @@ services.factory('newCarService', function (BASE_SERVER) {
      * @param vin
      * VIN from the car which the information is needed
      */
-    var getInfoFromWeb = function (vin) {
+    this.getInfoFromWeb = function (vin) {
         document.carInfo.vin.value = vin;
         // Make spinner appear
         //        var target = document.getElementById('spinnerContainer');
@@ -392,6 +392,9 @@ services.factory('newCarService', function (BASE_SERVER) {
     this.storeCar = function (owner) {
         var session = JSON.parse(sessionStorage.getItem("session"));
         var cars = [];
+        if (session.cars != null) {
+            cars = session.cars;
+        }
         var car = {};
         car["vin"] = document.carInfo.vin.value;
         car["year"] = document.carInfo.year.value;
@@ -404,13 +407,104 @@ services.factory('newCarService', function (BASE_SERVER) {
         session["cars"] = cars;
         sessionStorage.setItem("session", JSON.stringify(session));
         //Here we will update the car information
-        var car = JSON.parse(sessionStorage.getItem("session"))["cars"][0];
-        var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
-        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[0].Manufacturer = car["make"];
-        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[0].Model = car["model"];
-        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[0].ModelYear = car["year"];
-        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[0].VehIdentificationNumber = car["vin"];
-        sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
+        if (session.cars.length == 1) {
+            var car = JSON.parse(sessionStorage.getItem("session"))["cars"][0];
+            var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[0].Manufacturer = car["make"];
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[0].Model = car["model"];
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[0].ModelYear = car["year"];
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[0].VehIdentificationNumber = car["vin"];
+            sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
+            return true;
+        }
+        else {
+            var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
+            var session = JSON.parse(sessionStorage.getItem("session"));
+            var cars = session["cars"];
+            /*If the user jumps between the screens to and fro, ten we need to make sure that we do not add multiple/duplicate entries. 
+            Below logic sanitizes the insurescanJson before updating it every sigle time*/
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh.splice(1, insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh.length - 1);
+            //Here we need to see that the JSON gets updated
+            var carsIninsurescanJson = {
+                "-id": "Veh1"
+                , "-RatedDriverRef": "Drv1"
+                , "-LocationRef": "Loc1"
+                , "Manufacturer": "Ford"
+                , "Model": "Taurus SE"
+                , "ModelYear": "2006"
+                , "VehBodyTypeCd": "SEDAN"
+                , "VehTypeCd": "PP"
+                , "AntiTheftDeviceInfo": {
+                    "AntiTheftDeviceCd": "P"
+                    , "AntiTheftProductCd": "99"
+                }
+                , "NumDaysDrivenPerWeek": "5"
+                , "EstimatedAnnualDistance": {
+                    "NumUnits": "12000"
+                    , "UnitMeasurementCd": "Miles"
+                }
+                , "Displacement": {
+                    "NumUnits": "3"
+                    , "UnitMeasurementCd": "Liters"
+                }
+                , "LeasedVehInd": "0"
+                , "NumCylinders": "6"
+                , "RegistrationStateProvCd": "SC"
+                , "VehIdentificationNumber": "1FAFP53U06"
+                , "AlteredInd": "0"
+                , "AntiLockBrakeCd": "Y"
+                , "DaytimeRunningLightInd": "0"
+                , "EngineTypeCd": "G"
+                , "DistanceOneWay": {
+                    "NumUnits": "12"
+                    , "UnitMeasurementCd": "SMI"
+                }
+                , "MultiCarDiscountInd": "0"
+                , "NewVehInd": "0"
+                , "NonOwnedVehInd": "0"
+                , "LengthTimePerMonth": {
+                    "NumUnits": "4"
+                    , "UnitMeasurementCd": "MON"
+                }
+                , "NumYouthfulOperators": "0"
+                , "SeenCarInd": "0"
+                , "VehInspectionStatusCd": "N"
+                , "VehUseCd": "DW"
+                , "FourWheelDriveInd": "0"
+                , "SeatBeltTypeCd": "Active"
+                , "AirBagTypeCd": "FrontBoth"
+                , "Coverage": [
+                    {
+                        "CoverageCd": "BI"
+                        , "CoverageDesc": "Bodily Injury Liability"
+                        , "Limit": [
+                            {
+                                "FormatInteger": "25000"
+                                , "LimitAppliesToCd": "PerPerson"
+                  }
+                    , {
+                                "FormatInteger": "50000"
+                                , "LimitAppliesToCd": "PerAcc"
+                  }
+                ]
+              }
+            , {
+                        "CoverageCd": "PD"
+                        , "CoverageDesc": "Property Damage"
+                        , "Limit": {
+                            "FormatInteger": "25000"
+                            , "LimitAppliesToCd": "PropDam"
+                        }
+              }
+			]
+            };
+            carsIninsurescanJson["-id"] = "Veh" + cars.length;
+            carsIninsurescanJson.Manufacturer = car["make"];
+            carsIninsurescanJson.Model = car["model"];
+            carsIninsurescanJson.ModelYear = car["year"];
+            carsIninsurescanJson.VehIdentificationNumber = car["vin"];
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh.push(carsIninsurescanJson);
+        }
         return true;
     };
     //
@@ -420,6 +514,10 @@ services.factory('newCarService', function (BASE_SERVER) {
         var selectedcolldeduct = "";
         var selectedcompdeductOptionValue = "";
         var selectedcolldeductOptionValue = "";
+        //
+        var rentalreimbursement = document.forms[page].elements["RR"].selectedOptions[0].value;
+        //
+        var towing = document.forms[page].elements["towing"].selectedOptions[0].value
         var selectedUML = document.forms[page].elements["UML"].selectedIndex;
         var selectedUMLOptionValue = document.forms[page].elements["UML"].options[selectedUML].value;
         //alert("The Uninsured/Underinsured Motorist Liability is " + selectedUMLOptionValue);
@@ -470,7 +568,7 @@ services.factory('newCarService', function (BASE_SERVER) {
         /*Below ensures that the coverages are clean before we push in anything
         The BI and PD coverages will always be present*/
         insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[position].Coverage.splice(2, insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[position].Coverage.length - 2);
-        if (session["cars"][position]["coverage"]["UML"] == "select") {
+        if (session["cars"][position]["coverage"]["UML"] == "Accept") {
             var UMLJSON = {
                 "CoverageCd": "UM"
                 , "CoverageDesc": "Uninsured/Underinsured Motorist Liability"
@@ -489,7 +587,7 @@ services.factory('newCarService', function (BASE_SERVER) {
             //sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
             //alert("After the UMBI push:" + JSON.stringify(insurescanJson));
         }
-        if (session["cars"][position]["coverage"]["MP"] == "select") {
+        if (session["cars"][position]["coverage"]["MP"] != "No Coverage") {
             var MPJSON = {
                 "CoverageCd": "MEDPM"
                 , "CoverageDesc": "Medical Payments"
@@ -498,6 +596,7 @@ services.factory('newCarService', function (BASE_SERVER) {
                     , "LimitAppliesToCd": "PerPerson"
                 }]
             };
+            MPJSON.Limit[0].FormatInteger = session["cars"][position]["coverage"]["MP"];
             insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[position].Coverage.push(MPJSON);
             //alert("After the MEDPM push:" + JSON.stringify(insurescanJson));
         }
@@ -510,7 +609,7 @@ services.factory('newCarService', function (BASE_SERVER) {
                     , "DeductibleAppliesToCd": "ALLPeril"
                 }]
             };
-            compdeductJSON.Deductible.FormatInteger = session["cars"][position]["coverage"]["compdeduct"];
+            compdeductJSON.Deductible[0].FormatInteger = session["cars"][position]["coverage"]["compdeduct"];
             insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[position].Coverage.push(compdeductJSON);
             //alert("After the COMP push:" + JSON.stringify(insurescanJson));
         }
@@ -523,33 +622,55 @@ services.factory('newCarService', function (BASE_SERVER) {
                     , "DeductibleAppliesToCd": "ALLPeril"
                 }]
             };
-            colldeductJSON.Deductible.FormatInteger = session["cars"][position]["coverage"]["colldeduct"];
+            colldeductJSON.Deductible[0].FormatInteger = session["cars"][position]["coverage"]["colldeduct"];
             insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[position].Coverage.push(colldeductJSON);
             //alert("After the COLL push:" + JSON.stringify(insurescanJson));
         }
-        var RRJSON = {
-            "CoverageCd": "RREIM"
-            , "CoverageDesc": "Rental Reimbursement"
-            , "Limit": [{
-                    "FormatInteger": "20"
-                    , "LimitAppliesToCd": "PerDay"
+        if (session["cars"][position]["coverage"]["RR"] == "Accept") {
+            var RRJSON = {
+                "CoverageCd": "RREIM"
+                , "CoverageDesc": "Rental Reimbursement"
+                , "Limit": [{
+                        "FormatInteger": "20"
+                        , "LimitAppliesToCd": "PerDay"
                 }
             , {
-                    "FormatInteger": "400"
-                    , "LimitAppliesToCd": "MaxAmount"
+                        "FormatInteger": "400"
+                        , "LimitAppliesToCd": "MaxAmount"
                 }
 				]
-        };
-        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[position].Coverage.push(RRJSON);
-        var TLJSON = {
-            "CoverageCd": "TL"
-            , "CoverageDesc": "Towing and Labor"
-            , "Limit": [{
-                "FormatInteger": "50"
-                , "LimitAppliesToCd": "PerOcc"
+            };
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[position].Coverage.push(RRJSON);
+        }
+        else {
+            var coverages = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[position].Coverage;
+            $.each(coverages, function (index, object) {
+                if (object.CoverageCd == "REIM") {
+                    coverages.splice(index, 1);
+                }
+            });
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[position].Coverage = coverages;
+        }
+        if (session["cars"][position]["coverage"]["towing"] == "Accept") {
+            var TLJSON = {
+                "CoverageCd": "TL"
+                , "CoverageDesc": "Towing and Labor"
+                , "Limit": [{
+                    "FormatInteger": "50"
+                    , "LimitAppliesToCd": "PerOcc"
             }]
-        };
-        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[position].Coverage.push(TLJSON);
+            };
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[position].Coverage.push(TLJSON);
+        }
+        else {
+            var coverages = insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[position].Coverage;
+            $.each(coverages, function (index, object) {
+                if (object.CoverageCd == "TL") {
+                    coverages.splice(index, 1);
+                }
+            });
+            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh[position].Coverage = coverages;
+        }
         sessionStorage.setItem("session", JSON.stringify(session));
         //alert("After the push:" + JSON.stringify(insurescanJson));
         //	alert("validateCoverage ends");
@@ -559,9 +680,15 @@ services.factory('newCarService', function (BASE_SERVER) {
         return true;
     };
     this.submitForms = function (owner) {
-        if (this.storeCar(owner) == true && this.validateCoverages('coverages') == true) {
-            uploadImages(pictureHolder);
-            return true;
+        if (this.storeCar(owner) == true) {
+            try {
+                uploadImages(pictureHolder);
+                this.validateCoverages('coverages');
+                return true;
+            }
+            catch (err) {
+                alert("car storage failure\n", err);
+            }
         }
         else {
             return false;

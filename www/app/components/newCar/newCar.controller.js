@@ -33,6 +33,12 @@ controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
     //
     //Do UI stuff
     //
+    $scope.getVinManual = function () {
+        document.getElementById('vin').addEventListener('focusout', function () {
+            test.getInfoFromWeb(document.carInfo.vin.value);
+        });
+    };
+    //
     $scope.checkHidden = function () {
         return true;
     };
@@ -118,5 +124,9 @@ controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
         // note: the indexes are 0-based
         $scope.activeIndex = data.activeIndex;
         $scope.previousIndex = data.previousIndex;
+    });
+    //
+    angular.element(document).ready(function () {
+        $scope.getVinManual();
     });
 }]);
