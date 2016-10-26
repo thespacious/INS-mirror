@@ -25,6 +25,9 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             navigator.app.overrideBackbutton();
         }
     }, 100);
+//    monitorEvents(document.body); // logs all events on the body
+//    monitorEvents(document.body, 'mouse'); // logs mouse events on the body
+//    monitorEvents(document.body.querySelectorAll('input')); // logs all events on inputs
     //    document.addEventListener("deviceready", onDeviceReady, false);
     //
     //    function onDeviceReady() {

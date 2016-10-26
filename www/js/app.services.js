@@ -150,7 +150,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                 
                 , "driver_info": {
                     //page-block
-                    "user_info": {
+                    "More Info": {
                         "pageBlock_options": {
                             "hidden": "false"
                         }, //leaf
@@ -518,8 +518,8 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         , "NAICCd": "10906"
                         , "ControllingStateProvCd": "MS"
                         , "ContractTerm": {
-                            "EffectiveDt": "2016-08-31"
-                            , "ExpirationDt": "1969-12-31"
+                            "EffectiveDt": "08/31/2016"
+                            , "ExpirationDt": "12/31/1969"
                             , "DurationPeriod": {
                                 "NumUnits": "6"
                                 , "UnitMeasurementCd": "Months"
@@ -540,7 +540,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                         }
                         , "CreditScoreInfo": {
                             "com.AccuAuto_AssumedCreditScoreCd": "BEST"
-                            , "CreditScoreDt": "2013-06-12"
+                            , "CreditScoreDt": "06/12/2016"
                         }
                         , "PersApplicationInfo": {
                             "InsuredOrPrincipal": [
@@ -617,7 +617,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                                     , "License": {
                                         "LicenseStatusCd": "Active"
                                         , "LicensedDt": "2005-09-20"
-                                        , "FirstLicensedCurrentStateDt": "2005-09-20"
+                                        , "FirstLicensedCurrentStateDt": "09/20/2016"
                                         , "LicensePermitNumber": "8968103"
                                         , "StateProvCd": "MS"
                                         , "StateProv": "MS"
@@ -669,8 +669,8 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                                     }
                                     , "License": {
                                         "LicenseStatusCd": "Active"
-                                        , "LicensedDt": "2008-06-12"
-                                        , "FirstLicensedCurrentStateDt": "2008-06-12"
+                                        , "LicensedDt": "06/12/2008"
+                                        , "FirstLicensedCurrentStateDt": "06/12/2016"
                                         , "LicensePermitNumber": "0000000"
                                         , "StateProvCd": "MS"
                                         , "StateProv": "MS"
