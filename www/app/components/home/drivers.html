@@ -16,7 +16,6 @@
         <h1 class="title">Drivers</h1> </ion-header-bar>
     <ion-scroll class="has-header has-footer overflow-scroll" style="height:85vh;">
         <ion-list>
-            <div class="card" ng-show="drivers.length < 1">Click add driver to get started</div>
             <ion-item ng-repeat="driver in drivers" item="driver" class="card driver-item" can-swipe="false">
                 <div class="card" style="display:none" id="help-card">
                     <div class="row">
@@ -61,9 +60,13 @@
         </ion-list>
         <ion-item>
             <div class="add-driver-button-container">
+                <div class="col col-50" ng-show="drivers.length < 1" style="float:left;">
+                    <h3 style="font-size:5vw;font-weight:400;color:cornflowerblue;">Need a Quote?</h3>
+                    <p style="color:darkgrey;font-size:4vw">click here to get started.</p>
+                </div>
                 <!--                <button class="button button icon-right icon ion-plus-round button-positive" style="float:right" ui-sref="newDriver({driverId: driverId})">add driver</button>-->
                 <!--                                <button class="button button icon-right icon ion-plus-round button-positive" style="float:right" ng-click="sendQuote()">add driver</button>-->
-                <button class="button button icon-right icon ion-plus-round button-positive" style="float:right" ui-sref="newDriver">add driver</button>
+                <button class="button button icon-right icon ion-person-add button-positive" style="float:right" ui-sref="newDriver">add driver</button>
             </div>
         </ion-item>
     </ion-scroll>

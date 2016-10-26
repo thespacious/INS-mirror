@@ -61,9 +61,10 @@ services.factory('quoteInfoServices', function (BASE_SERVER) {
         }
         if (minute.length < 2) minute = '0' + minute;
         if (second.length < 2) second = '0' + second;
-        var date = [year, month, day].join('-');
+        //        var date = [year, month, day].join('-');
+        var date = [month, day, year].join('/');
         var time = [hour, minute, second].join(':');
-        return date.concat(time);
+        return date;
     };
     this.incrementDate = function () {
         console.log($('startDatePicker').datepicker('getDate'));

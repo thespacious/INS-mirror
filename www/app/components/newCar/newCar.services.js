@@ -1,6 +1,7 @@
 services.factory('newCarService', function (BASE_SERVER) {
     //
     //
+    var _this = this;
     //
     this.hello = function () {
         console.log("hello djhlksahfdloksa");
@@ -43,7 +44,7 @@ services.factory('newCarService', function (BASE_SERVER) {
         });
     };
     this.scannerSuccess = function (result) {
-        this.getInfoFromWeb(result.VINCode);
+        _this.getInfoFromWeb(result.VINCode);
     };
     this.scannerFailure = function (message) {
         alert("scanner error");
@@ -94,6 +95,7 @@ services.factory('newCarService', function (BASE_SERVER) {
      * This will identify which frame the user is trying to fill with his/her car's picture
      */
     this.capturePhotoVin = function () {
+        _this = this;
         window.plugins.VINBarcodeScanner.scan(this.scannerSuccess, this.scannerFailure);
     };
     //    this.captureOrGetPhoto = function () {
@@ -504,6 +506,7 @@ services.factory('newCarService', function (BASE_SERVER) {
             carsIninsurescanJson.ModelYear = car["year"];
             carsIninsurescanJson.VehIdentificationNumber = car["vin"];
             insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh.push(carsIninsurescanJson);
+            sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
         }
         return true;
     };
