@@ -32,6 +32,19 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', '$scope', '$state', '$
         }
     };
     //
+    //    document.addEventListener("deviceready", onDeviceReady, false);
+    //
+    //    function onDeviceReady() {
+    //        $scope.changeOriantationLandspace = function () {
+    //            screen.lockOrientation('landscape');
+    //        }
+    //        $scope.changeOriantationPortrait = function () {
+    //            screen.lockOrientation('portrait');
+    //        }
+    //        $scope.changeOriantationPortrait();
+    //    }
+    screen.lockOrientation('portrait');
+    //
     //    $scope.carIds = test('cars');
     $scope.hiddenCar = {};
     $scope.removeCar = function (carId) {

@@ -11,6 +11,9 @@ controllers.controller('afterQuoteController', ['BASE_SERVER', '$scope', '$state
         sketch = $('#SketchPad').sketch();
         //        sketch = document.getElementById('#SketchPad');
     });
+    $scope.submitForms = function () {
+        $scope.next();
+    };
     $scope.submitForms2 = function () {
         afterQuoteServices.uploadSignature(sketch);
         //        afterQuoteServices.sendEmails();
@@ -44,4 +47,5 @@ controllers.controller('afterQuoteController', ['BASE_SERVER', '$scope', '$state
     //    window.orientation = 90;
     //    initSign();
     //    window.addEventListener('deviceorientation', function (eventData) {});
+    screen.lockOrientation('landscape');
 }]);

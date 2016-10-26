@@ -1,0 +1,75 @@
+Data chunking for generics.
+    i've got:
+        >controller based generics that handle scoping per form generically
+        >this means I must make call either for each for each json object on each page load
+        >or get one absolutely way too big json object in the beginning (second call (after auth)) and pass each to an instance of a form controller class
+        >but I like the pass each piece of data in chunks to classes expecting that chunk for each page
+        
+        
+        use reset on input type for editing existing drivers:
+            set value attr of each input element to session values 
+        
+    driverLicenseScan json:
+        driver's-license-info:
+            name*
+            address*
+        garaging-info:
+            address*
+        driver-info:
+            user-info*
+    
+    
+    newDriver json:
+        driver's-license-info:
+            name*
+            address*
+        driver-info:
+            user-info*
+            
+            
+    drivers json(existing quote):
+        drivers:
+            name
+                first#
+                last#
+            address:
+                city#
+                state#   
+                street#
+                zip#
+                
+                
+    quotes for that user:
+        drivers for that quote:
+            generics galore
+            
+*contains dom element options
+#leaf
+
+new-inputs:
+    user-info:
+        county
+        phone(tel)
+        email(email)
+        marriage staus(radio)
+    car-info:
+        vin
+        year(date)
+        make
+        model
+    discounts?:
+        prior-coverage
+        multi-car
+        homeowner   
+        paid in full
+        good dtudent
+    coverages?:
+        BI
+        PD
+        uninsured/underinsured motorist liability
+        medical payments
+        comprehensive deductible
+        collision deductible
+    quote:
+        they send you key value pairs, send me key value pairs
+        

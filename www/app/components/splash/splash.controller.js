@@ -55,4 +55,21 @@ controllers.controller('splashCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
     $scope.submitForms = function () {
         $scope.next();
     };
-            }]);
+    //    $scope.changeOriantationPortrait();
+    //    screen.lockOrientation('portrait');
+//    document.addEventListener("deviceready", onDeviceReady, false);
+//
+//    function onDeviceReady() {
+//        $scope.changeOriantationLandspace = function () {
+//            screen.lockOrientation('landscape');
+//        }
+//        $scope.changeOriantationPortrait = function () {
+//            screen.lockOrientation('portrait');
+//        }
+//        $scope.changeOriantationPortrait();
+//    }
+    //    screen.lockOrientation('portrait');
+    //    angular.element(document).ready(function () {
+    //        $scope.changeOriantationLandspace();
+    //    });
+}]);

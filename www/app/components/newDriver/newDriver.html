@@ -8,10 +8,10 @@
                 <div help-card ng-if="$first" ng-show="cardShown" ng-click="showCard()"></div>
                 <div page-block ng-init="checkEdit()"></div>
                 <div show-fields ng-show="checkPrimary($first)" ng-init="checkGaraging()"></div>
+                <div footer ng-show="$last"></div>
             </ion-slide-page>
         </ion-slides>
     </ion-content>
-    <div footer></div>
 </ion-view>
 <!--
 <div ng-repeat="page in pageNames">{{page}} {{test}}

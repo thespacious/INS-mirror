@@ -61,9 +61,10 @@ services.factory('quoteInfoServices', function (BASE_SERVER) {
         }
         if (minute.length < 2) minute = '0' + minute;
         if (second.length < 2) second = '0' + second;
-        var date = [year, month, day].join('-');
+        //        var date = [year, month, day].join('-');
+        var date = [month, day, year].join('/');
         var time = [hour, minute, second].join(':');
-        return date.concat(time);
+        return date;
     };
     this.incrementDate = function () {
         console.log($('startDatePicker').datepicker('getDate'));
@@ -223,102 +224,102 @@ services.factory('quoteInfoServices', function (BASE_SERVER) {
         //        document.PolicyTermForm.submit();
     };
     //
-    var updateCarsinsurescanJson = function () {
-        var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
-        var session = JSON.parse(sessionStorage.getItem("session"));
-        var cars = session["cars"];
-        /*If the user jumps between the screens to and fro, ten we need to make sure that we do not add multiple/duplicate entries. 
-        Below logic sanitizes the insurescanJson before updating it every sigle time*/
-        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh.splice(1, insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh.length - 1);
-        //Here we need to see that the JSON gets updated
-        var carsIninsurescanJson = {
-            "-id": "Veh1"
-            , "-RatedDriverRef": "Drv1"
-            , "-LocationRef": "Loc1"
-            , "Manufacturer": "Ford"
-            , "Model": "Taurus SE"
-            , "ModelYear": "2006"
-            , "VehBodyTypeCd": "SEDAN"
-            , "VehTypeCd": "PP"
-            , "AntiTheftDeviceInfo": {
-                "AntiTheftDeviceCd": "P"
-                , "AntiTheftProductCd": "99"
-            }
-            , "NumDaysDrivenPerWeek": "5"
-            , "EstimatedAnnualDistance": {
-                "NumUnits": "12000"
-                , "UnitMeasurementCd": "Miles"
-            }
-            , "Displacement": {
-                "NumUnits": "3"
-                , "UnitMeasurementCd": "Liters"
-            }
-            , "LeasedVehInd": "0"
-            , "NumCylinders": "6"
-            , "RegistrationStateProvCd": "SC"
-            , "VehIdentificationNumber": "1FAFP53U06"
-            , "AlteredInd": "0"
-            , "AntiLockBrakeCd": "Y"
-            , "DaytimeRunningLightInd": "0"
-            , "EngineTypeCd": "G"
-            , "DistanceOneWay": {
-                "NumUnits": "12"
-                , "UnitMeasurementCd": "SMI"
-            }
-            , "MultiCarDiscountInd": "0"
-            , "NewVehInd": "0"
-            , "NonOwnedVehInd": "0"
-            , "LengthTimePerMonth": {
-                "NumUnits": "4"
-                , "UnitMeasurementCd": "MON"
-            }
-            , "NumYouthfulOperators": "0"
-            , "SeenCarInd": "0"
-            , "VehInspectionStatusCd": "N"
-            , "VehUseCd": "DW"
-            , "FourWheelDriveInd": "0"
-            , "SeatBeltTypeCd": "Active"
-            , "AirBagTypeCd": "FrontBoth"
-            , "Coverage": [
-                {
-                    "CoverageCd": "BI"
-                    , "CoverageDesc": "Bodily Injury Liability"
-                    , "Limit": [
-                        {
-                            "FormatInteger": "25000"
-                            , "LimitAppliesToCd": "PerPerson"
-                  }
-                    , {
-                            "FormatInteger": "50000"
-                            , "LimitAppliesToCd": "PerAcc"
-                  }
-                ]
-              }
-            , {
-                    "CoverageCd": "PD"
-                    , "CoverageDesc": "Property Damage"
-                    , "Limit": {
-                        "FormatInteger": "25000"
-                        , "LimitAppliesToCd": "PropDam"
-                    }
-              }
-			]
-        };
-        for (i = 0; i < cars.length; i++) {
-            if (i > 0) {
-                var indexCar = i + 1;
-                carsIninsurescanJson["-id"] = "Veh" + indexCar;
-                carsIninsurescanJson.Manufacturer = cars[i]["make"];
-                carsIninsurescanJson.Model = cars[i]["model"];
-                carsIninsurescanJson.ModelYear = cars[i]["year"];
-                carsIninsurescanJson.VehIdentificationNumber = cars[i]["vin"];
-                insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh.push(carsIninsurescanJson);
-            }
-        }
-        sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
-        //alert("After addition of cars");
-        //alert(JSON.stringify(insurescanJson));
-    };
+    //    var updateCarsinsurescanJson = function () {
+    //        var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
+    //        var session = JSON.parse(sessionStorage.getItem("session"));
+    //        var cars = session["cars"];
+    //        /*If the user jumps between the screens to and fro, ten we need to make sure that we do not add multiple/duplicate entries. 
+    //        Below logic sanitizes the insurescanJson before updating it every sigle time*/
+    //        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh.splice(1, insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh.length - 1);
+    //        //Here we need to see that the JSON gets updated
+    //        var carsIninsurescanJson = {
+    //            "-id": "Veh1"
+    //            , "-RatedDriverRef": "Drv1"
+    //            , "-LocationRef": "Loc1"
+    //            , "Manufacturer": "Ford"
+    //            , "Model": "Taurus SE"
+    //            , "ModelYear": "2006"
+    //            , "VehBodyTypeCd": "SEDAN"
+    //            , "VehTypeCd": "PP"
+    //            , "AntiTheftDeviceInfo": {
+    //                "AntiTheftDeviceCd": "P"
+    //                , "AntiTheftProductCd": "99"
+    //            }
+    //            , "NumDaysDrivenPerWeek": "5"
+    //            , "EstimatedAnnualDistance": {
+    //                "NumUnits": "12000"
+    //                , "UnitMeasurementCd": "Miles"
+    //            }
+    //            , "Displacement": {
+    //                "NumUnits": "3"
+    //                , "UnitMeasurementCd": "Liters"
+    //            }
+    //            , "LeasedVehInd": "0"
+    //            , "NumCylinders": "6"
+    //            , "RegistrationStateProvCd": "SC"
+    //            , "VehIdentificationNumber": "1FAFP53U06"
+    //            , "AlteredInd": "0"
+    //            , "AntiLockBrakeCd": "Y"
+    //            , "DaytimeRunningLightInd": "0"
+    //            , "EngineTypeCd": "G"
+    //            , "DistanceOneWay": {
+    //                "NumUnits": "12"
+    //                , "UnitMeasurementCd": "SMI"
+    //            }
+    //            , "MultiCarDiscountInd": "0"
+    //            , "NewVehInd": "0"
+    //            , "NonOwnedVehInd": "0"
+    //            , "LengthTimePerMonth": {
+    //                "NumUnits": "4"
+    //                , "UnitMeasurementCd": "MON"
+    //            }
+    //            , "NumYouthfulOperators": "0"
+    //            , "SeenCarInd": "0"
+    //            , "VehInspectionStatusCd": "N"
+    //            , "VehUseCd": "DW"
+    //            , "FourWheelDriveInd": "0"
+    //            , "SeatBeltTypeCd": "Active"
+    //            , "AirBagTypeCd": "FrontBoth"
+    //            , "Coverage": [
+    //                {
+    //                    "CoverageCd": "BI"
+    //                    , "CoverageDesc": "Bodily Injury Liability"
+    //                    , "Limit": [
+    //                        {
+    //                            "FormatInteger": "25000"
+    //                            , "LimitAppliesToCd": "PerPerson"
+    //                  }
+    //                    , {
+    //                            "FormatInteger": "50000"
+    //                            , "LimitAppliesToCd": "PerAcc"
+    //                  }
+    //                ]
+    //              }
+    //            , {
+    //                    "CoverageCd": "PD"
+    //                    , "CoverageDesc": "Property Damage"
+    //                    , "Limit": {
+    //                        "FormatInteger": "25000"
+    //                        , "LimitAppliesToCd": "PropDam"
+    //                    }
+    //              }
+    //			]
+    //        };
+    //        for (i = 0; i < cars.length; i++) {
+    //            if (i > 0) {
+    //                var indexCar = i + 1;
+    //                carsIninsurescanJson["-id"] = "Veh" + indexCar;
+    //                carsIninsurescanJson.Manufacturer = cars[i]["make"];
+    //                carsIninsurescanJson.Model = cars[i]["model"];
+    //                carsIninsurescanJson.ModelYear = cars[i]["year"];
+    //                carsIninsurescanJson.VehIdentificationNumber = cars[i]["vin"];
+    //                insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh.push(carsIninsurescanJson);
+    //            }
+    //        }
+    //        sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
+    //        //alert("After addition of cars");
+    //        //alert(JSON.stringify(insurescanJson));
+    //    };
     //
     this.sendQuote = function (json) {
         var creds = JSON.parse(sessionStorage.getItem('credentials'));
@@ -353,7 +354,7 @@ services.factory('quoteInfoServices', function (BASE_SERVER) {
     this.submitForms = function () {
         if (this.validateDiscounts() == true && this.validatePolcyTerm() == true) {
             try {
-                updateCarsinsurescanJson();
+                //                updateCarsinsurescanJson();
                 return true;
             }
             catch (err) {

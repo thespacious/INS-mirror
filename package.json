@@ -31,7 +31,8 @@
     "cordova-plugin-file",
     "cordova-plugin-file-transfer",
     "cordova-plugin-image-picker",
-    "ionic-plugin-deploy"
+    "ionic-plugin-deploy",
+    "cordova-plugin-screen-orientation"
   ],
   "cordovaPlatforms": []
 }

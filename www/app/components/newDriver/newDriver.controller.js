@@ -4,7 +4,7 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     var session = JSON.parse(sessionStorage.getItem("session"));
     //
     //
-    $scope.footerText = 'next';
+    $scope.footerText = 'submit';
     //load services
     //
     var loadBlock = $injector.get('loadBlock');
@@ -117,6 +117,9 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     };
     //
     //Do UI stuff
+    //
+    screen.lockOrientation('portrait');
+    //
     //
     $scope.change = function (value) {
         console.log('ng change fired.', value);

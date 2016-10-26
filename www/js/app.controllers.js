@@ -15,4 +15,14 @@ var controllers = angular.module('main.controllers', []).controller('indexCtrl',
     $scope.goToDatePicker = function () {
         $state.go('quoteInfo.datePicker')
     };
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    function onDeviceReady() {
+        $scope.changeOriantationLandspace = function () {
+            screen.lockOrientation('landscape');
+        }
+        $scope.changeOriantationPortrait = function () {
+            screen.lockOrientation('portrait');
+        }
+    }
 }]);

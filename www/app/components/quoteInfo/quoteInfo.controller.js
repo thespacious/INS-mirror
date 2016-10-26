@@ -52,6 +52,8 @@ controllers.controller('quoteInfoCtrl', ['BASE_SERVER', '$scope', '$state', '$in
         var formattedToday = today.getFullYear() + '-' + month + '-' + day;
         return formattedToday;
     };
+    //
+    //
     $scope.newnewDate = function () {
         var today = new Date();
         var day = today.getDate();
@@ -68,7 +70,9 @@ controllers.controller('quoteInfoCtrl', ['BASE_SERVER', '$scope', '$state', '$in
             month = '0' + month;
             year = year + 1;
         }
-        var formattedToday = year + '-' + month + '-' + day;
+        //        var formattedToday = year + '-' + month + '-' + day;
+        var formattedToday = month + '/' + day + '/' + year;
+        $scope.sixmonths = formattedToday;
         return formattedToday;
     };
     //
@@ -95,9 +99,6 @@ controllers.controller('quoteInfoCtrl', ['BASE_SERVER', '$scope', '$state', '$in
         console.log('Slide change is beginning');
         $scope.pageCheck($scope.pageNames[data.slider.activeIndex]);
         if (data.slider.activeIndex != 0) {
-            $scope.$apply(function () {
-                $state.go('quoteInfo.datePicker');
-            });
             $state.go('quoteInfo.datePicker');
         }
         else if (data.slider.activeIndex == 0) {
@@ -117,6 +118,9 @@ controllers.controller('quoteInfoCtrl', ['BASE_SERVER', '$scope', '$state', '$in
     $scope.incrementDate = function () {
         test.incrementDate();
     };
+    //
+    screen.lockOrientation('portrait');
+    //    e.stopPropagation();
     //
     $scope.submitForms = function () {
         var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
