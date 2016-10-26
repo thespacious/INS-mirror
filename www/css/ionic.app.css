@@ -4487,7 +4487,7 @@ ion-infinite-scroll:not(.active) .icon:before {
 }
 
 .has-footer {
-    bottom: 8vh;
+    bottom: 10vh;
 }
 
 .has-subfooter {
@@ -5655,7 +5655,7 @@ a.subdued:last-child {
     border-top-width: 1px;
     border-bottom-width: 0;
     background-position: top;
-    height: 8vh;
+    height: 10vh;
 }
 
 .bar-footer.item-input-inset {

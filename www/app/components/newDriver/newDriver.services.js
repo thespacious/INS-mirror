@@ -309,6 +309,7 @@ services.factory('testService', function () {
             driver["sex"] = document.forms[page].sex.value;
             driver["maritalState"] = document.forms[page].maritalstatus.value;
             driver["category"] = "regular";
+            driver["category"] = "regular";
             driver['id'] = session['drivers'].length;
             for (var i; i < session.drivers.length; i++) {
                 if (driver[i]['id'] == driverId) {
