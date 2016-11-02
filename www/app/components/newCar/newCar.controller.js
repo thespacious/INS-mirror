@@ -2,6 +2,7 @@ controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
     var _this = this;
     //
     $scope.owner = $stateParams.fullname;
+    $scope.ownerId = $stateParams.driverId;
     console.log($scope.owner);
     //
     var loadBlock = $injector.get('loadBlock');
@@ -55,6 +56,7 @@ controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
     //
     $scope.capturePhoto = function () {
         return test.capturePhotoVin();
+        //        return test.testScan();
     };
     //
     $scope.getPhoto = function () {

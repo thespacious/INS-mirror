@@ -114,9 +114,9 @@ services.factory('driversService', function (BASE_SERVER, $state) {
         }
         if (minute.length < 2) minute = '0' + minute;
         if (second.length < 2) second = '0' + second;
-        var date = [year, month, day].join('-');
+        var date = [month, day, year].join('/');
         var time = [hour, minute, second].join(':');
-        return date.concat(time);
+        return date;
     };
     var NAMED_INSURED = 0
         , EXCLUDED = 1
@@ -185,7 +185,7 @@ services.factory('driversService', function (BASE_SERVER, $state) {
             if (i > 0) {
                 var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
                 var indexDriver = i + 1;
-                driversIninsurescanJson["-id"] = "drv" + indexDriver;
+                driversIninsurescanJson["-id"] = "Drv" + indexDriver;
                 //alert("The driver id inserted is : " + driversIninsurescanJson["-id"]);
                 driversIninsurescanJson.GeneralPartyInfo.NameInfo.PersonName.Surname = drivers[i]["fullname"].split(" ")[1];
                 driversIninsurescanJson.GeneralPartyInfo.NameInfo.PersonName.GivenName = drivers[i]["fullname"].split(" ")[0];
