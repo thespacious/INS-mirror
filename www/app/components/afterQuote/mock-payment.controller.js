@@ -34,4 +34,5 @@ controllers.controller('paymentCtrl', ['BASE_SERVER', '$scope', '$state', '$ioni
         }
         $scope.slider = data.slider;
     });
+    screen.lockOrientation('portrait');
 }]);

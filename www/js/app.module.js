@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', 'main.controllers']).run(function ($ionicPlatform, $state) {
+var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', 'main.controllers', 'ngCordova']).run(function ($ionicPlatform, $state) {
     $ionicPlatform.ready(function () {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -18,7 +18,7 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
         //        else {
         //            
         //        }
-        if (location.hash != '#/' && location.hash != '#/home') {
+        if (location.hash != '#/' && location.hash != '#/home' && location.hash != '#/viewQuote') {
             navigator.app.backHistory();
         }
         else {
@@ -81,6 +81,10 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             , controller: "newDriverCtrl"
         }).state('newCar', {
             url: '/newCar/:fullname'
+            , params: {
+                fullname: null
+                , driverId: null
+            }
             , templateUrl: 'app/components/newCar/newCar.html'
             , controller: "newCarCtrl"
         }).state('quoteInfo', {

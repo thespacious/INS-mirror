@@ -1,7 +1,7 @@
 <form method="GET" name="{{page}}" id="{{page}}" action="submitForm()">
     <ion-list>
         <ion-item ng-repeat="pageBlock in pageBlocks[page]" class="page {{pageBlock}}" ng-show="checkHidden(pageBlock)">
-            <div class="item item-divider"> {{pageBlock}} </div>
+            <!--            <div class="item item-divider" style="text-align:center;"> {{pageBlock}} </div>-->
             <ion-list>
                 <ion-item ng-repeat="(key, pageBlockItem) in pageBlockItems[pageBlock]" class="item item-input item-stacked-label pageBlockItem">
                     <label> <span class="input-label">{{pageBlockItem.label}}</span>

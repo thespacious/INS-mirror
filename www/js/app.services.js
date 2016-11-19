@@ -108,7 +108,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                     }
                     //page-block
                     
-                    , "garaging_address": {
+                    , "Garaging Address": {
                         pageBlock_options: {
                             hidden: "true"
                         }
@@ -238,13 +238,13 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                             "type": "select"
                             , "label": "Bodily Injury"
                             , "options": [
-                            "$25,000/$50,000"]
+                            "25,000/50,000"]
                         }
                         , "PD": {
                             "type": "select"
                             , "label": "Property Destruction"
                             , "options": [
-                            "$25,000"]
+                            "25,000"]
                         }
                         , "UML": {
                             "type": "select"
@@ -264,22 +264,22 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                             "type": "select"
                             , "label": "Medical Payments"
                             , "options": [
-                             "$500"
-                            , "$1,000"]
+                             "500"
+                            , "1,000"]
                         }
                         , "compdeduct": {
                             "type": "select"
                             , "label": "Comprehensive Deductible"
-                            , "options": ["$200"
-                             , "$250"
-                            , "$500", "$1,000"]
+                            , "options": ["200"
+                             , "250"
+                            , "500", "1,000"]
                         }
                         , "colldeduct": {
                             "type": "select"
                             , "label": "Collision  Deductible"
-                            , "options": ["$200"
-                            , "$250"
-                            , "$500", "$1,000"]
+                            , "options": ["200"
+                            , "250"
+                            , "500", "1,000"]
                         }
                         , "towing": {
                             "type": "select"
@@ -693,7 +693,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                                         , "FilingStatusCd": "N"
                                     }
                                     , "GoodDriverInd": "0"
-                                    , "GoodStudentCd": "N"
+                                    , "GoodStudentCd": "0"
                                     , "MatureDriverInd": "0"
                                     , "RestrictedInd": "0"
                                 }

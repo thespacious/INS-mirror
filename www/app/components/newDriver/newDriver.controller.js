@@ -38,8 +38,7 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     $scope.checkHidden = function (pageBlock) {
         return test.checkHidden($scope.pageBlockOptions[pageBlock]);
     };
-    //
-    //
+    //    
     $scope.checkPrimary = function (bool) {
         if (bool == true && $scope.driverId == "0") {
             return true;
@@ -223,7 +222,7 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
             };
         }
         else {
-            $scope.footerText = 'next';
+            $scope.footerText = 'submit';
             $scope.submitForms = $scope.next();
         }
         $scope.slider = data.slider;
@@ -262,7 +261,7 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
             };
         }
         else {
-            $scope.footerText = 'next';
+            $scope.footerText = 'submit';
             $scope.submitForms = $scope.next();
         }
     });

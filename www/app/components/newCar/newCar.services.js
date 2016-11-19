@@ -1,4 +1,4 @@
-services.factory('newCarService', function (BASE_SERVER) {
+services.factory('newCarService', function (BASE_SERVER, $state) {
     //
     //
     var _this = this;
@@ -303,7 +303,7 @@ services.factory('newCarService', function (BASE_SERVER) {
             correctOrientation: true
         });
     };
-    var pictureHolder = ["img/default1.png", "img/default2.png"];
+    var pictureHolder = ["file:///android_asset/www/img/default1.png", "file:///android_asset/www/img/default2.png"];
     var counter = 1;
     this.onSuccess = function (imageData) {
         this.imageData = imageData;
@@ -358,17 +358,17 @@ services.factory('newCarService', function (BASE_SERVER) {
         for (image in images) {
             var options = new FileUploadOptions();
             options.fileKey = "file";
-            options.fileName = image.substr(image.lastIndexOf('/') + 1);
+            options.fileName = images[image].substr(image.lastIndexOf('/') + 1);
             options.mimeType = "image/jpeg";
             options.chunkedMode = false;
-            options.fileName = image.substr(image.lastIndexOf('/') + 1);
+            options.fileName = images[image].substr(image.lastIndexOf('/') + 1);
             options.headers = {
                 Connection: "close"
                 , 'SessionID': creds.userCreds.sessionId
             };
             //
             var ft = new FileTransfer();
-            ft.upload(image, encodeURI(BASE_SERVER + "/upload/" + creds.quoteId + "/property"), win, fail, options);
+            ft.upload(images[image], encodeURI(BASE_SERVER + "/upload/" + creds.quoteId + "/property"), win, fail, options);
         }
     };
     var win = function (r) {
@@ -423,6 +423,7 @@ services.factory('newCarService', function (BASE_SERVER) {
             var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
             var session = JSON.parse(sessionStorage.getItem("session"));
             var cars = session["cars"];
+            var drivers = session.drivers;
             /*If the user jumps between the screens to and fro, ten we need to make sure that we do not add multiple/duplicate entries. 
             Below logic sanitizes the insurescanJson before updating it every sigle time*/
             insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh.splice(1, insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersVeh.length - 1);
@@ -501,6 +502,7 @@ services.factory('newCarService', function (BASE_SERVER) {
 			]
             };
             carsIninsurescanJson["-id"] = "Veh" + cars.length;
+            carsIninsurescanJson["-RatedDriverRef"] = "Drv" + ($state.params.driverId + 1);
             carsIninsurescanJson.Manufacturer = car["make"];
             carsIninsurescanJson.Model = car["model"];
             carsIninsurescanJson.ModelYear = car["year"];
@@ -565,6 +567,8 @@ services.factory('newCarService', function (BASE_SERVER) {
         coverage["MP"] = selectedMPOptionValue;
         coverage["compdeduct"] = selectedcompdeductOptionValue;
         coverage["colldeduct"] = selectedcolldeductOptionValue;
+        coverage["towing"] = towing;
+        coverage["RR"] = rentalreimbursement;
         session["cars"][position]["coverage"] = coverage;
         var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
         //alert("The car position we are dealing with is: " + position);
@@ -696,6 +700,21 @@ services.factory('newCarService', function (BASE_SERVER) {
         else {
             return false;
         }
+    };
+    //
+    //
+    this.testScan = function () {
+        cordova.plugins.barcodeScanner.scan(function (result) {
+            alert("We got a barcode\n" + "Result: " + result.text + "\n" + "Format: " + result.format + "\n" + "Cancelled: " + result.cancelled);
+        }, function (error) {
+            alert("Scanning failed: " + error);
+        }, {
+            "preferFrontCamera": false, // iOS and Android
+            "showFlipCameraButton": true, // iOS and Android
+            "prompt": "Place a barcode inside the scan area", // supported on Android only
+            "formats": "QR_CODE,PDF_417", // default: all but PDF_417 and RSS_EXPANDED
+            "orientation": "landscape" // Android only (portrait|landscape), default unset so it rotates with the device
+        });
     };
     //    this.sendEmails = function (json) {
     //        var creds = JSON.parse(sessionStorage.getItem('credentials'));

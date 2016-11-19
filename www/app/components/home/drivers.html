@@ -17,13 +17,15 @@
     <ion-scroll class="has-header has-footer overflow-scroll" style="height:85vh;">
         <ion-list>
             <ion-item ng-repeat="driver in drivers" item="driver" class="card driver-item" can-swipe="false">
+                <!--
                 <div class="card" style="display:none" id="help-card">
-                    <div class="row">
-                        <div class="col-66"> Check toggle for each
-                            <br>named insured (2 max)</div>
-                        <button type="button" class="button icon ion-close-circled" onclick="hideCard()" style="float: right;margin-left: auto;" ng-checked="$first"></button>
-                    </div>
-                </div>
+    <div class="row">
+        <div class="col-66"> Check toggle for each
+            <br>named insured (2 max)</div>
+        <button type="button" class="button icon ion-close-circled" style="float: right;margin-left: auto;" ng-checked="$first"></button>
+    </div>
+</div>
+-->
                 <div class="item item-divider driver-item-header">
                     <p>{{driver.fullname}}</p>
                     <label class="toggle" style="float:right;">
@@ -54,7 +56,7 @@
                     </ion-item>
                 </ion-list>
                 <div class="col col-33 col-offset-66">
-                    <button class="button button icon-right icon ion-plus-round button-balanced" ui-sref="newCar({fullname:drivers[$parent.$index].fullname})">add car</button>
+                    <button class="button button icon-right icon ion-plus-round button-balanced" ui-sref="newCar({fullname:drivers[$parent.$index].fullname, driverId:$parent.$index})">add car</button>
                 </div>
             </ion-item>
         </ion-list>

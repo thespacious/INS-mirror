@@ -32,7 +32,8 @@
     "cordova-plugin-file-transfer",
     "cordova-plugin-image-picker",
     "ionic-plugin-deploy",
-    "cordova-plugin-screen-orientation"
+    "cordova-plugin-screen-orientation",
+    "phonegap-plugin-barcodescanner"
   ],
   "cordovaPlatforms": []
 }
