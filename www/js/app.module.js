@@ -69,6 +69,10 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             url: '/'
             , templateUrl: 'app/components/splash/splash.html'
             , controller: 'splashCtrl'
+        }).state('splash.login', {
+            url: '/login'
+            , templateUrl: 'app/components/splash/login.html'
+            , controller: 'splashCtrl'
         }).state('home', {
             url: '/home'
             , templateUrl: 'app/components/home/drivers.html'
