@@ -1,4 +1,4 @@
-controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$stateParams', '$ionicSlideBoxDelegate', '$injector', '$timeout', function (baseUrl, $scope, $state, $stateParams, $ionicSlideBoxDelegate, $injector, $timeout) {
+controllers.controller('newDriverCtrl', ['APP+_DEBUG', 'BASE_SERVER', '$scope', '$state', '$stateParams', '$ionicSlideBoxDelegate', '$injector', '$timeout', function (app_debug, baseUrl, $scope, $state, $stateParams, $ionicSlideBoxDelegate, $injector, $timeout) {
     //Why bother? Well look at the alternative. . .
     //
     //

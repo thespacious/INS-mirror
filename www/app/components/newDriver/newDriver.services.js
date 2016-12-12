@@ -1,6 +1,10 @@
-services.factory('testService', function () {
+services.factory('testService', function (APP_DEBUG) {
     //
+    //============================
+    //CHECK CONFIG AND PREFERENCES
+    //============================
     //
+    //TODO: find more concise method for checking primary driver, look into some sort of global constant
     this.seePrimary = function () {
         try {
             var session = JSON.parse(sessionStorage.getItem('session'));
@@ -19,6 +23,8 @@ services.factory('testService', function () {
         }
     };
     //
+    //TODO make generic by iterating through both arrays and assigning values where the form element and driver object property match
+    //TODO: find out if can run this async
     this.checkEdit = function (statename, driverId) {
         if (statename == "newDriver.edit") {
             var session = JSON.parse(sessionStorage.getItem('session'));
@@ -58,6 +64,8 @@ services.factory('testService', function () {
             }
         }
     };
+    //
+    //TODO: might be better off just going ahead and making a separate edit vs, new html file, how much overhead does each option incur
     this.addMaritalStatus = function (driverId, pageBlockItems) {
         var maritalstatus = {
             "type": "select"
@@ -74,25 +82,79 @@ services.factory('testService', function () {
             return pageBlockItems;
         }
     };
+    //
+    //TODO: do we still use this, I have no idea, check please
+    this.checkHidden = function (pageBlockOptions) {
+        if (APP_DEBUG == true) {
+            console.log("newDriverService: checkhidden() still getting used");
+            if (pageBlockOptions['pageBlock_options'].hidden == "true") {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+        else {
+            if (pageBlockOptions['pageBlock_options'].hidden == "true") {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    };
+    //TODO: do we still use this, I have no idea, check please
+    this.makeVisible = function (pageBlock, pageBlockOptions, bool) {
+        if (APP_DEBUG == true) {
+            if (bool == true) {
+                pageBlockOptions[pageBlock]['pageBlock_options'].hidden = "true";
+            }
+            else {
+                pageBlockOptions[pageBlock]['pageBlock_options'].hidden = "false";
+            }
+        }
+        else {
+            if (bool == true) {
+                pageBlockOptions[pageBlock]['pageBlock_options'].hidden = "true";
+            }
+            else {
+                pageBlockOptions[pageBlock]['pageBlock_options'].hidden = "false";
+            }
+        }
+        return pageBlockOptions;
+    };
+    //
+    this.cleanFields = function cleanFields() {
+        document.forms[0].fullname.value = "";
+        document.forms[0].street.value = "";
+        document.forms[0].license.value = "";
+        document.forms[0].dob.value = "";
+        document.forms[0].city.value = "";
+        document.forms[0].state.value = "";
+        document.forms[0].zip.value = "";
+        document.forms[0].sex.value = "";
+    };
+    this.setGaraging = function () {
+        document.forms[0].gstreet.value = document.forms[0].street.value;
+        document.forms[0].gcity.value = document.forms[0].city.value;
+        document.forms[0].gstate.value = document.forms[0].state.value;
+        document.forms[0].gzip.value = document.forms[0].zip.value;
+    };
+    this.unSetGaraging = function () {
+        document.forms[0].gstreet.value = '';
+        document.forms[0].gcity.value = '';
+        document.forms[0].gstate.value = '';
+        document.forms[0].gzip.value = '';
+    };
+    //
+    //================
+    //CAMERA FUNCTIONS
+    //================
     //captures photo on camera icon clicked
     this.capturePhoto = function () {
         scanner.startScanning(MWBSInitSpace.init, InsureScan.onLicensePhoto);
     };
     //
-    this.uploadPhoto = function () {
-        //        if (photoID != null) photoDestination = photoID.toString();
-        navigator.camera.getPicture(this.uploadsuccess, this.uploadfail, {
-            quality: 50
-            , destinationType: Camera.DestinationType.FILE_URI
-            , sourceType: Camera.PictureSourceType.PHOTOLIBRARY
-        });
-    };
-    this.uploadsuccess = function (imageData) {
-        scanner.scanImage(MWBSInitSpace.init, InsureScan.onLicensePhoto, imageData);
-    };
-    this.uploadfail = function (imageData) {
-        console.log('image upload failed: \n', imageData);
-    };
     //defines insurescan object and parses response from manatee
     if (typeof InsureScan === 'undefined' || InsureScan === null) {
         InsureScan = {};
@@ -122,12 +184,25 @@ services.factory('testService', function () {
         document.forms[0].city.value = userDataMap["DAI"];
         document.forms[0].zip.value = userDataMap["DAK"].substr(0, 5);
         document.forms[0].sex.value = ["M", "F"][userDataMap["DBC"] - 1];
-        //        var driversInputs = document.getElementsByClassName("mdl-textfield");
-        //        for (var i = 0; i < driversInputs.length; i++) {
-        //            driversInputs[i].className = driversInputs[i].className + " is-dirty";
-        //        }
         //        SetGaraging(true); // Auto fill out garaging info after license scan
     };
+    //
+    this.uploadPhoto = function () {
+        //        if (photoID != null) photoDestination = photoID.toString();
+        navigator.camera.getPicture(this.uploadsuccess, this.uploadfail, {
+            quality: 50
+            , destinationType: Camera.DestinationType.FILE_URI
+            , sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+        });
+    };
+    this.uploadsuccess = function (imageData) {
+        scanner.scanImage(MWBSInitSpace.init, InsureScan.onLicensePhoto, imageData);
+    };
+    this.uploadfail = function (imageData) {
+        console.log('image upload failed: \n', imageData);
+    };
+    //
+    //  TODO: Am I using this, still don't know
     //    this.populateUserFields = function (page) {
     //        document.forms[page].fullname.value = userDataMap["DAC"] + " " + userDataMap["DCS"];
     //        document.forms[page].license.value = userDataMap["DAQ"];
@@ -138,28 +213,7 @@ services.factory('testService', function () {
     //        document.forms[page].zip.value = userDataMap["DAK"].substr(page, 5);
     //        document.forms[page].sex.value = ["M", "F"][userDataMap["DBC"] - 1];
     //    };
-    this.cleanFields = function cleanFields() {
-        document.forms[0].fullname.value = "";
-        document.forms[0].street.value = "";
-        document.forms[0].license.value = "";
-        document.forms[0].dob.value = "";
-        document.forms[0].city.value = "";
-        document.forms[0].state.value = "";
-        document.forms[0].zip.value = "";
-        document.forms[0].sex.value = "";
-    };
-    this.setGaraging = function () {
-        document.forms[0].gstreet.value = document.forms[0].street.value;
-        document.forms[0].gcity.value = document.forms[0].city.value;
-        document.forms[0].gstate.value = document.forms[0].state.value;
-        document.forms[0].gzip.value = document.forms[0].zip.value;
-    };
-    this.unSetGaraging = function () {
-        document.forms[0].gstreet.value = '';
-        document.forms[0].gcity.value = '';
-        document.forms[0].gstate.value = '';
-        document.forms[0].gzip.value = '';
-    };
+    //
     this.formatDate = function (date) {
         var d = new Date(date)
             , month = '' + (d.getMonth() + 1)
@@ -323,23 +377,6 @@ services.factory('testService', function () {
             var drivers = JSON.parse(sessionStorage.getItem("session"))["drivers"];
             return true;
         }
-    };
-    this.checkHidden = function (pageBlockOptions) {
-        if (pageBlockOptions['pageBlock_options'].hidden == "true") {
-            return false;
-        }
-        else {
-            return true;
-        }
-    };
-    this.makeVisible = function (pageBlock, pageBlockOptions, bool) {
-        if (bool == true) {
-            pageBlockOptions[pageBlock]['pageBlock_options'].hidden = "true";
-        }
-        else {
-            pageBlockOptions[pageBlock]['pageBlock_options'].hidden = "false";
-        }
-        return pageBlockOptions;
     };
     this.onUserInfoSubmit = function (page) {
         var drivers = JSON.parse(sessionStorage.getItem("session"))["drivers"];
