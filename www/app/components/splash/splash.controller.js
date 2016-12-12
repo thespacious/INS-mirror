@@ -57,19 +57,26 @@ controllers.controller('splashCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
     };
     //    $scope.changeOriantationPortrait();
     //    screen.lockOrientation('portrait');
-//    document.addEventListener("deviceready", onDeviceReady, false);
-//
-//    function onDeviceReady() {
-//        $scope.changeOriantationLandspace = function () {
-//            screen.lockOrientation('landscape');
-//        }
-//        $scope.changeOriantationPortrait = function () {
-//            screen.lockOrientation('portrait');
-//        }
-//        $scope.changeOriantationPortrait();
-//    }
+    //    document.addEventListener("deviceready", onDeviceReady, false);
+    //
+    //    function onDeviceReady() {
+    //        $scope.changeOriantationLandspace = function () {
+    //            screen.lockOrientation('landscape');
+    //        }
+    //        $scope.changeOriantationPortrait = function () {
+    //            screen.lockOrientation('portrait');
+    //        }
+    //        $scope.changeOriantationPort rait();
+    //    }
     //    screen.lockOrientation('portrait');
     //    angular.element(document).ready(function () {
     //        $scope.changeOriantationLandspace();
-    //    });
+    //    });\
+    $scope.$on("$ionicSlides.sliderInitialized", function (event, data) {
+        $scope.slider = data.slider;
+    });
+    $scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
+        console.log('Slide change is beginning');
+        $scope.next();
+    });
 }]);

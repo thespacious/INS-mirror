@@ -13,15 +13,14 @@
         <button class="button button-positive button-clear no-animation" ng-click="next()" ng-show="slideIndex != 2"> Next </button>
         <button class="button button-positive button-clear no-animation" ng-click="startApp()" ng-show="slideIndex == 2"> Start using MyApp </button>
     </ion-nav-buttons>
-    <ion-slide-box on-slide-changed="slideChanged(index)">
-        <ion-slide>
+    <ion-slides options="options" slider="data.slider">
+        <ion-slide-page>
             <div id="logo"> <img src="img/new_logo.png" style="max-width:100vw;"> </div>
-            <p> Innovators in Insurance </p>
-            <p> Making progress with technology </p>
+            <p> Insurance for the 21st Century </p>
             <div footer></div>
-        </ion-slide>
+        </ion-slide-page>
         <!--
-<ion-slide>
+<ion-slide-page>
     <h2>Using Awesome</h2>
     <div id="list">
         <h4>Make it easy!</h4>
@@ -32,8 +31,8 @@
             <li>There is no step 3</li>
         </ul>
     </div>
-</ion-slide>-->
-        <ion-slide>
+</ion-slide-page>-->
+        <ion-slide-page>
             <ion-content class="padding has-header">
                 <div class="list list-inset">
                     <label class="item item-input">
@@ -44,7 +43,7 @@
                 <button class="button button-block button-calm" ng-click="login()">Login</button>
                 <!--                <button class="button button-block button-calm" ui-sref="home ">Login</button>-->
             </ion-content>
-        </ion-slide>
-    </ion-slide-box>
+        </ion-slide-page>
+    </ion-slides>
 </ion-view>
 <!--</script>-->
