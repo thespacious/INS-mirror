@@ -43,7 +43,7 @@ controllers.controller('splashCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
         }
     };
     $scope.submitForms = function () {
-        $scope.next();
+        $state.go("login");
     };
     //    TODO: figure when to lock the screen and how to do it withoput compromising ui performance
     //    $scope.changeOriantationPortrait();
