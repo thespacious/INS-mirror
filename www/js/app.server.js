@@ -1,0 +1,1 @@
+app.constant('BASE_SERVER', 'api.cloud-coverage.com');
