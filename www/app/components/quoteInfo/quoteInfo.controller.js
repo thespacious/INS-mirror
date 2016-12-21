@@ -119,7 +119,7 @@ controllers.controller('quoteInfoCtrl', ['BASE_SERVER', '$scope', '$state', '$in
         test.incrementDate();
     };
     //
-    screen.lockOrientation('portrait');
+    //    screen.lockOrientation('portrait');
     //    e.stopPropagation();
     //
     $scope.submitForms = function () {

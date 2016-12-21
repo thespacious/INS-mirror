@@ -1,0 +1,10 @@
+<form method="GET" name="{{page}}" id="{{page}}" action="submitForm()">
+    <ion-list>
+        <ion-item ng-show="pageBlock != hiddenField" ng-repeat="pageBlock in pageBlocks[page]" class="page {{pageBlock}}" my-repeat>
+            <div class="item item-divider" style="text-align:center;"> Select All Discounts That Apply </div>
+            <ion-item ng-repeat="(key, pageBlockItem) in pageBlockItems[pageBlock]">
+                <ion-checkbox id="{{key}}" text="">{{pageBlockItem.text}}</ion-checkbox>
+            </ion-item>
+            <!--            <ion-checkbox ng-model="pageBlockItems[pageBlock]"></ion-checkbox>--></ion-item>
+    </ion-list>
+</form>

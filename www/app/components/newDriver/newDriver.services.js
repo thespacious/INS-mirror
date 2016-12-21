@@ -18,6 +18,26 @@ services.factory('testService', function () {
             return false;
         }
     };
+    this.getDriverId = function () {
+        try {
+            var session = JSON.parse(sessionStorage.getItem('session'));
+            if (!session) {
+                sessionStorage.setItem('session', JSON.stringify({}));
+                var session = JSON.parse(sessionStorage.getItem('session'));
+            }
+            if (session.drivers == null || (Object.keys(session.drivers).length == 0)) {
+                session['drivers'] = {};
+                sessionStorage.setItem('session', JSON.stringify(session));
+                return 0;
+            }
+            else {
+                return Object.keys(session.drivers).length - 1;
+            }
+        }
+        catch (err) {
+            console.log("getDriverIdFailed: ", err);
+        }
+    };
     //
     this.checkEdit = function (statename, driverId) {
         if (statename == "newDriver.edit") {

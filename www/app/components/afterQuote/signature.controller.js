@@ -47,5 +47,5 @@ controllers.controller('afterQuoteController', ['BASE_SERVER', '$scope', '$state
     //    window.orientation = 90;
     //    initSign();
     //    window.addEventListener('deviceorientation', function (eventData) {});
-    screen.lockOrientation('landscape');
+    //    screen.lockOrientation('landscape');
 }]);

@@ -43,7 +43,7 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', '$scope', '$state', '$
     //        }
     //        $scope.changeOriantationPortrait();
     //    }
-    screen.lockOrientation('portrait');
+    //    screen.lockOrientation('portrait');
     //
     //    $scope.carIds = test('cars');
     $scope.hiddenCar = {};

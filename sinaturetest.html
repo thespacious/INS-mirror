@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <lang>
+        <title>Minimal working jSignature Example</title>
+        <meta charset="UTF-8">
+        <!-- Files from the origin -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script src="https://willowsystems.github.io/jSignature/js/libs/jSignature.min.js"></script>
+    </lang>
+</head>
+<script>
+    $(document).ready(function () {
+            // Initialize jSignature
+            $("#signature").jSignature();
+        })
+        // ripped from the description at their the Github page
+    function getBase64Sig() {
+        // get the element where the signature have been put
+        var $sigdiv = $("#signature");
+        // get a base64 URL for a SVG picture
+        var data = $sigdiv.jSignature("getData", "svgbase64");
+        // build the image...
+        var i = new Image();
+        i.src = "data:" + data[0] + "," + data[1];
+        // and put it somewhere where the sun shines brightly upon it.
+        $(i).appendTo($("#output"));
+        return data;
+    }
+</script>
+
+<body> Put your signature here:
+    <div id="signature"></div>
+    <button onclick="getBase64Sig()">Get Base64</button>
+    <div id="output"></div>
+</body>
+
+</html>

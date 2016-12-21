@@ -89,7 +89,7 @@ controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
     //        test.sendQuote(insurescanJson.insurescanJson);
     //        $state.go('afterQuote');
     //    };
-    screen.lockOrientation('portrait');
+    //    screen.lockOrientation('portrait');
     //
     //TODO this is hideously inefficient, runs through array multiple times
     //

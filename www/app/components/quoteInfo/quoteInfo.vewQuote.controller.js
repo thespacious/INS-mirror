@@ -8,7 +8,7 @@ controllers.controller('quoteViewCtrl', ['BASE_SERVER', '$scope', '$state', '$in
         $scope.data = newdata;
         //        document.getElementById('viewQuote').html = newdata;
     };
-    screen.lockOrientation('landscape');
+    //    screen.lockOrientation('landscape');
     //    $scope.submitForms2 = function () {
     //        $state.go('afterQuote');
     //    };

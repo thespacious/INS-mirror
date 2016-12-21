@@ -10,29 +10,29 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     var loadBlock = $injector.get('loadBlock');
     var test = $injector.get('testService');
     var insurescanJson = $injector.get('insurescanJson');
+    $scope.driverId = test.getDriverId();
     //TODO, all this shit
     //    var newJson = $injector.get('newJson');
     //
     //
-    $scope.getDriverId = function () {
-        if (test.seePrimary() == true) {
-            return 0;
-        }
-        else {
-            try {
-                return Object.keys(session.drivers).length + 1;
-            }
-            catch (err) {
-                console.log('error with session.drivers');
-                return;
-            }
-        }
-    };
+    //    $scope.getDriverId = function () {
+    //        if (test.seePrimary() == true) {
+    //            return 0;
+    //        }
+    //        else {
+    //            try {
+    //                return Object.keys(session.drivers).length + 1;
+    //            }
+    //            catch (err) {
+    //                console.log('error with session.drivers');
+    //                return;
+    //            }
+    //        }
+    //    };
     //
     //
     $scope.date = new Date();
     //
-    $scope.driverId = $scope.getDriverId();
     //
     //
     $scope.checkHidden = function (pageBlock) {
@@ -118,7 +118,7 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     //
     //Do UI stuff
     //
-    screen.lockOrientation('portrait');
+    //    screen.lockOrientation('portrait');
     //
     //
     $scope.change = function (value) {
@@ -197,6 +197,7 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
             test.unSetGaraging(page);
         }
     };
+    
     //
     //default slide behaviour
     //
@@ -212,39 +213,39 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     $scope.$on("$ionicSlides.sliderInitialized", function (event, data) {
         // data.slider is the instance of Swiper
         if (data.slider.activeIndex == data.slider.slides.length - 1) {
-            $scope.footerText = 'submit';
-            $scope.submitForms = function () {
-                var primary = $scope.checkPrimary(true);
-                test.onDriversLicenseSubmit('license', primary, $scope.driverId);
-                if (primary == true) {
-                    test.onUserInfoSubmit('driver_info', $scope.driverId);
-                }
-                $state.go('home');
-            };
-        }
-        else {
-            $scope.footerText = 'submit';
-            $scope.submitForms = $scope.next();
-        }
+                $scope.footerText = 'submit';
+                $scope.submitForms = function () {
+                    var primary = $scope.checkPrimary(true);
+                    test.onDriversLicenseSubmit('license', primary, $scope.driverId);
+                    if (primary == true) {
+                        test.onUserInfoSubmit('driver_info', $scope.driverId);
+                    }
+                    $state.go('home');
+                };
+            }
+            else {
+                $scope.footerText = 'submit';
+                $scope.submitForms = $scope.next();
+            }
         $scope.slider = data.slider;
     });
     $scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
         console.log('Slide change is beginning');
-        //        if (data.slider.activeIndex == data.slider.slides.length - 1) {
-        //            $scope.footerText = 'submit';
-        //            $scope.submitForms = function () {
-        //                var primary = $scope.checkPrimary(true);
-        //                test.onDriversLicenseSubmit('license', primary, $scope.driverId);
-        //                if (primary == true) {
-        //                    test.onUserInfoSubmit('driver_info', $scope.driverId);
-        //                }
-        //                $state.go('home');
-        //            };
-        //        }
-        //        else {
-        //            $scope.footerText = 'next';
-        //            $scope.submitForms = $scope.next();
-        //        }
+                if (data.slider.activeIndex == data.slider.slides.length - 1) {
+                    $scope.footerText = 'submit';
+                    $scope.submitForms = function () {
+                        var primary = $scope.checkPrimary(true);
+                        test.onDriversLicenseSubmit('license', primary, $scope.driverId);
+                        if (primary == true) {
+                            test.onUserInfoSubmit('driver_info', $scope.driverId);
+                        }
+                        $state.go('home');
+                    };
+                }
+                else {
+                    $scope.footerText = 'next';
+                    $scope.submitForms = $scope.next();
+                }
     });
     $scope.$on("$ionicSlides.slideChangeEnd", function (event, data) {
         // note: the indexes are 0-based
