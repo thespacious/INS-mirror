@@ -32,7 +32,8 @@
     "cordova-plugin-file-transfer",
     "cordova-plugin-image-picker",
     "ionic-plugin-deploy",
-    "ionic-plugin-deploy@~0.6.5"
+    "ionic-plugin-deploy@~0.6.5",
+    "cordova-plugin-camera"
   ],
   "cordovaPlatforms": []
 }
