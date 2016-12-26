@@ -1,4 +1,7 @@
 services.factory('driversService', function (BASE_SERVER, $state) {
+    //
+    //SESSION MANIPULATION
+    //
     this.session = function () {
         if (!JSON.parse(sessionStorage.getItem('session'))) {
             sessionStorage.setItem('session', JSON.stringify({}));
@@ -53,6 +56,9 @@ services.factory('driversService', function (BASE_SERVER, $state) {
             return sess.cars;
         };
     };
+    //
+    //UI MANIPULATIONS
+    //
     this.removeCar = function (position) {
         var cars = this.cars();
         cars.splice(position, 1);
@@ -68,6 +74,9 @@ services.factory('driversService', function (BASE_SERVER, $state) {
         // Make it visual that it is possible to add a new driver
         return this.drivers();
     };
+    //
+    //AJAX CALLS
+    //
     this.getQuoteId = function () {
         if (sessionStorage.getItem('credentials') == null) {
             sessionStorage.setItem('credentials', JSON.stringify({}));
@@ -96,7 +105,10 @@ services.factory('driversService', function (BASE_SERVER, $state) {
             return false;
         }
     };
+    //
+    //DEBUG: What do we do with this, do we need this?
     var formatDate = function (date) {
+        console.log("we're using the format date funcction in drivers.services.js: ", date);
         var d = new Date(date)
             , month = '' + (d.getMonth() + 1)
             , day = '' + d.getDate()
@@ -118,10 +130,16 @@ services.factory('driversService', function (BASE_SERVER, $state) {
         var time = [hour, minute, second].join(':');
         return date;
     };
+    //
+    //TODO: should we put this somewhere global so we can refernce the enumeration in the future?
+    //
     var NAMED_INSURED = 0
         , EXCLUDED = 1
         , REGULAR = 2
         , categories = ["named insured", "excluded", "regular"];
+    //
+    //Store Drivers and add to the existing insurescan JSON
+    //
     this.storeDrivers = function (drivers) {
         var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
         /*If the user jumps between the screens to and fro, ten we need to make sure that we do not add multiple/duplicate entries. 
@@ -209,6 +227,10 @@ services.factory('driversService', function (BASE_SERVER, $state) {
             }
         }
     };
+    //
+    //Named insured is stored with slightly diferent JSON than the other drivers
+    //TODO: add function to handle excluded drivers and test these two functions
+    //
     this.storeNamedInsured = function () {
         var drivers = this.drivers();
         var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
@@ -288,6 +310,10 @@ services.factory('driversService', function (BASE_SERVER, $state) {
         }
         sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
     };
+    //
+    //MAKE sure this,session gets called to set up the session for everyone else,
+    //TODO: do this more proper like
     this.session();
+    //
     return this;
 });

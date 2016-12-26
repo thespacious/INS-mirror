@@ -1,13 +1,17 @@
-controllers.controller('splashCtrl', ['BASE_SERVER', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$q', function (baseUrl, $scope, $state, $ionicSlideBoxDelegate, $injector, $q) {
+controllers.controller('splashCtrl', ['APP_DEBUG', 'BASE_SERVER', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$q', function (app_debug, baseUrl, $scope, $state, $ionicSlideBoxDelegate, $injector, $q) {
     //
-    //get necessary services
+    //===========
+    //SERVICES
+    //===========
     //
     var services = $injector.get('splashServices');
     var json = $injector.get('insurescanJson');
     //
-    //set up ui options
+    //========
+    //UI
+    //========
     //
-    //slides
+    //SLIDE BEHAVIOUR
     //
     $scope.$on("$ionicSlides.sliderInitialized", function (event, data) {
         $scope.slider = data.slider;
@@ -26,11 +30,14 @@ controllers.controller('splashCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
     $scope.slideChanged = function (index) {
         $scope.slideIndex = index;
     };
+    //
     //other ui shit
     //
     $scope.footerText = 'next';
     //
-    //call services
+    //=============
+    //CALL SERVICES
+    //=============
     //
     $scope.login = function () {
         var username = document.getElementById('username').value;

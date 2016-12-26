@@ -125,7 +125,9 @@ controllers.controller('newDriverCtrl', ['APP+_DEBUG', 'BASE_SERVER', '$scope', 
     //
     //TODO: figure out which ones of these I actually use.
     //
+    //probably used
     $scope.switchGaraging = function () {
+        console.log("switch garaging called: ");
         if ($scope.showGaraging == false) {
             $scope.showGaraging = true;
             test.setGaraging();
@@ -138,6 +140,7 @@ controllers.controller('newDriverCtrl', ['APP+_DEBUG', 'BASE_SERVER', '$scope', 
     //
     //
     $scope.showCard = function () {
+        console.log("show card called");
         if ($scope.cardShown == true) {
             $scope.cardShown = false;
         }
@@ -146,6 +149,7 @@ controllers.controller('newDriverCtrl', ['APP+_DEBUG', 'BASE_SERVER', '$scope', 
         }
     };
     //
+    //used
     $scope.checkType = function (type) {
         if (type != "select") {
             return true;
@@ -155,7 +159,7 @@ controllers.controller('newDriverCtrl', ['APP+_DEBUG', 'BASE_SERVER', '$scope', 
         }
     };
     //
-    //
+    //used
     $scope.getDriverId = function () {
         if (test.seePrimary() == true) {
             return 0;

@@ -1,27 +1,30 @@
 controllers.controller('homeDriversCtrl', ['BASE_SERVER', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$stateParams', function (baseUrl, $scope, $state, $ionicSlideBoxDelegate, $injector, $stateParams) {
+    //
+    //====================================
+    //GET SERVICES AND SET SCOPE VARIABLES
+    //====================================
+    //
     var driversService = $injector.get('driversService');
     //    var insurescanJson = $injector.get('insurescanJson');
     //
-    $scope.footerText = 'submit';
     //
     var insurescanJson = $injector.get('insurescanJson');
     //
+    //GET DRIVER ID CARS AND DRIVERS
+    $scope.driverId = $scope.drivers.length;
     //
     $scope.drivers = driversService.drivers();
     //
+    $scope.cars = driversService.cars(driversService.session);
     //
-    $scope.driverId = $scope.drivers.length;
+    //===========================================================
+    //GET PRIMARY DRIVER ID AND PLACE CARS WITH ASSOCIATED DRIVER
+    //===========================================================
     //
     $scope.primaryDriver = function (driverId) {
         return driversService.primaryDriver(driverId);
     };
     //
-    $scope.cars = driversService.cars(driversService.session);
-    //    $scope.cars = [];
-    //
-    $scope.data = {
-        showDelete: false
-    };
     //
     $scope.checkOwner = function (driverindex, carindex) {
         if ($scope.drivers[driverindex].fullname == $scope.cars[carindex].owner) {
@@ -32,18 +35,15 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', '$scope', '$state', '$
         }
     };
     //
-    //    document.addEventListener("deviceready", onDeviceReady, false);
+    //===========
+    //DO UI STUFF
+    //===========
     //
-    //    function onDeviceReady() {
-    //        $scope.changeOriantationLandspace = function () {
-    //            screen.lockOrientation('landscape');
-    //        }
-    //        $scope.changeOriantationPortrait = function () {
-    //            screen.lockOrientation('portrait');
-    //        }
-    //        $scope.changeOriantationPortrait();
-    //    }
-    screen.lockOrientation('portrait');
+    $scope.data = {
+        showDelete: false
+    };
+    //
+    $scope.footerText = 'submit';
     //
     //    $scope.carIds = test('cars');
     $scope.hiddenCar = {};
@@ -51,6 +51,11 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', '$scope', '$state', '$
         $scope.cars = driversSevice.removeCar();
     };
     //
+    //=====================
+    //UTILIZE AJAX SERVICES
+    //=====================
+    //
+    //STORES DRIVER AND CARS IN SESSION SETORAGE AND MODIFIES INSURESCAN JSON
     $scope.submitForms = function () {
         try {
             driversService.storeDrivers($scope.drivers);
