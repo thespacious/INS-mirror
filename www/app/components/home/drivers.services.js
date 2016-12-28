@@ -1,6 +1,46 @@
 services.factory('driversService', function (BASE_SERVER, $state) {
     //
+    //=================
+    //GENERAL VARIABLES
+    //=================
+    //
+    var NAMED_INSURED = 0
+        , EXCLUDED = 1
+        , REGULAR = 2
+        , categories = ["named insured", "excluded", "regular"];
+    //
+    //=================
+    //GENERAL FUNCTIONS
+    //=================
+    //
+    //DEBUG: What do we do with this, do we need this?
+    var formatDate = function (date) {
+        console.log("we're using the format date funcction in drivers.services.js: ", date);
+        var d = new Date(date)
+            , month = '' + (d.getMonth() + 1)
+            , day = '' + d.getDate()
+            , year = d.getFullYear();
+        hour = d.getHours();
+        minute = '' + d.getMinutes();
+        second = '' + d.getSeconds();
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+        if (hour.length < 2) {
+            hour = 'T0' + hour;
+        }
+        else {
+            hour = 'T' + hour;
+        }
+        if (minute.length < 2) minute = '0' + minute;
+        if (second.length < 2) second = '0' + second;
+        var date = [month, day, year].join('/');
+        var time = [hour, minute, second].join(':');
+        return date;
+    };
+    //
+    //====================
     //SESSION MANIPULATION
+    //====================
     //
     this.session = function () {
         if (!JSON.parse(sessionStorage.getItem('session'))) {
@@ -57,7 +97,9 @@ services.factory('driversService', function (BASE_SERVER, $state) {
         };
     };
     //
+    //================
     //UI MANIPULATIONS
+    //================
     //
     this.removeCar = function (position) {
         var cars = this.cars();
@@ -75,7 +117,9 @@ services.factory('driversService', function (BASE_SERVER, $state) {
         return this.drivers();
     };
     //
+    //==========
     //AJAX CALLS
+    //==========
     //
     this.getQuoteId = function () {
         if (sessionStorage.getItem('credentials') == null) {
@@ -106,37 +150,9 @@ services.factory('driversService', function (BASE_SERVER, $state) {
         }
     };
     //
-    //DEBUG: What do we do with this, do we need this?
-    var formatDate = function (date) {
-        console.log("we're using the format date funcction in drivers.services.js: ", date);
-        var d = new Date(date)
-            , month = '' + (d.getMonth() + 1)
-            , day = '' + d.getDate()
-            , year = d.getFullYear();
-        hour = d.getHours();
-        minute = '' + d.getMinutes();
-        second = '' + d.getSeconds();
-        if (month.length < 2) month = '0' + month;
-        if (day.length < 2) day = '0' + day;
-        if (hour.length < 2) {
-            hour = 'T0' + hour;
-        }
-        else {
-            hour = 'T' + hour;
-        }
-        if (minute.length < 2) minute = '0' + minute;
-        if (second.length < 2) second = '0' + second;
-        var date = [month, day, year].join('/');
-        var time = [hour, minute, second].join(':');
-        return date;
-    };
     //
     //TODO: should we put this somewhere global so we can refernce the enumeration in the future?
     //
-    var NAMED_INSURED = 0
-        , EXCLUDED = 1
-        , REGULAR = 2
-        , categories = ["named insured", "excluded", "regular"];
     //
     //Store Drivers and add to the existing insurescan JSON
     //

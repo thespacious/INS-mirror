@@ -1,18 +1,23 @@
 controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$stateParams', function (baseUrl, $scope, $state, $ionicSlideBoxDelegate, $injector, $stateParams) {
-    var _this = this;
     //
-    $scope.owner = $stateParams.fullname;
-    $scope.ownerId = $stateParams.driverId;
-    console.log($scope.owner);
+    //=============
+    //LOAD SERVICES
+    //=============
     //
     var loadBlock = $injector.get('loadBlock');
     var test = $injector.get('newCarService');
     var insurescanJson = $injector.get('insurescanJson');
-    //
-    //
-    $scope.footerText = "submit";
-    //
     $scope.template = $injector.get('loadJsonTemplate');
+    //
+    //==============
+    //VARIABLES HERE
+    //==============
+    //
+    var _this = this;
+    $scope.owner = $stateParams.fullname;
+    $scope.ownerId = $stateParams.driverId;
+    console.log($scope.owner);
+    $scope.footerText = "submit";
     $scope.block = "cars";
     //
     //parse for useful content first, then build pages, so pages goes last.
@@ -31,67 +36,9 @@ controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
     //
     $scope.pageBlockItems = loadBlock.newGetPageBlockItems($scope.template, $scope.block, $scope.pageNames, $scope.pageBlocks);
     //
-    //
-    //Do UI stuff
-    //
-    $scope.getVinManual = function () {
-        document.getElementById('vin').addEventListener('focusout', function () {
-            test.getInfoFromWeb(document.carInfo.vin.value);
-        });
-    };
-    //
-    $scope.checkHidden = function () {
-        return true;
-    };
-    //
-    $scope.uploadCarPicture = function () {
-        return test.selectPhotoCar();
-        //        return test.uploadImage2();
-    };
-    //
-    $scope.takeCarPicture = function () {
-        return test.takePhotoCar();
-        //        test.selectPhotoCar();
-    };
-    //
-    $scope.capturePhoto = function () {
-        return test.capturePhotoVin();
-        //        return test.testScan();
-    };
-    //
-    $scope.getPhoto = function () {
-        return test.selectPhotoVIN();
-    };
-    //
-    $scope.checkType = function (type) {
-        if (type != "select") {
-            return true;
-        }
-        else {
-            return false;
-        }
-    };
-    //
-    //
-    $scope.uploadpicture = function () {
-        test.uploadPhoto();
-    };
-    //
-    $scope.submitForms = function () {
-        //        test.submitForms();
-        //        test.sendEmails();
-        test.submitForms($scope.owner);
-        $state.go('home');
-    };
-    //
-    //
-    //    $scope.sendQuote = function () {
-    //        test.sendQuote(insurescanJson.insurescanJson);
-    //        $state.go('afterQuote');
-    //    };
-    screen.lockOrientation('portrait');
-    //
-    //TODO this is hideously inefficient, runs through array multiple times
+    //============
+    //UI FUNCTIONS
+    //============
     //
     $scope.showGaraging = false;
     //DIAGNOSE
@@ -128,6 +75,72 @@ controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionic
         $scope.activeIndex = data.activeIndex;
         $scope.previousIndex = data.previousIndex;
     });
+    //
+    $scope.checkType = function (type) {
+        if (type != "select") {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
+    //
+    //    screen.lockOrientation('portrait');
+    //
+    //=================
+    //SERVICE FUNCTIONS
+    //=================
+    //
+    $scope.getVinManual = function () {
+        document.getElementById('vin').addEventListener('focusout', function () {
+            test.getInfoFromWeb(document.carInfo.vin.value);
+        });
+    };
+    //
+    $scope.checkHidden = function () {
+        return true;
+    };
+    //
+    $scope.uploadCarPicture = function () {
+        return test.selectPhotoCar();
+        //        return test.uploadImage2();
+    };
+    //
+    $scope.takeCarPicture = function () {
+        return test.takePhotoCar();
+        //        test.selectPhotoCar();
+    };
+    //
+    $scope.capturePhoto = function () {
+        return test.capturePhotoVin();
+        //        return test.testScan();
+    };
+    //
+    $scope.getPhoto = function () {
+        return test.selectPhotoVIN();
+    };
+    //
+    //
+    //
+    $scope.uploadpicture = function () {
+        test.uploadPhoto();
+    };
+    //
+    $scope.submitForms = function () {
+        //        test.submitForms();
+        //        test.sendEmails();
+        test.submitForms($scope.owner);
+        $state.go('home');
+    };
+    //
+    //
+    //    $scope.sendQuote = function () {
+    //        test.sendQuote(insurescanJson.insurescanJson);
+    //        $state.go('afterQuote');
+    //    };
+    //
+    //TODO this is hideously inefficient, runs through array multiple times
+    //
     //
     angular.element(document).ready(function () {
         $scope.getVinManual();

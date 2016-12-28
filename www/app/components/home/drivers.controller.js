@@ -55,7 +55,7 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', '$scope', '$state', '$
     //UTILIZE AJAX SERVICES
     //=====================
     //
-    //STORES DRIVER AND CARS IN SESSION SETORAGE AND MODIFIES INSURESCAN JSON
+    //STORES DRIVER AND CARS IN SESSION STORAGE AND MODIFIES INSURESCAN JSON
     $scope.submitForms = function () {
         try {
             driversService.storeDrivers($scope.drivers);

@@ -1,11 +1,44 @@
 services.factory('newCarService', function (BASE_SERVER, $state) {
     //
+    //=================
+    //GENERAL VARIABLES
+    //=================
+    //
+    // TODO: We're goin to need to know who the owner of the car is and what type of driver they are up front
     //
     var _this = this;
+    var photoDestination = null;
+    var pictureHolder = ["file:///android_asset/www/img/default1.png", "file:///android_asset/www/img/default2.png"];
+    var counter = 1;
+    var TAG = "new car services: ";
     //
-    this.hello = function () {
-        console.log("hello djhlksahfdloksa");
+    // Options of the spinner
+    //TODO: remove, we don't use this spinner anymore
+    //
+    this.opts = {
+        lines: 13, // The number of lines to draw
+        length: 7, // The length of each line
+        width: 4, // The line thickness
+        radius: 10, // The radius of the inner circle
+        corners: 1, // Corner roundness (0..1)
+        rotate: 0, // The rotation offset
+        color: '#000', // #rgb or #rrggbb
+        speed: 1, // Rounds per second
+        trail: 60, // Afterglow percentage
+        shadow: false, // Whether to render a shadow
+        hwaccel: false, // Whether to use hardware acceleration
+        className: 'spinner', // The CSS class to assign to the spinner
+        zIndex: 2e9, // The z-index (defaults to 2000000000)
+        top: '50%', // Top position relative to parent in px
+        left: '50%' // Left position relative to parent in px
     };
+    //
+    //=================
+    //GENERAL FUNCTIONS
+    //=================
+    //
+    //checks if current page block is hidden or not
+    //
     this.checkHidden = function (pageBlockOptions) {
         if (pageBlockOptions['pageBlock_options']) {
             if (pageBlockOptions['pageBlock_options'].hidden == "true") {
@@ -16,22 +49,75 @@ services.factory('newCarService', function (BASE_SERVER, $state) {
             return true;
         }
     };
-    var photoDestination = null;
     /**
-     * Called when the user is trying to select an image from his/her gallery
-     * In this case, the image should be of the car
+     * Converts image from base64 to a Blob containing the binary of the image
      *
-     * @param photoID
-     * This will identify which frame the user is trying to fill with his/her car's image
+     * @param b64
+     * The image in base64
+     *
+     * @returns {Blob}
+     * Blob containing the binary of the image
      */
-    this.selectPhotoCar = function (photoID) {
-        if (photoID != null) photoDestination = photoID.toString();
-        navigator.camera.getPicture(this.onSuccess, this.onFail, {
-            quality: 50
-            , destinationType: Camera.DestinationType.FILE_URI
-            , sourceType: Camera.PictureSourceType.PHOTOLIBRARY
-        });
+    this.b64tob = function (b64) {
+        var binary = atob(b64);
+        var bytes = new Array(binary.length);
+        for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+        return new Blob([new Uint8Array(bytes)]);
     };
+    /**
+     * Cleans all the fields
+     */
+    this.cleanFields = function () {
+        document.carInfo.vin.value = "";
+        document.carInfo.year.value = "";
+        document.carInfo.make.value = "";
+        document.carInfo.model.value = "";
+        document.getElementById("drivers").selectedIndex = 0;
+    };
+    /**
+     * Populates the foem fields with decoded vin values 
+     *
+     * @param response
+     * Response received from website
+     */
+    var populatefields2 = function (xmldoc) {
+        document.carInfo.year.value = xmldoc.getElementsByTagName("DecodedVariable")[8].childNodes[3].textContent;
+        document.carInfo.make.value = xmldoc.getElementsByTagName("DecodedVariable")[5].childNodes[3].textContent;
+        document.carInfo.model.value = xmldoc.getElementsByTagName("DecodedVariable")[7].childNodes[3].textContent;
+        var autoFillElms = document.getElementsByClassName("mdl-textfield mdl-js-textfield mdl-textfield--floating-label");
+        for (var i = 0; i < autoFillElms.length; i++) {
+            autoFillElms[i].className = autoFillElms[i].className + " is-dirty";
+            //        alert(autoFillElms[i].className);
+        }
+    };
+    this.populateCarFields = function (response) {
+        document.carInfo.year.value = response.split("profile.year=")[1].split("'")[0];
+        document.carInfo.make.value = response.split("profile.make=")[1].split("'")[0];
+        document.carInfo.model.value = response.split("profile.model=")[1].split("'")[0];
+    };
+    /**
+     * Goes to the previous page
+     */
+    this.back = function () {
+        window.history.back();
+    };
+
+    function populateDriverDropdown() {
+        // Populates dropdown of Driver with all named insured's name
+        var tags = ""; //"<option value='default' disabled selected>Select a Driver </option>";
+        var drivers = JSON.parse(sessionStorage.getItem("session"))["drivers"];
+        for (var i = 0; i < drivers.length; i++) {
+            if (drivers[i]["category"] == "named insured") {
+                tags += "<option value='" + drivers[i]['fullname'] + "'>" + drivers[i]['fullname'] + "</option>";
+            }
+        }
+        document.getElementById("drivers").innerHTML = tags;
+    }
+    //
+    //=============
+    //VIN FUNCTIONS
+    //=============
+    //
     /**
      * Called when the user is trying to select an image from his/her gallery
      * In this case, the image should be of the VIN
@@ -49,6 +135,7 @@ services.factory('newCarService', function (BASE_SERVER, $state) {
     this.scannerFailure = function (message) {
         alert("scanner error");
     };
+    //
     /**
      * Gets the information about the car from VIN
      *
@@ -88,73 +175,11 @@ services.factory('newCarService', function (BASE_SERVER, $state) {
         xmlhttp2.send();
         return;
     };
-    /**
-     * Called when the user is trying to take a picture
-     *
-     * @param photoID
-     * This will identify which frame the user is trying to fill with his/her car's picture
-     */
-    this.capturePhotoVin = function () {
-        _this = this;
-        window.plugins.VINBarcodeScanner.scan(this.scannerSuccess, this.scannerFailure);
-    };
-    //    this.captureOrGetPhoto = function () {
-    //        var getButton = document.getElementById("getPhotoVin");
-    //        var getPhotoCar = document.getElementById("getPhotoCar");
-    //        var capturePhotoCar = document.getElementById("capturePhotoCar");
-    //        captureButton.addEventListener("click", function () {
-    //            capturePhotoVIN();
-    //        });
-    //        getButton.addEventListener("click", function () {
-    //            selectPhotoVIN();
-    //        });
-    //        getPhotoCar.addEventListener("click", function () {
-    //            selectPhotoCar('photo1');
-    //        });
-    //        //    capturePhotoCar.addEventListener("click", function(){
-    //        //        capturePhotoCar('photo1');
-    //        //    });
-    //    };
-    /**
-     * Converts image from base64 to a Blob containing the binary of the image
-     *
-     * @param b64
-     * The image in base64
-     *
-     * @returns {Blob}
-     * Blob containing the binary of the image
-     */
-    this.b64tob = function (b64) {
-        var binary = atob(b64);
-        var bytes = new Array(binary.length);
-        for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-        return new Blob([new Uint8Array(bytes)]);
-    };
-    // Options of the spinner
-    this.opts = {
-        lines: 13, // The number of lines to draw
-        length: 7, // The length of each line
-        width: 4, // The line thickness
-        radius: 10, // The radius of the inner circle
-        corners: 1, // Corner roundness (0..1)
-        rotate: 0, // The rotation offset
-        color: '#000', // #rgb or #rrggbb
-        speed: 1, // Rounds per second
-        trail: 60, // Afterglow percentage
-        shadow: false, // Whether to render a shadow
-        hwaccel: false, // Whether to use hardware acceleration
-        className: 'spinner', // The CSS class to assign to the spinner
-        zIndex: 2e9, // The z-index (defaults to 2000000000)
-        top: '50%', // Top position relative to parent in px
-        left: '50%' // Left position relative to parent in px
-    };
-    /**
-     * Called when the capture or selection of the picture is done without any problem
-     *
-     * @param imageData
-     * Picture in base64
-     */
+    //
+    //DEBUG: do we still use this?
+    //
     this.loadImage = function (imageData) {
+        console.log("load image called from " + TAG);
         var VINInformation;
         // If photoDestination is not null, then the picture is from the car and should be displayed
         /*if (photoDestination != null){
@@ -212,7 +237,11 @@ services.factory('newCarService', function (BASE_SERVER, $state) {
      * @param vin
      * VIN being searched
      */
+    //
+    //DEBUG: do we still use this
+    //
     this.VINlisted = function (vin) {
+        console.log("VIn listed called from " + TAG);
         var session = JSON.parse(sessionStorage.getItem("session"))
             , i, found = false;
         if ("cars" in session) {
@@ -228,57 +257,35 @@ services.factory('newCarService', function (BASE_SERVER, $state) {
         return found;
     };
     /**
-     * Cleans all the fields
-     */
-    this.cleanFields = function () {
-        document.carInfo.vin.value = "";
-        document.carInfo.year.value = "";
-        document.carInfo.make.value = "";
-        document.carInfo.model.value = "";
-        document.getElementById("drivers").selectedIndex = 0;
-    };
-    /**
-     * Populates the fields
+     * Called when the user is trying to take a picture
      *
-     * @param response
-     * Response received from website
+     * @param photoID
+     * This will identify which frame the user is trying to fill with his/her car's picture
      */
-    var populatefields2 = function (xmldoc) {
-        document.carInfo.year.value = xmldoc.getElementsByTagName("DecodedVariable")[8].childNodes[3].textContent;
-        document.carInfo.make.value = xmldoc.getElementsByTagName("DecodedVariable")[5].childNodes[3].textContent;
-        document.carInfo.model.value = xmldoc.getElementsByTagName("DecodedVariable")[7].childNodes[3].textContent;
-        var autoFillElms = document.getElementsByClassName("mdl-textfield mdl-js-textfield mdl-textfield--floating-label");
-        for (var i = 0; i < autoFillElms.length; i++) {
-            autoFillElms[i].className = autoFillElms[i].className + " is-dirty";
-            //        alert(autoFillElms[i].className);
-        }
+    this.capturePhotoVin = function () {
+        _this = this;
+        window.plugins.VINBarcodeScanner.scan(this.scannerSuccess, this.scannerFailure);
     };
-    this.populateCarFields = function (response) {
-        document.carInfo.year.value = response.split("profile.year=")[1].split("'")[0];
-        document.carInfo.make.value = response.split("profile.make=")[1].split("'")[0];
-        document.carInfo.model.value = response.split("profile.model=")[1].split("'")[0];
-    };
+    //
+    //===================
+    //CAR PHOTO FUNCTIONS
+    //===================
+    //
     /**
-     * Goes to the previous page
+     * Called when the user is trying to select an image from his/her gallery
+     * In this case, the image should be of the car
+     *
+     * @param photoID
+     * This will identify which frame the user is trying to fill with his/her car's image
      */
-    this.back = function () {
-        window.history.back();
+    this.selectPhotoCar = function (photoID) {
+        if (photoID != null) photoDestination = photoID.toString();
+        navigator.camera.getPicture(this.onSuccess, this.onFail, {
+            quality: 50
+            , destinationType: Camera.DestinationType.FILE_URI
+            , sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+        });
     };
-
-    function populateDriverDropdown() {
-        // Populates dropdown of Driver with all named insured's name
-        var tags = ""; //"<option value='default' disabled selected>Select a Driver </option>";
-        var drivers = JSON.parse(sessionStorage.getItem("session"))["drivers"];
-        for (var i = 0; i < drivers.length; i++) {
-            if (drivers[i]["category"] == "named insured") {
-                tags += "<option value='" + drivers[i]['fullname'] + "'>" + drivers[i]['fullname'] + "</option>";
-            }
-        }
-        document.getElementById("drivers").innerHTML = tags;
-    }
-    /**
-     * Get the image
-     */
     /**
      * Called when the user is trying to upload an existing picture
      *
@@ -303,8 +310,12 @@ services.factory('newCarService', function (BASE_SERVER, $state) {
             correctOrientation: true
         });
     };
-    var pictureHolder = ["file:///android_asset/www/img/default1.png", "file:///android_asset/www/img/default2.png"];
-    var counter = 1;
+    /**
+     * Called when the capture or selection of the picture is done without any problem
+     *
+     * @param imageData
+     * Picture in base64
+     */
     this.onSuccess = function (imageData) {
         this.imageData = imageData;
         //        if (document.getElementById('photo1').src == "img/adam.jpg") {
@@ -337,7 +348,9 @@ services.factory('newCarService', function (BASE_SERVER, $state) {
         alert('Failed because ' + message);
     };
     //
+    //DEBUG: which of these is called?
     var uploadImage3 = function (imageData) {
+        console.log(TAG, "we use uploadImage3");
         var creds = JSON.parse(sessionStorage.getItem('credentials'));
         images = ['file:///android_asset/www/img/adam.jpg', 'file:///android_asset/www/img/adam.jpg'];
         var options = new FileUploadOptions();
@@ -354,6 +367,7 @@ services.factory('newCarService', function (BASE_SERVER, $state) {
         ft.upload(imageData, encodeURI(BASE_SERVER + "/accept/" + creds.quoteId), win, fail, options);
     };
     var uploadImages = function (images) {
+        console.log(TAG, "we use uploadImages");
         var creds = JSON.parse(sessionStorage.getItem('credentials'));
         for (image in images) {
             var options = new FileUploadOptions();
@@ -371,6 +385,9 @@ services.factory('newCarService', function (BASE_SERVER, $state) {
             ft.upload(images[image], encodeURI(BASE_SERVER + "/upload/" + creds.quoteId + "/property"), win, fail, options);
         }
     };
+    //
+    //Called if file transfer is successful
+    //
     var win = function (r) {
         console.log("File transferred successfully.");
         try {
@@ -382,15 +399,19 @@ services.factory('newCarService', function (BASE_SERVER, $state) {
         }
         return true;
     };
+    //
+    //called if file transfer fails
+    //
     var fail = function (error) {
         console.log(error);
         return false
     };
     //
+    //======================
+    //VALIDATE AND STORE CAR
+    //======================
     //
-    //Validate and store
-    //
-    //
+    //TODO: break into smaller functions?
     this.storeCar = function (owner) {
         var session = JSON.parse(sessionStorage.getItem("session"));
         var cars = [];
@@ -513,6 +534,7 @@ services.factory('newCarService', function (BASE_SERVER, $state) {
         return true;
     };
     //
+    //TODO: break into smaller functions?
     this.validateCoverages = function validateCoverage(page) {
         //alert("validateCoverage starts");
         var selectedcompdeduct = "";
@@ -540,20 +562,6 @@ services.factory('newCarService', function (BASE_SERVER, $state) {
             alert("If one of the deductible is No Coverage, other should be the also be No Coverage. Please select reselect the same.");
             return;
         }
-        //	alert("Congrats! All the coverages are selected correctly!");
-        /*
-	var radios = document.getElementsByName("coverages"), formValid = false, i;
-
-    for(i = 0; !formValid && i < radios.length;  i++) {
-        if (radios[i].checked) 
-        	formValid = true;
-    }
-
-    if (!formValid){ 
-    	alert("It is necessary choose one option of Comp/Colision Deductible");
-    	return;
-    }
-	*/
         var session = JSON.parse(sessionStorage.getItem("session"));
         var position = session.cars.length - 1;
         var coverage = {};
@@ -716,62 +724,5 @@ services.factory('newCarService', function (BASE_SERVER, $state) {
             "orientation": "landscape" // Android only (portrait|landscape), default unset so it rotates with the device
         });
     };
-    //    this.sendEmails = function (json) {
-    //        var creds = JSON.parse(sessionStorage.getItem('credentials'));
-    //        var fakeEmails = {
-    //            "cc": ["bissellmgmt@gmail.com", "pdw0005@gmail.com"]
-    //            , "recipients": ["pdw00005@gmail.com"]
-    //        };
-    //        var req = {
-    //            type: "POST"
-    //            , url: BASE_SERVER + "/maildocs/" + creds.quoteId
-    //            , headers: {
-    //                'SESSIONID': creds.userCreds.sessionId
-    //            }
-    //            , async: false
-    //                //            , dataType: "json"
-    //                //            , contentType: 'multipart/form-data; charset=UTF-8'
-    //                
-    //            , data: {
-    //                "recipients": recipients
-    //                , "cc": cc
-    //            }
-    //        };
-    //        $.ajax(req).done(function (data) {
-    //            console.log(data);
-    //            //            $state.go('newCar');
-    //        }).fail(function (data) {
-    //            console.log("send quote return error, find out why:");
-    //            console.log(data);
-    //            //            $state.go('newCar');
-    //            //            var response = data;
-    //        });
-    //    };
-    //    this.sendQuote = function (json) {
-    //        var creds = JSON.parse(sessionStorage.getItem('credentials'));
-    //        var req = {
-    //            type: "POST"
-    //                //            , url: BASE_SERVER + "quote/" + creds.quoteId
-    //                
-    //            , url: BASE_SERVER + "/quote/" + creds.quoteId
-    //                //            , headers: {
-    //                //                'SESSIONID': creds.userCreds.sessionId
-    //                //            }
-    //                
-    //            , async: false
-    //            , dataType: "json"
-    //            , contentType: 'application/json; charset=UTF-8'
-    //            , data: JSON.stringify(json)
-    //        };
-    //        $.ajax(req).done(function (data) {
-    //            console.log(data);
-    //            //            $state.go('newCar');
-    //        }).fail(function (data) {
-    //            console.log("send quote return error, find out why:");
-    //            console.log(data);
-    //            //            $state.go('newCar');
-    //            //            var response = data;
-    //        });
-    //    };
     return this;
 });
