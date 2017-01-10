@@ -13,7 +13,14 @@
 -->
 <div class="view-container">
     <ion-header-bar class="bar-positive">
+        <button class="button button-clear icon left ion-navicon">Main</button>
+        <button class="button button-clear icon right ion-help-circled" style="margin-right:32px;margin-right: 32px;position: absolute;right: 0px;"> </button>
+        <button class="button button-clear icon right ion-android-more-vertical"> </button>
+        <!--        <h1 class="title" style=""></h1>--></ion-header-bar>
+    <!--
+    <ion-header-bar class="bar-positive">
         <h1 class="title">Drivers</h1> </ion-header-bar>
+-->
     <ion-scroll class="has-header has-footer overflow-scroll" style="height:85vh;">
         <ion-list>
             <ion-item ng-repeat="driver in drivers" item="driver" class="card driver-item" can-swipe="false">

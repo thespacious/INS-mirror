@@ -10,7 +10,7 @@ controllers.controller('newDriverCtrl', ['APP+_DEBUG', 'BASE_SERVER', '$scope', 
     var loadBlock = $injector.get('loadBlock');
     var test = $injector.get('testService');
     var insurescanJson = $injector.get('insurescanJson');
-    var session = JSON.parse(sessionStorage.getItem("session"));\
+    var session = JSON.parse(sessionStorage.getItem("session"));
     //
     //==============
     //VARIABLES HERE
