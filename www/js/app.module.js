@@ -105,8 +105,36 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             , controller: "quoteInfoCtrl"
         }).state('viewQuote', {
             url: '/viewQuote'
-            , templateUrl: 'app/components/quoteInfo/quoteInfo.viewQuote.html'
-            , controller: "quoteViewCtrl"
+            , templateUrl: 'app/components/quoteInfo/quoteview.html'
+            , controller: "homeCtrl"
+        }).state('viewQuote.overview', {
+            url: '/viewQuote/overview'
+            , views: {
+                "overview-tab": {
+                    templateUrl: "app/components/quoteInfo/quoteOverview.html"
+                }
+            }
+        }).state('viewQuote.coverages', {
+            url: '/viewQuote/coverages'
+            , views: {
+                "coverages-tab": {
+                    templateUrl: "app/components/quoteInfo/quoteCoverages.html"
+                }
+            }
+        }).state('viewQuote.drivers', {
+            url: '/viewQuote/drivers'
+            , views: {
+                "coverages-tab": {
+                    templateUrl: "app/components/quoteInfo/quoteDrivers.html"
+                }
+            }
+        }).state('viewQuote/vehicles', {
+            url: '/viewQuote/vehicles'
+            , views: {
+                "vehicles-tab": {
+                    templateUrl: "app/components/quoteInfo/quoteVehicles.html"
+                }
+            }
         }).state('afterQuote', {
             url: '/afterQuote'
             , templateUrl: 'app/components/afterQuote/signature.html'
