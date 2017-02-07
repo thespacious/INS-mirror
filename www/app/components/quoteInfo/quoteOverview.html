@@ -1,0 +1,73 @@
+<ion-content style="top:13vh;background-color:#eaeaea;padding:10px;" class="has-header">
+    <div class="row" style="padding:0px;width:95%;top:7vh;margin:auto;">
+        <!--        <div class="col col-50 inner-column" style=" box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;border: 10px solid #eaeaea;background-color:#ffffff;border-radius:10px;">-->
+        <div class="col col-50 inner-column">
+            <ion-item>
+                <h3>Policy Term</h3></ion-item>
+            <ion-item>
+                <p>{{quote.overview.policyterm[0]}}</p>
+                <br>
+                <p>{{quote.overview.policyterm[1]}}</p>
+            </ion-item>
+        </div>
+        <!--        <div class="col col-50 inner-column" style=" box-sizing: border-box;-moz-box-sizing: border-box; -webkit-box-sizing: border-box;border: 10px solid #eaeaea;background-color:#ffffff;border-radius:10px;">-->
+        <div class="col col-50 inner-column">
+            <ion-item>
+                <h3>Policy Premium</h3></ion-item>
+            <ion-item>
+                <h2>{{quote.overview.policypremium}}</h2>
+                <button class="button button-clear button-outline button-positive button-small" style="float:right;">learn more</button>
+            </ion-item>
+            <!--
+<ion-item>
+    <button class="button button-clear button-outline button-positive button-small" style="float:left;">learn more</button>
+</ion-item>
+-->
+        </div>
+    </div>
+    <ion-list class="list inset-list" style="width:95%;">
+        <ion-item style="width:95%;margin:auto;">
+            <h3>Producer Info</h3></ion-item>
+        <ion-item style="width:95%;margin:auto;">
+            <h3>Producer Name:</h3>
+            <p>{{quote.overview.producer.name}}</p>
+        </ion-item>
+        <ion-item style="width:95%;margin:auto;">
+            <h3>Producer Number:</h3>
+            <p>{{quote.overview.producer.number}}</p>
+        </ion-item>
+        <ion-item style="width:95%;margin:auto;">
+            <h3>Producer Phone:</h3>
+            <p>{{quote.overview.producer.phone}}</p>
+        </ion-item>
+        <ion-item style="width:95%;margin:auto;">
+            <h3>Producer State:</h3>
+            <p>{{quote.overview.producer.state}}</p>
+        </ion-item>
+        <!--
+    <h4 style="float:left;clear:both;width:100%;">Producer Info</h4>
+<h5 style="float:left;clear:both;width:100vw;height:20px;">Producer: {{name}}</h5>
+<h5 style="float:left;clear:both;width:100vw;height:20px;">Producer Number: 00001</h5>
+<h5 style="float:left;clear:both;width:100vw;height:20px;">Producer Phone: 334-559-4147</h5>
+<h5 style="float:left;clear:both;width:100vw;height:20px;">Producer City: Alex City</h5>
+--></ion-list>
+    <!--
+<div class="row">
+    <div class="col-md-2">Title Test</div>
+    <div class="col-md-2">Title Test</div>
+    <div class="col-md-2">Title Test</div>
+    <div class="col-md-2">Title Test</div>
+    <div class="col-md-2">Title Test</div>
+    <div class="col-md-2">Title Test</div>
+</div>
+-->
+</ion-content>
+<ion-footer-bar align-title="right" class="bar-mellow" style="background-color:#eaeaea;">
+    <!-- <div class="buttons">
+    <button class="button">Left Button</button>
+    </div> -->
+    <!--        <h1 class="title">Title!</h1>-->
+    <div class="buttons button button-block" style="text-align:center;float:right;background-color:#eaeaea;width:100%" ui-sref={{nextState}}>
+        <button class="button button-calm button-block ng-pristine ng-untouched ng-valid ng-binding ng-not-empty" style="width: 100%;height: 100%;text-align: center;margin: auto;line-height: 0px;" ui-sref={{nextState}}>Accept</button>
+    </div>
+</ion-footer-bar>
