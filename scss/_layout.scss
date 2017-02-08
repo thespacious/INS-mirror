@@ -3,9 +3,43 @@
  * 
  * */
 
+
+/*
+Headers and footers
+*/
+
+#header-label {
+    font-size: 3vmax;
+}
+#header-label:before{
+    font-size:5vmax;
+}
+
+
 /*Grid rules to get tile, creates tile like grids*/
 
 #grid-row {
     width: 100%;
     height: 25vmax;
+}
+
+#grid-label {
+    position: relative;
+    top: 6.25vmax;
+}
+
+#grid-icon::before {
+    margin font-size: 7vmax;
+}
+
+#grid-icon {
+    font-size: 7vmax;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+#grid-icon::after {
+    font-size: 7vmax;
 }
