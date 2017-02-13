@@ -6,33 +6,33 @@
         <!--        <h1 class="title" style=""></h1>--></ion-header-bar>
     <ion-scroll class="has-header has-footer overflow-scroll row">
         <div class="row" id="grid-row">
-            <div class="col col-50" style="height:100%">
-                <button class="button button-outline button-positive home-button" style="background-color: #ffffff;" ui-sref="drivers">
+            <div class="col col-50">
+                <button class="button button-outline button-positive" id="grid-button" ui-sref="drivers">
                     <div class="row" style="height:15%;margin:auto;">
-                        <div class="col col-25 col-offset-25 icon ion-android-add" style="padding: 0px; left: 4%;position: relative;width: 10px;"> </div>
-                        <div class="col col-25" style="position:relative;right:8%;"><i class="icon ion-model-s"></i></div>
+                        <div class="col col-33" id="grid-icon-container"><i class="icon ion-model-s" id="grid-icon"></i></div>
                     </div>
                     <p id="grid-label">New Quote</p>
                 </button>
             </div>
-            <div class="col col-50" style="height:100%">
-                <button class="button button-outline button-positive home-button" style="background-color:#ffffff;">
+            <div class="col col-50">
+                <button class="button button-outline button-positive" id="grid-button">
                     <div class="row" style="height:15%:margin:auto;">
-                        <div class="col col-25 col-offset-25 icon ion-ios-cog" style="padding: 0px;position: relative; right: -4%;"> </div>
-                        <div class="col col-25" style="position: relative; right: 10%;"><i class="icon ion-person"></i></div>
+                        <div class="col col-33 col-offset-33" id="grid-icon-container"><i class="ion-ios-cog" id="grid-icon"></i> </div>
                     </div>
                     <p id="grid-label">Manage Policy</p>
                 </button>
             </div>
         </div>
         <div class="row" id="grid-row">
-            <div class="col col-50" style="height:100%">
-                <button class="button button-outline button-positive home-button" style="background-color:#ffffff;"> <i class="icon ion-paper-airplane"></i>
+            <div class="col col-50">
+                <button class="button button-outline button-positive" id="grid-button">
+                    <div class="col col-33 col-offset-33" id="grid-icon-container"> <i class="icon ion-paper-airplane" id="grid-icon"></i></div>
                     <p id="grid-label">Report a Claim</p>
                 </button>
             </div>
-            <div class="col col-50" style="height:100%">
-                <button class="button button-outline button-positive home-button" style="background-color:#ffffff;"> <i class="icon ion-card"> </i>
+            <div class="col col-50">
+                <button class="button button-outline button-positive" id="grid-button">
+                    <div class="col col-33 col-offset-33" id="grid-icon-container"><i class="icon ion-card" id="grid-icon"> </i></div>
                     <p id="grid-label">View ID Card</p>
                 </button>
             </div>

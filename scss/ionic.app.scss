@@ -29,3 +29,22 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 @import "www/lib/ionic/scss/ionic";
 @import "_base.scss";
 @import "_layout.scss";
+
+/* Ionic disable-user-behavior hack */
+
+.disable-user-behavior {
+-webkit-user-select: auto;
+-moz-user-select: auto;
+-ms-user-select: auto;
+user-select: auto;
+-webkit-touch-callout: auto;
+-webkit-tap-highlight-color: transparent;
+-webkit-tap-highlight-color: transparent;
+-webkit-user-drag: auto;
+-ms-touch-action: auto;
+-ms-content-zooming: auto;
+}
+
+.disable-pointer-events {
+pointer-events: auto;
+}

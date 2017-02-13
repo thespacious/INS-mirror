@@ -13,26 +13,13 @@
 -->
 <div class="view-container">
     <ion-header-bar class="bar-positive">
-        <button class="button button-clear icon left ion-navicon">Main</button>
+        <button class="button button-clear icon left ion-navicon" id="header-label">Main</button>
         <button class="button button-clear icon right ion-help-circled" style="margin-right:32px;margin-right: 32px;position: absolute;right: 0px;"> </button>
         <button class="button button-clear icon right ion-android-more-vertical"> </button>
-        <!--        <h1 class="title" style=""></h1>--></ion-header-bar>
-    <!--
-    <ion-header-bar class="bar-positive">
-        <h1 class="title">Drivers</h1> </ion-header-bar>
--->
+    </ion-header-bar>
     <ion-scroll class="has-header has-footer overflow-scroll" style="height:85vh;">
         <ion-list>
             <ion-item ng-repeat="driver in drivers" item="driver" class="card driver-item" can-swipe="false">
-                <!--
-                <div class="card" style="display:none" id="help-card">
-    <div class="row">
-        <div class="col-66"> Check toggle for each
-            <br>named insured (2 max)</div>
-        <button type="button" class="button icon ion-close-circled" style="float: right;margin-left: auto;" ng-checked="$first"></button>
-    </div>
-</div>
--->
                 <div class="item item-divider driver-item-header">
                     <p>{{driver.fullname}}</p>
                     <label class="toggle" style="float:right;">
