@@ -1,0 +1,2 @@
+So next time we write an angularjs app we need to make it so that there is are a few top level service functions that take a single variable and then returns an object with variables and functions based on those variables
+    >see:

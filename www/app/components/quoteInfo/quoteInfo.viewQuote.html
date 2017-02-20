@@ -1,0 +1,16 @@
+<ion-header-bar class="bar-positive">
+    <h1 class="title">View Quote</h1> </ion-header-bar>
+<ion-view scroll="true" overflow-scroll="true" class="has-footer has-header">
+    <ion-content>
+        <div id="quoteView" ng-model="data" ng-bind-html="data" ng-init="init()"></div>
+    </ion-content>
+    <ion-footer-bar align-title="right" class="bar-mellow">
+        <!-- <div class="buttons">
+    <button class="button">Left Button</button>
+    </div> -->
+        <!--        <h1 class="title">Title!</h1>-->
+        <div class="buttons button col col-33" style="text-align:center;float:right;background-color:transparent;">
+            <button class="button button-clear button-calm" style="float:left;margin-right:33%;/* margin-top:-3%; */width: 100%;height: 100%;margin-top: auto;" ui-sref="afterQuote" ng-model="footerText">{{footerText}}</button>
+        </div>
+    </ion-footer-bar>
+</ion-view>

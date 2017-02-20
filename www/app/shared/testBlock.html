@@ -1,0 +1,16 @@
+<ion-list>
+    <ion-item ng-repeat="(pageBlock, model) in pageBlocks" style="padding:0px;">
+        <div class="item item-divider">{{pageBlock}}</div>
+        <ion-item ng-repeat="item in model">
+            <div>{{item.value}}</div>
+        </ion-item>
+        <ion-item ng-repeat="item in model">
+            <label> <span class="input-label">{{item.label}}</span> <span class="input-label" ng-model="item.value">{{item.value}}</span>
+                <input type="{{item.type}}" placeholder="{{item.label}}" id="{{item.id}}" ng-pattern="{{item.validate_exp}}" value="{{item.value}}" ng-if="checkType(item.type)" ng-model="item.value" ng-size="{{item.size}}" ng-change="change(item)">
+                <select ng-if="!checkType(item.type)" name="{{key}}" id="{{key}}" style="float:right;margin-right:3vw;height:100%;background-color:transparent;width:40%;border:none;">
+                    <option ng-repeat="option in item['options']" ng-value="{{item.options[option]}}">{{option}} </option>
+                </select>
+            </label>
+        </ion-item>
+    </ion-item>
+</ion-list>

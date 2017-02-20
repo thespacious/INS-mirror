@@ -1,0 +1,10 @@
+<!--<button ng-click="noRun(datePicker)"></button>-->
+<form method="GET" name="PolicyTermForm" id="PolicyTermForm" action="submitForm()">
+    <ion-item>
+        <label> <span class="input-label">Policy Term</span>
+            <input type="date" name="startDatePicker" id="startDatePicker" value="{{today}}" ng-model="todayasdate" ng-change="newnewDate()" />
+            <br>
+            <br>
+            <input type="text" ng-init="newnewDate()" readonly name="endDatePicker" id="endDatePicker" value="{{sixmonths}}" ng-model="sixmonths" /> </label>
+    </ion-item>
+</form>
