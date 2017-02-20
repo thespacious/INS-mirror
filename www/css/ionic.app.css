@@ -9883,7 +9883,7 @@ Headers and footers
 /*
  * List Stylings
  * */
-#inset-form {
+.inset-form {
   width: 95vmax;
   margin: auto; }
 
