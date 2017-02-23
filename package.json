@@ -34,7 +34,8 @@
     "ionic-plugin-deploy",
     "cordova-plugin-screen-orientation",
     "phonegap-plugin-barcodescanner",
-    "ionic-plugin-deploy@~0.6.5"
+    "ionic-plugin-deploy@~0.6.5",
+    "cordova-plugin-camera"
   ],
   "cordovaPlatforms": []
 }

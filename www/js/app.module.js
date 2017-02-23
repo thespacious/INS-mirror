@@ -81,6 +81,10 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             url: '/drivers'
             , templateUrl: 'app/components/home/drivers.html'
             , controller: 'homeDriversCtrl'
+        }).state('newDriverSplash', {
+            url: '/newDriverSplash'
+            , templateUrl: 'app/components/newDriver/newDriverSplash.html'
+            , controller: "homeCtrl"
         })
         // Each tab has its own nav history stack:
         .state('newDriver', {
