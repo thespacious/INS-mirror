@@ -174,7 +174,13 @@ services.factory('testService', function (APP_DEBUG) {
     //captures photo on camera icon clicked
     this.capturePhoto = function () {
         //        scanner.startScanning(MWBSInitSpace.init, InsureScan.onLicensePhoto);
-        scanner.startScanning(MWBSInitSpace.init, InsureScan.onLicensePhoto);
+        mwbScanner.setKey("kwILwP2bCHIfNLMOJadaGwR3V0sRh+kPA6LgV1jyXYY=").then(function (response) {
+            if (response) console.log('VALID KEY');
+            else console.log('INVALID KEY');
+        });
+        mwbScanner.startScanning(function (result) {
+            InsureScan.onLicensePhoto(result);
+        });
     };
     //
     //defines insurescan object and parses response from manatee

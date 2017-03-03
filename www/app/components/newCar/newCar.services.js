@@ -142,7 +142,7 @@ services.factory('newCarService', function (BASE_SERVER, $state) {
      * @param vin
      * VIN from the car which the information is needed
      */
-    this.getInfoFromWeb = function (vin) {
+    var getInfoFromWeb = function (vin) {
         document.carInfo.vin.value = vin;
         // Make spinner appear
         //        var target = document.getElementById('spinnerContainer');
@@ -264,7 +264,10 @@ services.factory('newCarService', function (BASE_SERVER, $state) {
      */
     this.capturePhotoVin = function () {
         _this = this;
-        window.plugins.VINBarcodeScanner.scan(this.scannerSuccess, this.scannerFailure);
+        mwbScanner.startScanning(function (result) {
+            console.log(result);
+            getInfoFromWeb(result.code);
+        });
     };
     //
     //===================
