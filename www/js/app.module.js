@@ -151,6 +151,10 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             url: '/payment'
             , templateUrl: 'app/components/afterQuote/mock-payment.html'
             , controller: "paymentCtrl"
+        }).state('scanner', {
+            url: '/scanner'
+            , templateUrl: 'app/scannerTest/scannerTest.html'
+            , controller: "homeCtrl"
         });
     var datePickerObj = {
         inputDate: new Date()

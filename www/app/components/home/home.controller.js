@@ -41,4 +41,23 @@ controllers.controller('homeCtrl', ['BASE_SERVER', '$scope', '$state', '$ionicSl
                 , vin: "8u9e032ue89032"
             }]
     };
-}]);
+    mwbScanner.setKey("kwILwP2bCHIfNLMOJadaGwR3V0sRh+kPA6LgV1jyXYY=").then(function (response) {
+        if (response) console.log('VALID KEY');
+        else console.log('INVALID KEY');
+    });
+    $scope.capturePhoto = function () {
+        //        scanner.startScanning(MWBSInitSpace.init, InsureScan.onLicensePhoto);
+        mwbScanner.startScanning(function (result) {
+            console.log(result);
+            var code;
+            if (result.type == "Code 39") {
+                code = result.code.substr(1);
+            }
+            else {
+                code = result.code;
+            }
+            return code;
+        });
+    };
+    //
+    }]);

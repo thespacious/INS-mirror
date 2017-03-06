@@ -50,7 +50,8 @@ controllers.controller('splashCtrl', ['APP_DEBUG', 'BASE_SERVER', '$scope', '$st
         }
     };
     $scope.submitForms = function () {
-        $state.go("login");
+        //        $state.go("login");
+        $state.go("scanner");
     };
     //    TODO: figure when to lock the screen and how to do it withoput compromising ui performance
     //    $scope.changeOriantationPortrait();
