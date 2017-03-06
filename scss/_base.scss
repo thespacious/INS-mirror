@@ -1,0 +1,25 @@
+/*Color scheme*/
+
+$color-background: #eaeaea;
+$color-white: #F8F9FC;
+$color-main:#387EF5;
+$color-black: #27232C;
+$color-red: #DF2935;
+$color-accent: cornflowerblue;
+$color-text-accent: darkgrey;
+$font-family: Cambria,
+serif;
+
+/*the base file holds base styliongs that should be consistent throughout the entire project*/
+
+html,
+body {
+    font-family: $font-family;
+    color: $color-black;
+    margin: 0px;
+    padding: 0px;
+}
+
+.background {
+    background-color: $color-background;
+}
