@@ -269,4 +269,109 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
     $scope.checkGaraging = function () {
         return test.setGaraging();
     };
+    $scope.driver = {
+        "fullname": {
+            "type": "text"
+            , "size": 200
+            , "value": ""
+            , "required": true
+            , "label": "Full Name"
+            , "validate_exp": "[a-zA-Z]+"
+        }
+        , "license": {
+            "type": "number"
+            , "size": 20
+            , "value": null
+            , "required": true
+            , "label": "License No."
+            , "validate_exp": ""
+        }
+        , "licensedate": {
+            "type": "date"
+            , "size": 20
+                //                            , "value": today
+                
+            , "value": ""
+            , "required": true
+            , "label": "License Issue Date"
+            , "validate_exp": ""
+        }
+        , "dob": {
+            "type": "date"
+            , "size": 12
+                //                            , "value": today
+                
+            , "value": ""
+            , "required": true
+            , "label": "Date of Birth"
+            , "validate_exp": ""
+        }
+        , "street": {
+            "type": "text"
+            , "size": 200
+            , "value": null
+            , "required": true
+            , "label": "Street"
+            , "validate_exp": ""
+        }
+        , "city": {
+            "type": "text"
+            , "size": 50
+            , "value": null
+            , "required": true
+            , "label": "City"
+            , "validate_exp": "[a-zA-Z]"
+        }
+        , "state": {
+            "type": "text"
+            , "size": 2
+            , "value": null
+            , "required": true
+            , "label": "State"
+            , "validate_exp": "[a-zA-Z]"
+        }
+        , "zip": {
+            "type": "tel"
+            , "size": 5
+            , "value": null
+            , "required": true
+            , "label": "Zip"
+            , "validate_exp": "[0-9]"
+        }
+        , "sex": {
+            "type": "select"
+            , "label": "Gender"
+            , "options": [
+                "Male"
+                , "Female"
+            ]
+            , selected: "Male"
+        }
+    };
+    $scope.checked = {
+        "yes": true
+        , "no": false
+    };
+    $scope.showGaraging = false;
+    $scope.showGaragingOne = function () {
+        if ($scope.checked.yes) {
+            return;
+        }
+        else {
+            $scope.checked.yes = true;
+            $scope.showGaraging = false;
+        }
+    };
+    $scope.showGaragingTwo = function () {
+        if ($scope.checked.no) {
+            return;
+        }
+        else {
+            $scope.checked.no = true;
+            $scope.showGaraging = true;
+        }
+    };
+    $scope.testSubmitForms = function () {
+        test.testDriverSubmit($scope.driver);
+    };
 }]);

@@ -445,5 +445,21 @@ services.factory('testService', function (APP_DEBUG) {
         insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.PersonInfo.MaritalStatusCd = drivers[0]["maritalState"];
         sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
     };
+    this.testDriverSubmit = function (driver) {
+        var newDriver = {};
+        var session = JSON.parse(sessionStorage.getItem("session"));
+        newDriver['fullname'] = driver.fullname.value;
+        newDriver['license'] = driver.license.value;
+        newDriver['licensedate'] = driver.licensedate.value;
+        newDriver['dob'] = driver.dob.value;
+        newDriver['street'] = driver.street.value;
+        newDriver['city'] = driver.city.value;
+        newDriver['state'] = driver.state.value;
+        newDriver['zip'] = driver.zip.value;
+        newDriver['sex'] = driver.sex.selected;
+        newDriver['id'] = session['drivers'].length;
+        session['drivers'] = newDriver;
+        sessionStorage.setItem("session", JSON.stringify(session));
+    };
     return this;
 });

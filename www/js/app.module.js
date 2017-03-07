@@ -85,7 +85,7 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
         // Each tab has its own nav history stack:
         .state('newDriver', {
             url: '/newDriver'
-            , templateUrl: 'app/components/newDriver/newDriver.html'
+            , templateUrl: 'app/components/newDriver/newDriver.old.html'
             , controller: "newDriverCtrl"
         }).state('newCar', {
             url: '/newCar/:fullname'
