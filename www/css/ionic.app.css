@@ -9827,8 +9827,10 @@ a.button {
 /*the base file holds base styliongs that should be consistent throughout the entire project*/
 html,
 body {
-  font-family: Cambria, serif;
+  font-family: "Lora", serif;
   color: #27232C;
+  font-style: normal;
+  font-weight: 500;
   margin: 0px;
   padding: 0px; }
 
@@ -9917,6 +9919,10 @@ Headers and footers
 #grey-subheader-large {
   color: darkgrey;
   font-size: 4vw; }
+
+.text {
+  font-style: normal;
+  font-weight: 600; }
 
 /* Ionic disable-user-behavior hack */
 .disable-user-behavior {
