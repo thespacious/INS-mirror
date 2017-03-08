@@ -4,6 +4,10 @@ body select {
     width: 93vw;
 }
 
+.background {
+    background-color: ghostwhite;
+}
+
 inner-column {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -17,4 +21,16 @@ inner-column {
 
 inner-column {
     border: 10px solid red;
+}
+
+#button-accept .item-content {
+    background-color: #387ef5;
+    text-align: center;
+    color: white;
+}
+
+#button-reject .item-content {
+    background-color: #ef473a;
+    text-align: center;
+    color: white;
 }

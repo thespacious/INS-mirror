@@ -237,9 +237,11 @@ services.factory('driversService', function (BASE_SERVER, $state) {
                 driversIninsurescanJson.DriverInfo.License.FirstLicensedCurrentStateDt = formatDate(myDate);
                 driversIninsurescanJson.DriverInfo.License.StateProvCd = drivers[i]["state"];
                 driversIninsurescanJson.DriverInfo.License.StateProv = drivers[i]["state"];
+                driversIninsurescanJson.PersDriverInfo.RestrictedInd = driver[i]["category"];
                 //Add this driver to the insurescanJson
                 insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver.push(driversIninsurescanJson);
                 sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
+                this.storeNamedInsured();
             }
         }
     };

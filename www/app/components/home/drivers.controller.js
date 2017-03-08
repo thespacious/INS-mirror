@@ -68,5 +68,25 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', '$scope', '$state', '$
         }
     };
     //
-    driversService.getQuoteId();
+    //    driversService.getQuoteId();
+    $scope.addDriver = function () {
+        var session = driversService.session();
+        if (session['drivers'] && session['drivers'].length > 0) {
+            console.log(session.drivers.length);
+            $state.go('newDriver');
+        }
+        else {
+            $state.go('newDriver');
+            //            $state.go('newPrimaryDriver');
+        }
+    };
+    $scope.driversLength
+    $scope.getDriversLength = function () {
+        if ($scope.drivers.length > 0) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
 }]);

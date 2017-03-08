@@ -348,6 +348,40 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
             , selected: "Male"
         }
     };
+    $scope.garagingInfo = {
+        "gstreet": {
+            "type": "text"
+            , "size": 200
+            , "value": null
+            , "required": true
+            , "label": "Street"
+            , "validate_exp": ""
+        }
+        , "gcity": {
+            "type": "text"
+            , "size": 50
+            , "value": null
+            , "required": true
+            , "label": "City"
+            , "validate_exp": "[a-zA-Z]"
+        }
+        , "gstate": {
+            "type": "text"
+            , "size": 2
+            , "value": null
+            , "required": true
+            , "label": "State"
+            , "validate_exp": "[a-zA-Z]"
+        }
+        , "gzip": {
+            "type": "tel"
+            , "size": 5
+            , "value": null
+            , "required": true
+            , "label": "Zip"
+            , "validate_exp": "[0-9]"
+        }
+    }
     $scope.checked = {
         "yes": true
         , "no": false
@@ -359,6 +393,7 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
         }
         else {
             $scope.checked.yes = true;
+            $scope.checked.no = false;
             $scope.showGaraging = false;
         }
     };
@@ -368,10 +403,12 @@ controllers.controller('newDriverCtrl', ['BASE_SERVER', '$scope', '$state', '$st
         }
         else {
             $scope.checked.no = true;
+            $scope.checked.yes = false;
             $scope.showGaraging = true;
         }
     };
     $scope.testSubmitForms = function () {
         test.testDriverSubmit($scope.driver);
     };
+    
 }]);

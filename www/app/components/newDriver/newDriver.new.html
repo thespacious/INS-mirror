@@ -1,0 +1,66 @@
+<ion-header-bar class="bar-positive">
+    <h1 class="title">Drivers</h1> </ion-header-bar>
+<ion-view scroll="true" overflow-scroll="true" class="has-header has-footer background">
+    <ion-content>
+        <div class="card">
+            <div scan-button></div>
+            <ion-list class="list inset-list" id="inset-form" style="width:95vmax;margin:auto;">
+                <ion-item class="item item-input item-stacked-label">
+                    <label><span>Full Name</span>
+                        <input type="{{driver.fullname.type}}" ng-pattern="driver.fullname.validate_exp" ng-model="$parent.driver.fullname.value" ng-value="driver.fullname.value">
+                        <p ng-value="driver.fullname.value">{{driver.fullname.value}}</p>
+                    </label>
+                </ion-item>
+                <ion-item class="item item-input item-stacked-label">
+                    <label><span>License No.</span>
+                        <input type="{{driver.license.type}}" ng-pattern="driver.license.validate_exp" ng-model="driver.license.value">
+                        <p ng-value="driver.license.value">{{driver.license.value}}</p>
+                    </label>
+                </ion-item>
+                <ion-item class="item item-input item-stacked-label">
+                    <label><span>License Issue Date</span>
+                        <input type="{{driver.licensedate.type}}" ng-pattern="driver.licensedate.validate_exp" ng-model="driver.licensedate.value"> </label>
+                </ion-item>
+                <ion-item class="item item-input item-stacked-label">
+                    <label><span>Date of Birth</span>
+                        <input type="{{driver.dob.type}}" ng-pattern="driver.dob.validate_exp" ng-model="driver.dob.value"> </label>
+                </ion-item>
+                <ion-item class="item item-select item-input item-stacked-label">
+                    <label><span>Marital Status</span>
+                        <select name="Marital Status" ng-model="driver.maritalstatus.selected" ng-options="option for option in driver.maritalstatus.options"> </select>
+                    </label>
+                </ion-item>
+                <ion-item class="item item-input item-stacked-label">
+                    <label><span>Street</span>
+                        <input type="{{driver.street.type}}" ng-pattern="driver.street.validate_exp" ng-model="driver.street.value"> </label>
+                </ion-item>
+                <ion-item class="item item-input item-stacked-label">
+                    <label><span>City</span>
+                        <input type="{{driver.city.type}}" ng-pattern="driver.city.validate_exp" ng-model="driver.city.value"> </label>
+                </ion-item>
+                <ion-item class="item item-input item-stacked-label">
+                    <label><span>State</span>
+                        <input type="{{driver.state.type}}" ng-pattern="driver.state.validate_exp" ng-model="driver.state.value"> </label>
+                </ion-item>
+                <ion-item class="item item-input item-stacked-label">
+                    <label><span>Zip</span>
+                        <input type="{{driver.zip.type}}" ng-pattern="driver.zip.validate_exp" ng-model="driver.zip.value"> </label>
+                </ion-item>
+                <ion-item class="item item-select item-input item-stacked-label">
+                    <label><span>Gender</span>
+                        <select name="Gender" ng-model="driver.sex.selected" ng-options="option for option in driver.sex.options"> </select>
+                    </label>
+                </ion-item>
+            </ion-list>
+        </div>
+    </ion-content>
+    <ion-footer-bar align-title="right" class="bar-mellow">
+        <!-- <div class="buttons">
+    <button class="button">Left Button</button>
+    </div> -->
+        <!--        <h1 class="title">Title!</h1>-->
+        <div class="buttons button button-block" style="text-align:center;float:right;background-color:transparent;width:100%" ng-click="submitForms()">
+            <button class="button button-calm button-block ng-pristine ng-untouched ng-valid ng-binding ng-not-empty" style="width: 100%;height: 100%;text-align: center;margin: auto;line-height: 0px;" ng-click="testSubmitForms()" ng-model="footerText">next</button>
+        </div>
+    </ion-footer-bar>
+</ion-view>

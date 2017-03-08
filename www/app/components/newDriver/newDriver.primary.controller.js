@@ -1,12 +1,18 @@
-controllers.controller('newDriverEditCtrl', ['BASE_SERVER', '$scope', '$state', '$stateParams', '$ionicSlideBoxDelegate', '$injector', '$timeout', function (baseUrl, $scope, $state, $stateParams, $ionicSlideBoxDelegate, $injector, $timeout) {
-    var driver = {
+controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state', '$stateParams', '$ionicSlideBoxDelegate', '$injector', '$timeout', function (baseUrl, $scope, $state, $stateParams, $ionicSlideBoxDelegate, $injector, $timeout) {
+    /////////////////// INJECTED SERVICES ///////////////////////
+    var test = $injector.get('testService');
+    var insurescanJson = $injector.get('insurescanJson');
+    //////////////////////////////////////////////////////////////
+    //
+    /////////////////// Models to Bind form data to //////////////
+    $scope.driver = {
         "fullname": {
             "type": "text"
             , "size": 200
-            , "value": null
+            , "value": ""
             , "required": true
             , "label": "Full Name"
-            , "validate_exp": "[a-zA-Z]"
+            , "validate_exp": "[a-zA-Z]+"
         }
         , "license": {
             "type": "number"
@@ -17,7 +23,7 @@ controllers.controller('newDriverEditCtrl', ['BASE_SERVER', '$scope', '$state', 
             , "validate_exp": ""
         }
         , "licensedate": {
-            "type": "text"
+            "type": "date"
             , "size": 20
                 //                            , "value": today
                 
@@ -27,7 +33,7 @@ controllers.controller('newDriverEditCtrl', ['BASE_SERVER', '$scope', '$state', 
             , "validate_exp": ""
         }
         , "dob": {
-            "type": "text"
+            "type": "date"
             , "size": 12
                 //                            , "value": today
                 
@@ -72,8 +78,80 @@ controllers.controller('newDriverEditCtrl', ['BASE_SERVER', '$scope', '$state', 
             "type": "select"
             , "label": "Gender"
             , "options": [
-                            "Male"
-                            , "Female"]
+                "Male"
+                , "Female"
+            ]
+            , selected: "Male"
         }
+    };
+    $scope.garagingInfo = {
+        "gstreet": {
+            "type": "text"
+            , "size": 200
+            , "value": null
+            , "required": true
+            , "label": "Street"
+            , "validate_exp": ""
+        }
+        , "gcity": {
+            "type": "text"
+            , "size": 50
+            , "value": null
+            , "required": true
+            , "label": "City"
+            , "validate_exp": "[a-zA-Z]"
+        }
+        , "gstate": {
+            "type": "text"
+            , "size": 2
+            , "value": null
+            , "required": true
+            , "label": "State"
+            , "validate_exp": "[a-zA-Z]"
+        }
+        , "gzip": {
+            "type": "tel"
+            , "size": 5
+            , "value": null
+            , "required": true
+            , "label": "Zip"
+            , "validate_exp": "[0-9]"
+        }
+    };
+    //////////////////////////////////////////////////////////////
+    //
+    ///////////////////// UI FUNCTIONS FOR GARAGING //////////////
+    $scope.checked = {
+        "yes": true
+        , "no": false
+    };
+    $scope.showGaraging = false;
+    $scope.showGaragingOne = function () {
+        if ($scope.checked.yes) {
+            return;
+        }
+        else {
+            $test.setGaraging();
+            $scope.checked.yes = true;
+            $scope.checked.no = false;
+            $scope.showGaraging = false;
+        }
+    };
+    $scope.showGaragingTwo = function () {
+        if ($scope.checked.no) {
+            return;
+        }
+        else {
+            test.unsetGaraging();
+            $scope.checked.no = true;
+            $scope.checked.yes = false;
+            $scope.showGaraging = true;
+        }
+    };
+    ////////////////////////////////////////////////////////////////
+    //
+    //////////////////// SUBMIT FORMS //////////////////////////////
+    $scope.submitPrimary = function () {
+        test.primaryDriverSubmit($scope.driver, $scope.garagingInfo);
     };
 }]);
