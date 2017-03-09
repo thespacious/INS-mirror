@@ -1,4 +1,6 @@
 controllers.controller('datepickerCtrl', ['BASE_SERVER', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$stateParams', function (baseUrl, $scope, $state, $ionicSlideBoxDelegate, $injector, $stateParams) {
+    //////////////////////// Create and format todays date for default //////
+    // == Get date and components for display
     var d = new Date()
         , month = '' + (d.getMonth() + 1)
         , day = '' + d.getDate()

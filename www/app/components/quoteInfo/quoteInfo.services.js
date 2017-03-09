@@ -1,4 +1,4 @@
-services.factory('quoteInfoServices', function (BASE_SERVER) {
+services.factory('quoteInfoServices', function (BASE_SERVER, SKIP_API) {
     this.getDateToday = function () {
         var today = new Date();
         var month = today.getMonth() + 1;
@@ -216,6 +216,9 @@ services.factory('quoteInfoServices', function (BASE_SERVER) {
         //        document.PolicyTermForm.submit();
     };
     this.sendQuote = function (json) {
+        if (SKIP_API) {
+            return true;
+        }
         var creds = JSON.parse(sessionStorage.getItem('credentials'));
         var returnData = "";
         var req = {

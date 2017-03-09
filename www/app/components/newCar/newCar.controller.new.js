@@ -1,4 +1,4 @@
-controllers.controller('newCarCtrl', ['BASE_SERVER', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$stateParams', function (baseUrl, $scope, $state, $ionicSlideBoxDelegate, $injector, $stateParams) {
+controllers.controller('newCarCtrl', ['BASE_SERVER', 'SKIP_API', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$stateParams', function (baseUrl, $scope, $state, $ionicSlideBoxDelegate, $injector, $stateParams) {
     var test = $injector.get('newCarService');
     var insurescanJson = $injector.get('insurescanJson');
     $scope.owner = $stateParams.fullname;

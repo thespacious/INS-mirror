@@ -1,5 +1,8 @@
-services.factory('afterQuoteService', function (BASE_SERVER, $state) {
+services.factory('afterQuoteService', function (BASE_SERVER, SKIP_API, $state) {
     this.uploadSignature = function (sketch) {
+        if (SKIP_API) {
+            return true;
+        }
         if (JSON.parse(sessionStorage.getItem('session')) == null) {
             sessionStorage.setItem('session', JSON.stringify({}));
         }

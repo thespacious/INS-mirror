@@ -287,4 +287,5 @@ services.factory('newDriverService', function (APP_DEBUG) {
         console.log(drivers);
     };
     //////////////////////////////////////////////////////////////////////////
+    return this;
 });

@@ -1,4 +1,4 @@
-controllers.controller('splashCtrl', ['APP_DEBUG', 'BASE_SERVER', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$q', function (app_debug, baseUrl, $scope, $state, $ionicSlideBoxDelegate, $injector, $q) {
+controllers.controller('splashCtrl', ['APP_DEBUG', 'BASE_SERVER', 'SKIP_API', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$q', function (app_debug, baseUrl, skipApi, $scope, $state, $ionicSlideBoxDelegate, $injector, $q) {
     //
     //===========
     //SERVICES
@@ -42,15 +42,15 @@ controllers.controller('splashCtrl', ['APP_DEBUG', 'BASE_SERVER', '$scope', '$st
     $scope.login = function () {
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
-        if (services.login(username, password) == true) {
+        if (skipApi) {
+            $state.go('home');
+        }
+        else if (services.login(username, password) == true) {
             $state.go('home');
         }
         else {
             alert("login error");
         }
-    };
-    $scope.submitForms = function () {
-        $state.go("login");
     };
     //    TODO: figure when to lock the screen and how to do it withoput compromising ui performance
     //    $scope.changeOriantationPortrait();

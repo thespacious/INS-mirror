@@ -9,6 +9,10 @@ body select {
     background-color: #ededed;
 }
 
+.footer-background {
+    background-color: transparent;
+}
+
 inner-column {
     box-sizing: border-box;
     -moz-box-sizing: border-box;

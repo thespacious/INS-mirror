@@ -130,7 +130,7 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
         }).state('viewQuote', {
             url: '/viewQuote'
             , templateUrl: 'app/components/viewQuote/viewQuote.html'
-            , controller: "homeCtrl"
+            , controller: "viewQuoteCtrl"
         }).state('viewQuote.overview', {
             url: '/viewQuote/overview'
             , views: {
@@ -167,10 +167,18 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             url: '/legal'
             , templateUrl: 'app/components/quoteInfo/legal.html'
             , controller: "homeCtrl"
+        }).state('pre-payment', {
+            url: '/pre-payment'
+            , templateUrl: 'app/components/afterQuote/pre-payment.html'
+            , controller: "paymentCtrl"
         }).state('payment', {
             url: '/payment'
             , templateUrl: 'app/components/afterQuote/mock-payment.html'
             , controller: "paymentCtrl"
+        }).state('thankyou', {
+            url: '/thankyou'
+            , templateUrl: 'app/components/afterQuote/thankyou.html'
+            , controller: "homeCtrl"
         });
     var datePickerObj = {
         inputDate: new Date()

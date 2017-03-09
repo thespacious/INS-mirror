@@ -1,4 +1,4 @@
-services.factory('driversService', function (BASE_SERVER, $state) {
+services.factory('driversService', function (BASE_SERVER, SKIP_API, $state) {
     //
     //=================
     //GENERAL VARIABLES
@@ -122,6 +122,9 @@ services.factory('driversService', function (BASE_SERVER, $state) {
     //==========
     //
     this.getQuoteId = function () {
+        if (SKIP_API) {
+            return true;
+        }
         if (sessionStorage.getItem('credentials') == null) {
             sessionStorage.setItem('credentials', JSON.stringify({}));
         }

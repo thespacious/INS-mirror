@@ -1,4 +1,4 @@
-controllers.controller('quoteViewCtrl', ['BASE_SERVER', '$scope', '$state', '$injector', 'ionicDatePicker', function (baseUrl, $scope, $state, $injector, ionicDatePicker) {
+controllers.controller('quoteViewCtrl', ['BASE_SERVER', 'SKIP_API', '$scope', '$state', '$injector', 'ionicDatePicker', function (baseUrl, $scope, $state, $injector, ionicDatePicker) {
     var quoteInfoService = $injector.get('quoteInfoServices');
     $scope.footerText = 'accept';
     var insurescanJson = $injector.get('insurescanJson');

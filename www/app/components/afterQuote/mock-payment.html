@@ -1,28 +1,46 @@
-<ion-header-bar class="bar-positive">Payment</ion-header-bar>
-<!--
-<ion-slide-box>
-    <ion-slide> <img src="img/pay_1.png" style="width:100vw;height:100vh;"> </ion-slide>
-    <ion-slide> <img src="img/pay_2.png" style="width:100vw;height:100vh;">
-        <button class="button button-block button-calm" ui-sref="home">Login</button>
-    </ion-slide>
-</ion-slide-box> <img src="img/pay_1.png" style="width:100vw;height:100vh;">
--->
-<!---->
+<ion-header-bar class="bar-positive">
+    <h1 class="title">Payment</h1></ion-header-bar>
 <ion-view scroll="true" overflow-scroll="true">
     <ion-content>
-        <ion-slides options="options" slider="data.slider" style="height=80vh" on-slide-changed="slideChanged(index)">
-            <ion-slide-page scroll="true" class="block overflow-scroll">
-                <div><img src="img/pay_1.png" style="width:100vw;height:100vh;"></div>
-                <ion-footer-bar align-title="right" class="bar-mellow">
-                    <div class="buttons button col col-33 col-offset-66" style="text-align:center;float:right;background-color:transparent;" ng-click="next()">
-                        <button class="button button-clear button-calm" style="float:right;margin-left:33%;width: 100%;height: 100%;margin-top: auto;" ng-click="next()" ng-model="footerText">next</button>
-                    </div>
-                </ion-footer-bar>
-            </ion-slide-page>
-            <ion-slide-page scroll="true" class="block overflow-scroll">
-                <div><img src="img/pay_2.png" style="width:100vw;height:100vh;"></div>
-                <div footer></div>
-            </ion-slide-page>
-        </ion-slides>
+        <div class="row" style="margin:auto;font-size:6vmax">
+            <div class="col col-66" style="margin:auto"> <i class="icon ion-card" style="color:cornflowerblue"></i>
+                <p style="color:darkgrey;text-align:center;margin:auto;font-size:4vmin;display:inline">. . . Please enter your payment info</p>
+            </div>
+        </div>
+        <div class="card">
+            <ion-list>
+                <ion-item class="item icon-left ion-person">
+                    <!--                    //fullname-->
+                    <label><span>Name on Card</span>
+                        <input type="{{userInfo.fullname.type}}" ng-model="userinfo.fullname.value" ng-value="userInfo.fullname.value">
+                        <p ng-value="userInfo.fullname.value" id="vin">{{userInfo.fullname.value}}</p>
+                    </label>
+                </ion-item>
+                <ion-item class="item icon-left ion-card">
+                    <!--                    card nmber-->
+                    <label><span>Card Number</span>
+                        <input type="{{userInfo.ccnumber.type}}" ng-model="userinfo.ccnumber.value" ng-value="userInfo.ccnumber.value"> </label>
+                </ion-item>
+                <ion-item class="item icon-left ion-locked">
+                    <!--                    ccv code-->
+                    <label><span>CCV Number</span>
+                        <input type="{{userInfo.ccv.type}}" ng-model="userinfo.ccv.value" ng-value="userInfo.ccv.value"> </label>
+                </ion-item>
+                <ion-item class="item icon-left ion-calendar">
+                    <!--                    eexpDatepiration date-->
+                    <label><span>Expiration Date</span>
+                        <input type="{{userInfo.expDate.type}}" ng-model="userinfo.expDate.value" ng-value="userInfo.expDate.value"> </label>
+                </ion-item>
+            </ion-list>
+        </div>
     </ion-content>
+    <ion-footer-bar class="background" style="border: none;
+    background-image: none;">
+        <div class="row">
+            <div class="col col-50"> </div>
+            <div class="col col-50">
+                <button class="button button-positive" style="width:100%;color:white;" ui-sref="viewQuote({first: false})">Next</button>
+            </div>
+        </div>
+    </ion-footer-bar>
 </ion-view>

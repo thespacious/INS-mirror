@@ -1,4 +1,5 @@
 controllers.controller('coveragesCtrl', ['BASE_SERVER', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$stateParams', function (baseUrl, $scope, $state, $ionicSlideBoxDelegate, $injector, $stateParams) {
+    var newCarService = $injector.get('newCarService');
     $scope.coverages = {
         "BI": {
             "type": "select"
@@ -66,5 +67,8 @@ controllers.controller('coveragesCtrl', ['BASE_SERVER', '$scope', '$state', '$io
             , "options": ["Accept", "Reject"]
             , "selected": "Accept"
         }
+    };
+    $scope.validateCoverages = function () {
+        newCarService.validateCoverages($scope.coverages);
     };
 }]);

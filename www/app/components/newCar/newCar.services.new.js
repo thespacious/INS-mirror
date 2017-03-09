@@ -1,4 +1,4 @@
-services.factory('newCarService', function (BASE_SERVER, $state) {
+services.factory('newCarService', function (BASE_SERVER, SKIP_API, $state) {
     //=================
     //GENERAL VARIABLES
     //=================
@@ -15,6 +15,9 @@ services.factory('newCarService', function (BASE_SERVER, $state) {
     };
     // =========== Upload images to server =============
     var uploadImages = function (images) {
+        if (SKIP_API) {
+            return true;
+        }
         console.log(TAG, "we use uploadImages");
         var creds = JSON.parse(sessionStorage.getItem('credentials'));
         for (image in images) {
@@ -256,30 +259,9 @@ services.factory('newCarService', function (BASE_SERVER, $state) {
     };
     //////////////////////////// COVERAGES STORING //////////////////////////
     // ============ Store coverages and modify JSON =======================
-    this.validateCoverages = function validateCoverage(page) {
-        //alert("validateCoverage starts");
-        var selectedcompdeduct = "";
-        var selectedcolldeduct = "";
-        var selectedcompdeductOptionValue = "";
-        var selectedcolldeductOptionValue = "";
-        //
-        var rentalreimbursement = document.forms[page].elements["RR"].selectedOptions[0].value;
-        //
-        var towing = document.forms[page].elements["towing"].selectedOptions[0].value
-        var selectedUML = document.forms[page].elements["UML"].selectedIndex;
-        var selectedUMLOptionValue = document.forms[page].elements["UML"].options[selectedUML].value;
-        //alert("The Uninsured/Underinsured Motorist Liability is " + selectedUMLOptionValue);
-        var selectedMP = document.forms[page].elements["MP"].selectedIndex;
-        var selectedMPOptionValue = document.forms[page].elements["MP"].options[selectedMP].value;
-        //alert("Medical Payments is " + selectedMPOptionValue);
-        selectedcompdeduct = document.forms[page].elements["compdeduct"].selectedIndex;
-        selectedcompdeductOptionValue = document.forms[page].elements["compdeduct"].options[selectedcompdeduct].value;
-        //alert("The Comprehensive Deductible is " + selectedcompdeductOptionValue);
-        selectedcolldeduct = document.forms[page].elements["colldeduct"].selectedIndex;
-        selectedcolldeductOptionValue = document.forms[page].elements["colldeduct"].options[selectedcolldeduct].value;
-        //alert("The Collision Deductible is " + selectedcolldeductOptionValue);
-        /*If amongst Comprehensive Deductible and Collision Deductible, one is "No Coverage", the other should be the same*/
-        if ((selectedcompdeductOptionValue == "nocov" && selectedcolldeductOptionValue != "nocov") || (selectedcompdeductOptionValue != "nocov" && selectedcolldeductOptionValue == "nocov")) {
+    this.validateCoverages = function (coverages) {
+        //If either Comprehensive or sollision deductible are nocov then the other must be as well
+        if ((coverages.compdeduct.selected == "nocov" && coverages.collprem.selected != "nocov") || (coverages.compdeduct.selected != "nocov" && coverages.collprem.selected == "nocov")) {
             alert("If one of the deductible is No Coverage, other should be the also be No Coverage. Please select reselect the same.");
             return;
         }
@@ -292,12 +274,16 @@ services.factory('newCarService', function (BASE_SERVER, $state) {
         	coverage["CompCollision"] = document.document.forms[page].coverages.value;
         */
         /*Adding the new coverage parameters*/
-        coverage["UML"] = selectedUMLOptionValue;
-        coverage["MP"] = selectedMPOptionValue;
-        coverage["compdeduct"] = selectedcompdeductOptionValue;
-        coverage["colldeduct"] = selectedcolldeductOptionValue;
-        coverage["towing"] = towing;
-        coverage["RR"] = rentalreimbursement;
+        //        coverage["UML"] = selectedUMLOptionValue;
+        coverage["UML"] = coverages.UML.selected;
+        //        coverage["MP"] = selectedMPOptionValue;
+        coverage["MP"] = coverages.MP.selected;
+        //        coverage["compdeduct"] = selectedcompdeductOptionValue;
+        coverage["compdeduct"] = coverages.compdeduct.selected;
+        //        coverage["colldeduct"] = selectedcolldeductOptionValue;
+        coverage["colldeduct"] = coverages.collprem.selected;
+        coverage["towing"] = coverages.towing.selected;
+        coverage["RR"] = coverages.RR.selected;
         session["cars"][position]["coverage"] = coverage;
         var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
         //alert("The car position we are dealing with is: " + position);

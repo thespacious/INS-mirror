@@ -1,4 +1,4 @@
-controllers.controller('afterQuoteController', ['BASE_SERVER', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$stateParams', function (baseUrl, $scope, $state, $ionicSlideBoxDelegate, $injector, $stateParams) {
+controllers.controller('afterQuoteController', ['BASE_SERVER', 'SKIP_API', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$stateParams', function (baseUrl, skipApi, $scope, $state, $ionicSlideBoxDelegate, $injector, $stateParams) {
     $scope.footerText = 'submit';
     var afterQuoteServices = $injector.get('afterQuoteService');
     var sketch;
@@ -17,7 +17,7 @@ controllers.controller('afterQuoteController', ['BASE_SERVER', '$scope', '$state
     $scope.submitForms2 = function () {
         afterQuoteServices.uploadSignature(sketch);
         //        afterQuoteServices.sendEmails();
-        return $state.go('payment');
+        return $state.go('thankyou');
     };
     $scope.next = function () {
         $ionicSlideBoxDelegate.next();
@@ -47,5 +47,5 @@ controllers.controller('afterQuoteController', ['BASE_SERVER', '$scope', '$state
     //    window.orientation = 90;
     //    initSign();
     //    window.addEventListener('deviceorientation', function (eventData) {});
-    screen.lockOrientation('landscape');
+    //    screen.lockOrientation('landscape');
 }]);

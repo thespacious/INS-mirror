@@ -1,4 +1,4 @@
-controllers.controller('homeDriversCtrl', ['BASE_SERVER', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$stateParams', function (baseUrl, $scope, $state, $ionicSlideBoxDelegate, $injector, $stateParams) {
+controllers.controller('homeDriversCtrl', ['BASE_SERVER', 'SKIP_API', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$stateParams', function (baseUrl, skipApi, $scope, $state, $ionicSlideBoxDelegate, $injector, $stateParams) {
     //
     //====================================
     //GET SERVICES AND SET SCOPE VARIABLES

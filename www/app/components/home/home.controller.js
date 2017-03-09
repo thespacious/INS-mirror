@@ -49,4 +49,7 @@ controllers.controller('homeCtrl', ['BASE_SERVER', '$scope', '$state', '$ionicSl
             , vin: "32894732dsd"
         }]
     };
+    $scope.legal = function () {
+        $state.go('legal');
+    };
 }]);
