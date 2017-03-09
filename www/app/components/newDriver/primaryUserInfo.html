@@ -1,0 +1,49 @@
+<ion-header-bar class="bar-positive">
+    <h1 class="title">User Info</h1>
+    <button class="button button-clear icon right ion-home" style="position: absolute;right: 0px;" ui-sref="drivers"> </button>
+</ion-header-bar>
+<ion-view scroll="true" overflow-scroll="true" class="has-header has-footer background">
+    <ion-content>
+        <div class="row" style="margin:auto;font-size:6vmax">
+            <div class="col col-66" style="margin:auto"> <i class="icon ion-ios-gear-outline" style="color:cornflowerblue"></i>
+                <p style="color:darkgrey;text-align:center;margin:auto;font-size:4vmin;display:inline">. . . A <strong>little</strong> bit more info</p>
+            </div>
+        </div>
+        <div class="card">
+            <!--            <div scan-button></div>-->
+            <ion-list class="list inset-list" id="inset-form" style="width:95vmax;margin:auto;">
+                <ion-item class="item item-input item-stacked-label">
+                    <label><span>County</span>
+                        <input type="{{userInfo.county.type}}" ng-pattern="userInfo.county.validate_exp" ng-model="userInfo.county.value" ng-value="userInfo.county.value">
+                        <p ng-value="userInfo.county.value">{{userInfo.county.value}}</p>
+                    </label>
+                </ion-item>
+                <ion-item class="item item-input item-stacked-label">
+                    <label><span>Phone</span>
+                        <input type="{{userInfo.phone.type}}" ng-pattern="userInfo.phone.validate_exp" ng-model="userInfo.phone.value">
+                        <p ng-value="userInfo.phone.value">{{userInfo.phone.value}}</p>
+                    </label>
+                </ion-item>
+                <ion-item class="item item-input item-stacked-label">
+                    <label><span>License Issue Date</span>
+                        <input type="{{userInfo.email.type}}" ng-pattern="userInfo.email.validate_exp" ng-model="userInfo.email.value"> </label>
+                </ion-item>
+                <ion-item class="item item-select item-input item-stacked-label">
+                    <label><span>Marital Status</span>
+                        <select name="Marital Status" ng-model="userInfo.maritalstatus.selected" ng-options="option for option in userInfo.maritalstatus.options"> </select>
+                    </label>
+                </ion-item>
+            </ion-list>
+            <div id="logo"> <img src="img/new_logo.png" style="max-width:100%;text-align:center"> </div>
+        </div>
+    </ion-content>
+    <ion-footer-bar class="background" style="border: none;
+    background-image: none;">
+        <div class="row">
+            <div class="col col-50"> </div>
+            <div class="col col-50">
+                <button class="button button-positive" style="width:100%;color:white;" ng-click="submitUserInfo()">Submit Info</button>
+            </div>
+        </div>
+    </ion-footer-bar>
+</ion-view>

@@ -1,7 +1,14 @@
 <ion-header-bar class="bar-positive">
-    <h1 class="title">Drivers</h1> </ion-header-bar>
+    <h1 class="title">New Driver</h1>
+    <button class="button button-clear icon right ion-home" style="position: absolute;right: 0px;" ui-sref="drivers"> </button>
+</ion-header-bar>
 <ion-view scroll="true" overflow-scroll="true" class="has-header has-footer background">
     <ion-content>
+        <div class="row" style="margin:auto;font-size:6vmax">
+            <div class="col col-66" style="margin:auto"> <i class="icon ion-ios-personadd-outline" style="color:cornflowerblue"></i>
+                <p style="color:darkgrey;text-align:center;margin:auto;font-size:4vmin;display:inline">. . . Add a new Primary driver </p>
+            </div>
+        </div>
         <div class="card">
             <div scan-button></div>
             <ion-list class="list inset-list" id="inset-form" style="width:95vmax;margin:auto;">
@@ -28,6 +35,7 @@
                 <ion-item class="item item-input item-stacked-label">
                     <label><span>Street</span>
                         <input type="{{driver.street.type}}" ng-pattern="driver.street.validate_exp" ng-model="driver.street.value"> </label>
+                    <p ng-value="driver.street.value">{{driver.street.value}}</p>
                 </ion-item>
                 <ion-item class="item item-input item-stacked-label">
                     <label><span>City</span>
@@ -80,13 +88,13 @@
             </ion-list>
         </div>
     </ion-content>
-    <ion-footer-bar align-title="right" class="bar-mellow">
-        <!-- <div class="buttons">
-    <button class="button">Left Button</button>
-    </div> -->
-        <!--        <h1 class="title">Title!</h1>-->
-        <div class="buttons button button-block" style="text-align:center;float:right;background-color:transparent;width:100%" ng-click="submitPrimary()">
-            <button class="button button-calm button-block ng-pristine ng-untouched ng-valid ng-binding ng-not-empty" style="width: 100%;height: 100%;text-align: center;margin: auto;line-height: 0px;" ng-click="submitPrimary()" ng-model="footerText">{{footerText}}</button>
+    <ion-footer-bar class="background" style="border: none;
+    background-image: none;">
+        <div class="row">
+            <div class="col col-50"> </div>
+            <div class="col col-50">
+                <button class="button button-positive" style="width:100%;color:white;" ng-click="submitPrimary()">Submit Driver</button>
+            </div>
         </div>
     </ion-footer-bar>
 </ion-view>

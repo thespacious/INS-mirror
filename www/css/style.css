@@ -5,7 +5,8 @@ body select {
 }
 
 .background {
-    background-color: ghostwhite;
+    /*    background-color: ghostwhite;*/
+    background-color: #ededed;
 }
 
 inner-column {
@@ -33,4 +34,18 @@ inner-column {
     background-color: #ef473a;
     text-align: center;
     color: white;
+}
+
+::-webkit-datetime-edit-year-field:not([aria-valuenow]),
+::-webkit-datetime-edit-month-field:not([aria-valuenow]),
+::-webkit-datetime-edit-day-field:not([aria-valuenow]) {
+    color: transparent;
+}
+
+.pane .view .has-header {
+    top: 44px
+}
+
+.correct-footer {
+    bottom: 1vh;
 }

@@ -156,16 +156,16 @@ services.factory('testService', function (APP_DEBUG) {
         document.forms[0].sex.value = "";
     };
     this.setGaraging = function () {
-        document.forms[0].gstreet.value = document.forms[0].street.value;
-        document.forms[0].gcity.value = document.forms[0].city.value;
-        document.forms[0].gstate.value = document.forms[0].state.value;
-        document.forms[0].gzip.value = document.forms[0].zip.value;
+        garagingInfo.gstreet.value = driver.street.value;
+        garagingInfo.gcity.value = driver.city.value;
+        garagingInfo.gstate.value = driver.state.value;
+        garagingInfo.gzip.value = driver.zip.value;
     };
     this.unSetGaraging = function () {
-        document.forms[0].gstreet.value = '';
-        document.forms[0].gcity.value = '';
-        document.forms[0].gstate.value = '';
-        document.forms[0].gzip.value = '';
+        garagingInfo.gstreet.value = '';
+        garagingInfo.gcity.value = '';
+        garagingInfo.gstate.value = '';
+        garagingInfo.gzip.value = '';
     };
     //
     //================
@@ -173,8 +173,16 @@ services.factory('testService', function (APP_DEBUG) {
     //================
     //captures photo on camera icon clicked
     this.capturePhoto = function () {
+        var returnData = {};
         //        scanner.startScanning(MWBSInitSpace.init, InsureScan.onLicensePhoto);
-        scanner.startScanning(MWBSInitSpace.init, InsureScan.onLicensePhoto);
+        mwbScanner.setKey("kwILwP2bCHIfNLMOJadaGwR3V0sRh+kPA6LgV1jyXYY=").then(function (response) {
+            if (response) console.log('VALID KEY');
+            else console.log('INVALID KEY');
+        });
+        mwbScanner.startScanning(function (result) {
+            reutrnData = InsureScan.onLicensePhoto(result);
+        });
+        return returnData;
     };
     //
     //defines insurescan object and parses response from manatee
@@ -182,6 +190,7 @@ services.factory('testService', function (APP_DEBUG) {
         InsureScan = {};
     }
     InsureScan.onLicensePhoto = function (result) {
+        var driverInfo = {};
         var userInformation = result.code.split("ANSI")[1].split("</pre>")[0].split(/\n/);
         var userDataMap = {}
             , line;
@@ -190,23 +199,32 @@ services.factory('testService', function (APP_DEBUG) {
             userDataMap[userInformation[line].substr(0, 3)] = userInformation[line].substr(3);
         //JMW HACK: userDataMap[DAC] is alabama license first name, but userDataMap[DCT] is WA. We need to handle each state's IDs differently probably.
         if (userDataMap["DAJ"] == "WA") {
-            document.forms[0].fullname.value = userDataMap["DCT"] + " " + userDataMap["DCS"];
+            //            document.forms[0].fullname.value = userDataMap["DCT"] + " " + userDataMap["DCS"];
+            driverInfo['fullname'] = userDataMap["DCT"] + " " + userDataMap["DCS"];
         }
         else {
-            document.forms[0].fullname.value = userDataMap["DAC"] + " " + userDataMap["DCS"];
+            //            document.forms[0].fullname.value = userDataMap["DAC"] + " " + userDataMap["DCS"];
+            driverInfo['fullname'] = userDataMap["DAC"] + " " + userDataMap["DCS"];
         }
-        document.forms[0].license.value = userDataMap["DAQ"];
+        driverInfo['license'] = userDataMap["DAQ"];
+        //        document.forms[0].license.value = userDataMap["DAQ"];
         //return date in proper format
-        document.forms[0].dob.value = userDataMap["DBB"].substr(0, 2) + "/" + userDataMap["DBB"].substr(2, 2) + "/" + userDataMap["DBB"].substr(4);
-        if (document.forms[0].licensedate) {
-            document.forms[0].licensedate.value = userDataMap["DBD"].substr(0, 2) + "/" + userDataMap["DBD"].substr(2, 2) + "/" + userDataMap["DBD"].substr(4);
-        }
-        document.forms[0].state.value = userDataMap["DAJ"];
-        document.forms[0].street.value = userDataMap["DAG"];
-        document.forms[0].city.value = userDataMap["DAI"];
-        document.forms[0].zip.value = userDataMap["DAK"].substr(0, 5);
-        document.forms[0].sex.value = ["M", "F"][userDataMap["DBC"] - 1];
+        //        document.forms[0].dob.value = userDataMap["DBB"].substr(0, 2) + "/" + userDataMap["DBB"].substr(2, 2) + "/" + userDataMap["DBB"].substr(4);
+        driverInfo['dob'] = userDataMap["DBB"].substr(0, 2) + "/" + userDataMap["DBB"].substr(2, 2) + "/" + userDataMap["DBB"].substr(4);
+        //        document.forms[0].licensedate.value = userDataMap["DBD"].substr(0, 2) + "/" + userDataMap["DBD"].substr(2, 2) + "/" + userDataMap["DBD"].substr(4);
+        driverInfo['licensedate'] = userDataMap["DBD"].substr(0, 2) + "/" + userDataMap["DBD"].substr(2, 2) + "/" + userDataMap["DBD"].substr(4);
+        //        document.forms[0].state.value = userDataMap["DAJ"];
+        driverInfo['state'] = userDataMap["DAJ"];
+        //        document.forms[0].street.value = userDataMap["DAG"];
+        driverInfo['street'] = userDataMap["DAG"];
+        //        document.forms[0].city.value = userDataMap["DAI"];
+        driverInfo['city'] = userDataMap["DAI"];
+        //        document.forms[0].zip.value = userDataMap["DAK"].substr(0, 5);
+        driverInfo['zip'] = userDataMap["DAK"].substr(0, 5);
+        //        document.forms[0].sex.value = ["M", "F"][userDataMap["DBC"] - 1];
+        driverInfo['sex'] = ["M", "F"][userDataMap["DBC"] - 1];
         //        SetGaraging(true); // Auto fill out garaging info after license scan
+        return driverInfo;
     };
     //
     var fakeAssShit = function (result) {
@@ -249,7 +267,7 @@ services.factory('testService', function (APP_DEBUG) {
     //        document.forms[page].sex.value = ["M", "F"][userDataMap["DBC"] - 1];
     //    };
     //
-    this.formatDate = function (date) {
+    var formatDate = function (date) {
         var d = new Date(date)
             , month = '' + (d.getMonth() + 1)
             , day = '' + d.getDate()
@@ -272,183 +290,215 @@ services.factory('testService', function (APP_DEBUG) {
         var time = [hour, minute, second].join(':');
         return date;
     };
-    this.licenseSubmit = function (driver) {
-        drivers = sessionStorage.getItem('drivers');
-        drivers.push(driver);
-    };
+    //    this.licenseSubmit = function (driver) {
+    //        drivers = sessionStorage.getItem('drivers');
+    //        drivers.push(driver);
+    //    };
     var NAMED_INSURED = 0
         , EXCLUDED = 1
         , REGULAR = 2
         , categories = ["named insured", "excluded", "regular"];
-    this.onDriversLicenseSubmit = function (page, primary, driverId) {
-        if (primary == true) {
-            var driver = {};
-            driver["fullname"] = document.forms[page].fullname.value;
-            driver["license"] = document.forms[page].license.value;
-            driver["street"] = document.forms[page].street.value;
-            driver["dob"] = document.forms[page].dob.value;
-            driver["city"] = document.forms[page].city.value;
-            driver["state"] = document.forms[page].state.value;
-            driver["zip"] = document.forms[page].zip.value;
-            driver["sex"] = document.forms[page].sex.value;
-            //garaging details
-            driver["gstreet"] = document.forms[page].gstreet.value;
-            driver["gcity"] = document.forms[page].gcity.value;
-            driver["gstate"] = document.forms[page].gstate.value;
-            driver["gzip"] = document.forms[page].gzip.value;
-            var issueDate = sessionStorage.getItem("issueDate");
-            var expDate = sessionStorage.getItem("expDate");
-            driver["issueDate"] = issueDate;
-            driver["expDate"] = expDate;
-            driver['id'] = 0;
-            driver
-            //        sessionStorage.setItem("driverId", parseInt(sessionStorage.getItem("driverId")) + 1);
-            //        driver["id"] = sessionStorage.getItem("driverId");
-            sessionStorage.setItem("session", JSON.stringify({
-                "drivers": [driver]
-            }));
-            var drivers = JSON.parse(sessionStorage.getItem("session"))["drivers"];
-            //Deriving the firstname and lastname from driver fullname
-            var fullname = driver["fullname"];
-            var split = fullname.split(" ");
-            var Firstname = split[0];
-            var Lastname = split[1];
-            //            sessionStorage.setItem("session", JSON.stringify(driver));
-            //var driver1 = JSON.parse(sessionStorage.getItem("session"));
-            var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
-            /*Update the Name */
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.NameInfo.PersonName.Surname = Lastname;
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.NameInfo.PersonName.GivenName = Firstname;
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].GeneralPartyInfo.NameInfo.PersonName.Surname = Lastname;
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].GeneralPartyInfo.NameInfo.PersonName.GivenName = Firstname;
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.NameInfo.PersonName.Surname = Lastname;
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.NameInfo.PersonName.GivenName = Firstname;
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].PersDriverInfo.FinancialResponsibilityFiling.NameInfo.PersonName.Surname = Lastname;
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].PersDriverInfo.FinancialResponsibilityFiling.NameInfo.PersonName.GivenName = Firstname;
-            /*Update the aaddress*/
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.AddrTypeCd = "MailingAddress";
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.Addr1 = driver["street"];
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.City = driver["city"];
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.StateProvCd = driver["state"];
-            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.StateProvCd = "MS";
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.StateProv = driver["state"];
-            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.StateProv = "MS"
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.PostalCode = driver["zip"];
-            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.PostalCode = "38601";
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.CountryCd = "US";
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.Country = "USA";
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.AddrTypeCd = "MailingAddress";
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.Addr1 = driver["street"];
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.City = driver["city"];
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.StateProvCd = driver["state"];
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.StateProv = driver["state"];
-            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.PostalCode = "38601";
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.PostalCode = driver["zip"];
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.CountryCd = "US";
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.Country = "USA";
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].Addr.AddrTypeCd = "MailingAddress";
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].Addr.Addr1 = driver["street"];
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].Addr.City = driver["city"];
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].Addr.StateProvCd = driver["state"];
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].Addr.StateProv = driver["state"];
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].Addr.PostalCode = driver['zip'];
-            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].Addr.PostalCode = driver["zip"];
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].Addr.CountryCd = "US";
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].Addr.Country = "USA";
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.AddrTypeCd = "GaragingAddress";
-            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.Addr1 = driver["gstreet"];
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.Addr1 = "140 Kristen CtR";
-            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.City = driver["gcity"];
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.City = "Jackson";
-            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.StateProvCd = driver["gstate"];
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.StateProvCd = "MS";
-            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.StateProv = driver["gstate"];
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.StateProv = "MS";
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.PostalCode = "39211";
-            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.PostalCode = driver["gzip"];
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.CountryCd = "US";
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.Country = "USA";
-            /*Update date of birth*/
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.PersonInfo.BirthDt = this.formatDate(driver["dob"]);
-            /*Update the License details*/
-            //Here we need to progress the dates by 16 years
-            var myDate = new Date(driver["dob"]);
-            myDate.setYear(myDate.getFullYear() + 16);
-            //alert("Progressed date: " + this.formatDate(myDate));
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.LicensePermitNumber = driver["license"];
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.LicensedDt = this.formatDate(myDate);
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.FirstLicensedCurrentStateDt = this.formatDate(myDate);
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.StateProvCd = driver["state"];
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.StateProv = driver["state"];
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.CountryCd = "US";
-            /*Update the gender information for the first name insured*/
-            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.PersonInfo.GenderCd = driver["sex"];
-            sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
-            //        document.forms[page].submit();
-            console.log(drivers);
-        }
-        else {
-            var session = JSON.parse(sessionStorage.getItem("session"));
-            var driver = {};
-            driver["fullname"] = document.forms[page].fullname.value;
-            driver["license"] = document.forms[page].license.value;
-            driver["licensedate"] = document.forms[page].licensedate.value;
-            driver["dob"] = document.forms[page].dob.value;
-            driver["state"] = document.forms[page].state.value;
-            driver["sex"] = document.forms[page].sex.value;
-            driver["maritalState"] = document.forms[page].maritalstatus.value;
-            driver["category"] = "regular";
-            driver["category"] = "regular";
-            driver['id'] = session['drivers'].length;
-            for (var i; i < session.drivers.length; i++) {
-                if (driver[i]['id'] == driverId) {
-                    session.drivers[driverId] = driver;
-                    sessionStorage.setItem("session", JSON.stringify(session));
-                    return true
-                }
-            }
-            session["drivers"].push(driver);
-            sessionStorage.setItem("session", JSON.stringify(session));
-            var drivers = JSON.parse(sessionStorage.getItem("session"))["drivers"];
-            return true;
-        }
-    };
-    this.secondaryDriverSubmit = function () {
+    //    this.onDriversLicenseSubmit = function (page, primary, driverId) {
+    //        if (primary == true) {
+    //            var driver = {};
+    //            driver["fullname"] = document.forms[page].fullname.value;
+    //            driver["license"] = document.forms[page].license.value;
+    //            driver["street"] = document.forms[page].street.value;
+    //            driver["dob"] = document.forms[page].dob.value;
+    //            driver["city"] = document.forms[page].city.value;
+    //            driver["state"] = document.forms[page].state.value;
+    //            driver["zip"] = document.forms[page].zip.value;
+    //            driver["sex"] = document.forms[page].sex.value;
+    //            //garaging details
+    //            driver["gstreet"] = document.forms[page].gstreet.value;
+    //            driver["gcity"] = document.forms[page].gcity.value;
+    //            driver["gstate"] = document.forms[page].gstate.value;
+    //            driver["gzip"] = document.forms[page].gzip.value;
+    //            var issueDate = sessionStorage.getItem("issueDate");
+    //            var expDate = sessionStorage.getItem("expDate");
+    //            driver["issueDate"] = issueDate;
+    //            driver["expDate"] = expDate;
+    //            driver['id'] = 0;
+    //            driver
+    //            //        sessionStorage.setItem("driverId", parseInt(sessionStorage.getItem("driverId")) + 1);
+    //            //        driver["id"] = sessionStorage.getItem("driverId");
+    //            sessionStorage.setItem("session", JSON.stringify({
+    //                "drivers": [driver]
+    //            }));
+    //            var drivers = JSON.parse(sessionStorage.getItem("session"))["drivers"];
+    //            //Deriving the firstname and lastname from driver fullname
+    //            var fullname = driver["fullname"];
+    //            var split = fullname.split(" ");
+    //            var Firstname = split[0];
+    //            var Lastname = split[1];
+    //            //            sessionStorage.setItem("session", JSON.stringify(driver));
+    //            //var driver1 = JSON.parse(sessionStorage.getItem("session"));
+    //            var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
+    //            /*Update the Name */
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.NameInfo.PersonName.Surname = Lastname;
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.NameInfo.PersonName.GivenName = Firstname;
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].GeneralPartyInfo.NameInfo.PersonName.Surname = Lastname;
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].GeneralPartyInfo.NameInfo.PersonName.GivenName = Firstname;
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.NameInfo.PersonName.Surname = Lastname;
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.NameInfo.PersonName.GivenName = Firstname;
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].PersDriverInfo.FinancialResponsibilityFiling.NameInfo.PersonName.Surname = Lastname;
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].PersDriverInfo.FinancialResponsibilityFiling.NameInfo.PersonName.GivenName = Firstname;
+    //            /*Update the aaddress*/
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.AddrTypeCd = "MailingAddress";
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.Addr1 = driver["street"];
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.City = driver["city"];
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.StateProvCd = driver["state"];
+    //            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.StateProvCd = "MS";
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.StateProv = driver["state"];
+    //            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.StateProv = "MS"
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.PostalCode = driver["zip"];
+    //            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.PostalCode = "38601";
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.CountryCd = "US";
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.Country = "USA";
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.AddrTypeCd = "MailingAddress";
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.Addr1 = driver["street"];
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.City = driver["city"];
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.StateProvCd = driver["state"];
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.StateProv = driver["state"];
+    //            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.PostalCode = "38601";
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.PostalCode = driver["zip"];
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.CountryCd = "US";
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.Country = "USA";
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].Addr.AddrTypeCd = "MailingAddress";
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].Addr.Addr1 = driver["street"];
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].Addr.City = driver["city"];
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].Addr.StateProvCd = driver["state"];
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].Addr.StateProv = driver["state"];
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].Addr.PostalCode = driver['zip'];
+    //            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].Addr.PostalCode = driver["zip"];
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].Addr.CountryCd = "US";
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].Addr.Country = "USA";
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.AddrTypeCd = "GaragingAddress";
+    //            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.Addr1 = driver["gstreet"];
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.Addr1 = "140 Kristen CtR";
+    //            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.City = driver["gcity"];
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.City = "Jackson";
+    //            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.StateProvCd = driver["gstate"];
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.StateProvCd = "MS";
+    //            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.StateProv = driver["gstate"];
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.StateProv = "MS";
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.PostalCode = "39211";
+    //            //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.PostalCode = driver["gzip"];
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.CountryCd = "US";
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.Country = "USA";
+    //            /*Update date of birth*/
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.PersonInfo.BirthDt = formatDate(driver["dob"]);
+    //            /*Update the License details*/
+    //            //Here we need to progress the dates by 16 years
+    //            var myDate = new Date(driver["dob"]);
+    //            myDate.setYear(myDate.getFullYear() + 16);
+    //            //alert("Progressed date: " + formatDate(myDate));
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.LicensePermitNumber = driver["license"];
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.LicensedDt = formatDate(myDate);
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.FirstLicensedCurrentStateDt = formatDate(myDate);
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.StateProvCd = driver["state"];
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.StateProv = driver["state"];
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.CountryCd = "US";
+    //            /*Update the gender information for the first name insured*/
+    //            insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.PersonInfo.GenderCd = driver["sex"];
+    //            sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
+    //            //        document.forms[page].submit();
+    //            console.log(drivers);
+    //        }
+    //        else {
+    //            var session = JSON.parse(sessionStorage.getItem("session"));
+    //            var driver = {};
+    //            driver["fullname"] = document.forms[page].fullname.value;
+    //            driver["license"] = document.forms[page].license.value;
+    //            driver["licensedate"] = document.forms[page].licensedate.value;
+    //            driver["dob"] = document.forms[page].dob.value;
+    //            driver["state"] = document.forms[page].state.value;
+    //            driver["sex"] = document.forms[page].sex.value;
+    //            driver["maritalState"] = document.forms[page].maritalstatus.value;
+    //            driver["category"] = "regular";
+    //            driver["category"] = "regular";
+    //            driver['id'] = session['drivers'].length;
+    //            for (var i; i < session.drivers.length; i++) {
+    //                if (driver[i]['id'] == driverId) {
+    //                    session.drivers[driverId] = driver;
+    //                    sessionStorage.setItem("session", JSON.stringify(session));
+    //                    return true
+    //                }
+    //            }
+    //            session["drivers"].push(driver);
+    //            sessionStorage.setItem("session", JSON.stringify(session));
+    //            var drivers = JSON.parse(sessionStorage.getItem("session"))["drivers"];
+    //            return true;
+    //        }
+    //    };
+    this.secondaryDriverSubmit = function (driver) {
         var session = JSON.parse(sessionStorage.getItem("session"));
-        var driver = {};
-        driver["fullname"] = document.forms[page].fullname.value;
-        driver["license"] = document.forms[page].license.value;
-        driver["licensedate"] = document.forms[page].licensedate.value;
-        driver["dob"] = document.forms[page].dob.value;
-        driver["state"] = document.forms[page].state.value;
-        driver["sex"] = document.forms[page].sex.value;
-        driver["maritalState"] = document.forms[page].maritalstatus.value;
-        driver["category"] = "regular";
-        driver["category"] = "regular";
-        driver['id'] = session['drivers'].length;
+        var newDriver = {};
+        newDriver["fullname"] = driver.fullname.value;
+        newDriver["license"] = driver.license.value;
+        newDriver["licensedate"] = driver.licensedate.value;
+        newDriver["dob"] = driver.dob.value;
+        newDriver["state"] = driver.state.value;
+        newDriver["sex"] = driver.sex.value;
+        newDriver["maritalState"] = driver.maritalstatus.value;
+        newDriver["category"] = categories[2];
+        newDriver['id'] = session['drivers'].length;
         for (var i; i < session.drivers.length; i++) {
-            if (driver[i]['id'] == driverId) {
+            if (newDriver[i]['id'] == driverId) {
                 session.drivers[driverId] = driver;
                 sessionStorage.setItem("session", JSON.stringify(session));
                 return true
             }
         }
-        session["drivers"].push(driver);
+        session["drivers"].push(newDriver);
         sessionStorage.setItem("session", JSON.stringify(session));
         var drivers = JSON.parse(sessionStorage.getItem("session"))["drivers"];
         return true;
     };
-    this.onUserInfoSubmit = function (page) {
+    //    this.onUserInfoSubmit = function (page) {
+    //        var drivers = JSON.parse(sessionStorage.getItem("session"))["drivers"];
+    //        drivers[0]["county"] = document.forms[page].county.value;
+    //        drivers[0]["phone"] = document.forms[page].phone.value;
+    //        drivers[0]["email"] = document.forms[page].email.value;
+    //        if (document.forms[page].maritalstatus["0"].selected == true) {
+    //            drivers[0]["maritalState"] = document.forms[page].maritalstatus["0"].value;
+    //        }
+    //        else if (document.forms[page].maritalstatus["1"].selected == true) {
+    //            drivers[0]["maritalState"] = document.forms[page].maritalstatus["1"].value;
+    //        }
+    //        //            else {
+    //        //                alert("marital status error");
+    //        //            }
+    //        drivers[0]["category"] = "named insured";
+    //        sessionStorage.setItem("session", JSON.stringify({
+    //            "drivers": drivers
+    //        }));
+    //        var drivers = JSON.parse(sessionStorage.getItem("session"))["drivers"];
+    //        var retAgentLogin = sessionStorage.getItem("agentlogin");
+    //        var retAgentPasswd = sessionStorage.getItem("agentpasswd");
+    //        //alert("The number of drivers stored so far: " + drivers.length + " the agent details are: " + retAgentLogin + " " + retAgentPasswd);
+    //        /*Update the county*/
+    //        var insurescanJson = JSON.parse(sessionStorage.getItem('insurescanJson'));
+    //        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.County = drivers[0]["county"];
+    //        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.PersApplicationInfo.InsuredOrPrincipal[0].GeneralPartyInfo.Addr.County = drivers[0]["county"];
+    //        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[0].Addr.County = drivers[0]["county"];
+    //        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.County = drivers[0]["county"];
+    //        /*Update the marital status for the first nameinsured driver*/
+    //        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.PersonInfo.MaritalStatusCd = drivers[0]["maritalState"];
+    //        sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
+    //    };
+    this.submitUserInfo = function (userInfo) {
         var drivers = JSON.parse(sessionStorage.getItem("session"))["drivers"];
-        drivers[0]["county"] = document.forms[page].county.value;
-        drivers[0]["phone"] = document.forms[page].phone.value;
-        drivers[0]["email"] = document.forms[page].email.value;
-        if (document.forms[page].maritalstatus["0"].selected == true) {
-            drivers[0]["maritalState"] = document.forms[page].maritalstatus["0"].value;
-        }
-        else if (document.forms[page].maritalstatus["1"].selected == true) {
-            drivers[0]["maritalState"] = document.forms[page].maritalstatus["1"].value;
-        }
+        drivers[0]["county"] = userInfo.county.value;
+        drivers[0]["phone"] = userInfo.phone.value;
+        drivers[0]["email"] = userInfo.email.value;
+        //        if (userInfo.maritalstatus["0"].selected == true) {
+        //            drivers[0]["maritalState"] = userInfo.maritalstatus["single"].value;
+        //        }
+        //        else if (userInfo.maritalstatus["1"].selected == true) {
+        //            drivers[0]["maritalState"] = userInfo.maritalstatus["married"].value;
+        //        }
+        drivers[0]['maritalState'] = userInfo.maritalstatus.selected;
         //            else {
         //                alert("marital status error");
         //            }
@@ -481,12 +531,24 @@ services.factory('testService', function (APP_DEBUG) {
         newDriver['city'] = driver.city.value;
         newDriver['state'] = driver.state.value;
         newDriver['zip'] = driver.zip.value;
+        newDriver['gstreet'] = garagingInfo.gstreet.value;
+        newDriver['gcity'] = garagingInfo.gcity.value;
+        newDriver['gstate'] = garagingInfo.gstate.value;
+        newDriver['gzip'] = garagingInfo.gzip.value;
         newDriver['sex'] = driver.sex.selected;
         newDriver['id'] = session['drivers'].length;
-        session['drivers'] = newDriver;
+        newDriver['category'] = categories[NAMED_INSURED];
+        //        session['drivers'] = newDriver;
+        if (session['drivers'] && Array.isArray(session['drivers'])) {
+            session['drivers'].push(newDriver);
+        }
+        else {
+            session['drivers'] = [];
+            session['drivers'].push(newDriver);
+        }
         sessionStorage.setItem("session", JSON.stringify(session));
         try {
-            addPrimaryToJson(driver, garagingInfo);
+            addPrimaryToJson(newDriver, garagingInfo);
         }
         catch (err) {
             console.log("failed to add primary driver to Insurescan Json: ", err);
@@ -555,23 +617,23 @@ services.factory('testService', function (APP_DEBUG) {
         insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.CountryCd = "US";
         insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.Location[1].Addr.Country = "USA";
         /*Update date of birth*/
-        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.PersonInfo.BirthDt = this.formatDate(driver["dob"]);
+        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.PersonInfo.BirthDt = formatDate(driver["dob"]);
         /*Update the License details*/
         //Here we need to progress the dates by 16 years
         var myDate = new Date(driver["dob"]);
         myDate.setYear(myDate.getFullYear() + 16);
-        //alert("Progressed date: " + this.formatDate(myDate));
+        //alert("Progressed date: " + formatDate(myDate));
         insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.LicensePermitNumber = driver["license"];
-        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.LicensedDt = this.formatDate(myDate);
-        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.FirstLicensedCurrentStateDt = this.formatDate(myDate);
+        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.LicensedDt = formatDate(myDate);
+        insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.FirstLicensedCurrentStateDt = formatDate(myDate);
         insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.StateProvCd = driver["state"];
         insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.StateProv = driver["state"];
         insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.License.CountryCd = "US";
         /*Update the gender information for the first name insured*/
         insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver[0].DriverInfo.PersonInfo.GenderCd = driver["sex"];
         sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
-        //        document.forms[page].submit();
+        //        userInfo.submit();
         console.log(drivers);
-    }
+    };
     return this;
 });

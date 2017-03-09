@@ -1,0 +1,90 @@
+<ion-header-bar class="bar-positive">
+    <h1 class="title">Coverages</h1> </ion-header-bar>
+<ion-view scroll="true" overflow-scroll="true" class="has-header has-footer background">
+    <ion-content class="has-header">
+        <div class="row" style="margin:auto;font-size:6vmax">
+            <div class="col col-66" style="margin:auto"> <i class="icon ion-ios-gear-outline" style="color:cornflowerblue"></i>
+                <p style="color:darkgrey;text-align:center;margin:auto;font-size:4vmin;display:inline">. . . Set your coverages!</p>
+            </div>
+        </div>
+        <div class="card has-footer" style="bottom:6vh;">
+            <!--            <div scan-button></div>-->
+            <ion-list class="list inset-list" id="inset-form" style="width:95vmax;margin:auto;">
+                <ion-item class="item item-select item-input item-stacked-label">
+                    <label>
+                        <h3>Bodily Injury Liability<span style="color:blue;float:right;">${{coverages.BI.selected}}</span></h3>
+                        <p style="white-space:normal;">pays out if you are responsible for another unisured or underinsured person's injury or dreath in an auto accident. It also pays for legal defense</p>
+                    </label>
+                    <div class="row">
+                        <select name="BI" ng-model="coverages.BI.selected" ng-options="option for option in coverages.BI.options"> </select>
+                    </div>
+                </ion-item>
+                <ion-item class="item item-select item-input item-stacked-label">
+                    <label>
+                        <h3>Property Damage Liability<span style="color:blue;float:right;">${{coverages.PD.selected}}</span></h3>
+                        <p style="white-space:normal;">pays out if you are responsible for another person's injury or dreath in an auto accident. It also pays for legal defense</p>
+                        <select name="PD" ng-model="coverages.PD.selected" ng-options="option for option in coverages.PD.options"> </select>
+                    </label>
+                </ion-item>
+                <ion-item class="item item-select item-input item-stacked-label">
+                    <label>
+                        <h3>Uninsured/Underinsured Bodily Injury<span style="color:blue;float:right;">{{coverages.UML.selected}}</span></h3>
+                        <p style="white-space:normal"> pays bodily injury or death expenses for you and any passengers in your vehicle up to your policy limits if you're struck by a driver who doesn't have insurance, or if you're struck by a “hit-and-run” driver that you cannot identify.</p>
+                        <select name="UML" ng-model="coverages.UML.selected" ng-options="option for option in coverages.UML.options"> </select>
+                    </label>
+                </ion-item>
+                <ion-item class="item item-select item-input item-stacked-label">
+                    <label>
+                        <h3>Uninsured/Underinsured Property Damage<span style="color:blue;float:right;">{{coverages.UMP.selected}}</span></h3>
+                        <p style="white-space:normal"> pays for damage to your vehicle when it is struck by an uninsured driver, a hit-and-run driver, or an insured driver whose property damage liability limit is inadequate to cover the property damage losses incurred.</p>
+                        <select name="UMP" ng-model="coverages.UMP.selected" ng-options="option for option in coverages.UMP.options"> </select>
+                    </label>
+                </ion-item>
+                <ion-item class="item item-select item-input item-stacked-label">
+                    <label>
+                        <h3>Medical Payments<span style="color:blue;float:right;">${{coverages.MP.selected}}</span></h3>
+                        <p style="white-space:normal;">generally pays for medical costs after you are hurt in a car accident, regardless of who is found at fault for the accident.</p>
+                        <select name="MP" ng-model="coverages.MP.selected" ng-options="option for option in coverages.MP.options"> </select>
+                    </label>
+                </ion-item>
+                <ion-item class="item item-select item-input item-stacked-label">
+                    <label>
+                        <h3>Comprehensive Collision Deductible<span style="color:blue;float:right;">${{coverages.compdeduct.selected}}</span></h3>
+                        <p style="white-space:normal;">Pay to repair or replace your auto if it is stolen or damaged in an accident, regardless of who is at fault.</p>
+                        <select name="compdeduct" ng-model="coverages.compdeduct.selected" ng-options="option for option in coverages.compdeduct.options"> </select>
+                    </label>
+                </ion-item>
+                <ion-item class="item item-select item-input item-stacked-label">
+                    <label>
+                        <h3>Collision Deductible<span style="color:blue;float:right;">${{coverages.compdeduct.selected}}</span></h3>
+                        <p style="white-space:normal;">If you hit a car, a pole or another nonliving object, Collision coverage will apply. </p>
+                        <select name="colldeduct" ng-model="coverages.collprem.selected" ng-options="option for option in coverages.collprem.options"> </select>
+                    </label>
+                </ion-item>
+                <ion-item class="item item-select item-input item-stacked-label">
+                    <label>
+                        <h3>Towing Premium<span style="color:blue;float:right;">{{coverages.towing.selected}}</span></h3>
+                        <p style="white-space:normal;">Pays for towing costs associated with an automobile accident</p>
+                        <select name="towing" ng-model="coverages.towing.selected" ng-options="option for option in coverages.towing.options"> </select>
+                    </label>
+                </ion-item>
+                <ion-item class="item item-select item-input item-stacked-label">
+                    <label>
+                        <h3>Rental Car<span style="color:blue;float:right;">{{coverages.RR.selected}}</span></h3>
+                        <p style="white-space:normal;">Covers the cost of car rental in case of inconvienence due to accident</p>
+                        <select name="RR" ng-model="coverages.RR.selected" ng-options="option for option in coverages.RR.options"> </select>
+                    </label>
+                </ion-item>
+            </ion-list>
+        </div>
+    </ion-content>
+    <ion-footer-bar class="background" style="border: none;
+    background-image: none;">
+        <div class="row">
+            <div class="col col-50"> </div>
+            <div class="col col-50">
+                <button class="button button-positive" style="width:100%;color:white;" ui-sref="viewQuote">Next</button>
+            </div>
+        </div>
+    </ion-footer-bar>
+</ion-view>

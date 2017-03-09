@@ -1,0 +1,66 @@
+<ion-scroll class="background">
+    <ion-content class="correct-footer">
+        <div class="row" style="margin:auto;font-size:6vmax">
+            <div class="col col-50" style="margin:auto"> <i class="icon ion-ios-search" style="color:cornflowerblue"></i>
+                <p style="color:darkgrey;text-align:center;margin:auto;font-size:3vmin;display:inline">. . . <strong>Review Your Quote!</strong></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="row">
+                <div class="col col-50" style="width:50%">
+                    <div class="card">
+                        <ion-item>
+                            <h3>Policy Term</h3></ion-item>
+                        <ion-item>
+                            <p>{{quote.overview.policyterm[0]}}</p>
+                            <br>
+                            <p>{{quote.overview.policyterm[1]}}</p>
+                        </ion-item>
+                    </div>
+                </div>
+                <div class="col col-50" style="width:50%">
+                    <div class="card">
+                        <ion-item>
+                            <h3>Policy Premium</h3></ion-item>
+                        <ion-item>
+                            <h2>{{quote.overview.policypremium}}</h2>
+                            <!--                        <button class="button button-clear button-outline button-positive button-small" style="float:right;">learn more</button>-->
+                        </ion-item>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <ion-list class="list inset-list" style="width:95%;">
+                <ion-item style="width:95%;margin:auto;">
+                    <h3>Producer Info</h3></ion-item>
+                <ion-item style="width:95%;margin:auto;">
+                    <h3>Producer Name:</h3>
+                    <p>{{quote.overview.producer.name}}</p>
+                </ion-item>
+                <ion-item style="width:95%;margin:auto;">
+                    <h3>Producer Number:</h3>
+                    <p>{{quote.overview.producer.number}}</p>
+                </ion-item>
+                <ion-item style="width:95%;margin:auto;">
+                    <h3>Producer Phone:</h3>
+                    <p>{{quote.overview.producer.phone}}</p>
+                </ion-item>
+                <ion-item style="width:95%;margin:auto;">
+                    <h3>Producer State:</h3>
+                    <p>{{quote.overview.producer.state}}</p>
+                </ion-item>
+            </ion-list>
+        </div>
+        <div id="logo"> <img src="img/new_logo.png" style="max-width:100vw;text-align:center"> </div>
+    </ion-content>
+</ion-scroll>
+<ion-footer-bar class="background" style="border: none;
+    background-image: none;">
+    <div class="row">
+        <div class="col col-50"> </div>
+        <div class="col col-50">
+            <button class="button button-positive" style="width:100%;color:white;" ui-sref="viewQuote/mvr">Accept</button>
+        </div>
+    </div>
+</ion-footer-bar>

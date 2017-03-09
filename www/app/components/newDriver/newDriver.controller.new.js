@@ -14,7 +14,7 @@ controllers.controller('newDriverCtrl', ['APP_DEBUG', 'BASE_SERVER', '$scope', '
             , "value": ""
             , "required": true
             , "label": "Full Name"
-            , "validate_exp": "[a-zA-Z]+"
+            , "validate_exp": ""
         }
         , "license": {
             "type": "number"
@@ -26,7 +26,7 @@ controllers.controller('newDriverCtrl', ['APP_DEBUG', 'BASE_SERVER', '$scope', '
         }
         , "licensedate": {
             "type": "date"
-            , "size": 20
+            , "size": 90
                 //                            , "value": today
                 
             , "value": ""
@@ -36,7 +36,7 @@ controllers.controller('newDriverCtrl', ['APP_DEBUG', 'BASE_SERVER', '$scope', '
         }
         , "dob": {
             "type": "date"
-            , "size": 12
+            , "size": 90
                 //                            , "value": today
                 
             , "value": ""
@@ -66,7 +66,7 @@ controllers.controller('newDriverCtrl', ['APP_DEBUG', 'BASE_SERVER', '$scope', '
             , "value": null
             , "required": true
             , "label": "City"
-            , "validate_exp": "[a-zA-Z]"
+            , "validate_exp": ""
         }
         , "state": {
             "type": "text"
@@ -74,7 +74,7 @@ controllers.controller('newDriverCtrl', ['APP_DEBUG', 'BASE_SERVER', '$scope', '
             , "value": null
             , "required": true
             , "label": "State"
-            , "validate_exp": "[a-zA-Z]"
+            , "validate_exp": ""
         }
         , "zip": {
             "type": "tel"
@@ -82,7 +82,7 @@ controllers.controller('newDriverCtrl', ['APP_DEBUG', 'BASE_SERVER', '$scope', '
             , "value": null
             , "required": true
             , "label": "Zip"
-            , "validate_exp": "[0-9]"
+            , "validate_exp": ""
         }
         , "sex": {
             "type": "select"
@@ -95,6 +95,7 @@ controllers.controller('newDriverCtrl', ['APP_DEBUG', 'BASE_SERVER', '$scope', '
         }
     };
     $scope.submitSecondary = function () {
-        test.submitSecondaryDriver($scope.driver);
+        test.secondaryDriverSubmit($scope.driver);
+        $state.go('drivers');
     };
 }]);

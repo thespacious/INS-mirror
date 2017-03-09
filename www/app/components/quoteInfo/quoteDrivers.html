@@ -1,30 +1,47 @@
-<ion-content style="top:7vh;background-color:#eaeaea">
-    <div class="row scroll" style="height:20vh;top:44px;padding:0px;margin-top:7vh;">
-        <ion-list class="list inset-list col scroll" style="margin-top:1vh;">
-            <ion-item>
-                <h2>Mary Sue <span style="color:blue;float:right;">Primary</span></h2>
-                <p>DOB: <span>02/10/1991</span></p>
-                <p>License No: <span>736y445</span></p>
-                <p>License Issue Date: <span>02/17/2007</span></p>
-                <p>Vehicles: <span>2010 Ford Escape</span></p>
-                <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
-            </ion-item>
-            <ion-item>
-                <h2>John Doe<span style="color:gray;float:right;">normal</span></h2>
-                <p>DOB: <span>02/10/1991</span></p>
-                <p>License No: <span>736y445</span></p>
-                <p>License Issue Date: <span>02/17/2007</span></p>
-                <p>Vehicles: <span>2010 Ford Escape</span></p>
-                <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
-            </ion-item>
-            <ion-item>
-                <h2>Mikey Troublemaker<span style="color:red;float:right;">excluded</span></h2>
-                <p>DOB: <span>02/10/1991</span></p>
-                <p>License No: <span>736y445</span></p>
-                <p>License Issue Date: <span>02/17/2007</span></p>
-                <p>Vehicles: <span>2010 Ford Escape</span></p>
-                <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
-            </ion-item>
-        </ion-list>
+<ion-scroll class="background">
+    <ion-content class="correct-footer">
+        <div class="row" style="margin:auto;font-size:6vmax">
+            <div class="col col-50" style="margin:auto"> <i class="icon ion-ios-search" style="color:cornflowerblue"></i>
+                <p style="color:darkgrey;text-align:center;margin:auto;font-size:3vmin;display:inline">. . . <strong>Review Your Quote!</strong></p>
+            </div>
+        </div>
+        <div class="card">
+            <ion-list>
+                <ion-item>
+                    <h2>Mary Sue <span style="color:blue;float:right;">Primary</span></h2>
+                    <p>DOB: <span>02/10/1991</span></p>
+                    <p>License No: <span>736y445</span></p>
+                    <p>License Issue Date: <span>02/17/2007</span></p>
+                    <p>Vehicles: <span>2010 Ford Escape</span></p>
+                    <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
+                </ion-item>
+                <ion-item>
+                    <h2>John Doe<span style="color:gray;float:right;">normal</span></h2>
+                    <p>DOB: <span>02/10/1991</span></p>
+                    <p>License No: <span>736y445</span></p>
+                    <p>License Issue Date: <span>02/17/2007</span></p>
+                    <p>Vehicles: <span>2010 Ford Escape</span></p>
+                    <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
+                </ion-item>
+                <ion-item>
+                    <h2>Mikey Troublemaker<span style="color:red;float:right;">excluded</span></h2>
+                    <p>DOB: <span>02/10/1991</span></p>
+                    <p>License No: <span>736y445</span></p>
+                    <p>License Issue Date: <span>02/17/2007</span></p>
+                    <p>Vehicles: <span>2010 Ford Escape</span></p>
+                    <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
+                </ion-item>
+            </ion-list>
+        </div>
+        <div id="logo"> <img src="img/new_logo.png" style="max-width:100vw;text-align:center"> </div>
+    </ion-content>
+</ion-scroll>
+<ion-footer-bar class="background" style="border: none;
+    background-image: none;">
+    <div class="row">
+        <div class="col col-50"> </div>
+        <div class="col col-50">
+            <button class="button button-positive" style="width:100%;color:white;" ui-sref="viewQuote/mvr">Accept</button>
+        </div>
     </div>
-</ion-content>
+</ion-footer-bar>

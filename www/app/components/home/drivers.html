@@ -1,42 +1,15 @@
-<!--
-<html ng-app="ionicApp">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title>Toggles</title>
-        <link href="lib/ionic/css/ionic.min.css" rel="stylesheet">
-    <link href="css/ionic.app.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/fontawesome.min.css" />
-    <title>InsureScan</title>
-</head>
--->
-<div class="view-container">
+<ion-view>
     <ion-header-bar class="bar-positive">
-        <button class="button button-clear icon left ion-navicon">Main</button>
-        <button class="button button-clear icon right ion-help-circled" style="margin-right:32px;margin-right: 32px;position: absolute;right: 0px;"> </button>
-        <button class="button button-clear icon right ion-android-more-vertical"> </button>
-        <!--        <h1 class="title" style=""></h1>--></ion-header-bar>
-    <!--
-    <ion-header-bar class="bar-positive">
-        <h1 class="title">Drivers</h1> </ion-header-bar>
--->
-    <ion-scroll class="has-header has-footer overflow-scroll" style="height:85vh;">
+        <h1 class="title">Drivers</h1>
+        <button class="button button-clear icon right ion-home" style="position: absolute;right: 0px;" ui-sref="drivers"> </button>
+    </ion-header-bar>
+    <ion-scroll class="has-header has-footer overflow-scroll background">
         <ion-list>
             <ion-item ng-repeat="driver in drivers" item="driver" class="card driver-item" can-swipe="false">
-                <!--
-                <div class="card" style="display:none" id="help-card">
-    <div class="row">
-        <div class="col-66"> Check toggle for each
-            <br>named insured (2 max)</div>
-        <button type="button" class="button icon ion-close-circled" style="float: right;margin-left: auto;" ng-checked="$first"></button>
-    </div>
-</div>
--->
                 <div class="item item-divider driver-item-header">
                     <p>{{driver.fullname}}</p>
                     <label class="toggle" style="float:right;">
-                        <input type="checkbox" >
+                        <input type="checkbox">
                         <div class="track">
                             <div class="handle"></div>
                         </div>
@@ -62,34 +35,29 @@
                         <ion-option-button class="button-assertive" ng-click="removeCar($index)"> delete </ion-option-button>
                     </ion-item>
                 </ion-list>
-                <div class="col col-33 col-offset-66">
+                <div class="col col-66 col-offset-25">
+                    <button class="button button icon-right icon ion-plus-round button-assertive" ng-click="removeDriver($index)">delete driver</button>
                     <button class="button button icon-right icon ion-plus-round button-balanced" ui-sref="newCar({fullname:drivers[$parent.$index].fullname, driverId:$parent.$index})">add car</button>
                 </div>
             </ion-item>
         </ion-list>
         <ion-item>
             <div class="add-driver-button-container">
-                <div class="col col-50" ng-show="driversLength()" style="float:left;">
+                <div class="col col-50" ng-show="getDriversLength()" style="float:left;">
                     <h3 style="font-size:5vw;font-weight:400;color:cornflowerblue;">Need a Quote?</h3>
                     <p style="color:darkgrey;font-size:4vw">click here to get started.</p>
                 </div>
-                <!--                <button class="button button icon-right icon ion-plus-round button-positive" style="float:right" ui-sref="newDriver({driverId: driverId})">add driver</button>-->
-                <!--                                <button class="button button icon-right icon ion-plus-round button-positive" style="float:right" ng-click="sendQuote()">add driver</button>-->
                 <button class="button button icon-right icon ion-person-add button-positive" style="float:right" ng-click="addDriver()">add driver</button>
             </div>
         </ion-item>
     </ion-scroll>
-    <div footer></div>
-    <!--
-    <script type="text/javascript" src="js/jquery-1.11.3.js"></script>
-    <script type="text/javascript" src="js/driversLicenseScan.js"></script>
-    <script type="text/javascript" src="js/validateDriverLicenseScanForm.js"></script>
--->
-    <!--
-    <script src="lib/ionic/js/ionic.bundle.min.js"></script>
-    <script src="lib/ionic/js/ionic.min.js"></script>
-    <script src="lib/ionic/js/ionic-angular.min.js"></script>
-    <script src="js/custom-controllers.js"></script>
--->
-    <!--    <script src="js/UserFormController.js"></script>-->
-</div>
+    <ion-footer-bar class="background" style="border: none;
+    background-image: none;">
+        <div class="row">
+            <div class="col col-50"> </div>
+            <div class="col col-50">
+                <button class="button button-positive" style="width:100%;color:white;" ng-click="submitForms()">Submit Drivers</button>
+            </div>
+        </div>
+    </ion-footer-bar>
+</ion-view>

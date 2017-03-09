@@ -1,7 +1,19 @@
 controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state', '$stateParams', '$ionicSlideBoxDelegate', '$injector', '$timeout', function (baseUrl, $scope, $state, $stateParams, $ionicSlideBoxDelegate, $injector, $timeout) {
     /////////////////// INJECTED SERVICES ///////////////////////
     var test = $injector.get('testService');
+    var service = $injector.get('newDriverService');
     var insurescanJson = $injector.get('insurescanJson');
+    ////////////////////// CHECK FOR EXISTING PRIMARY ////////////
+    var checkPrimary = function () {
+        var session = JSON.parse(sessionStorage.getItem('session'));
+        if (session.drivers && session.drivers.length > 0) {
+            alert("there can be only one Primay Insured, please delete the primary from the home page to add another");
+            $state.go('drivers');
+        }
+    };
+    //
+    ////// Then run it //////
+    checkPrimary();
     //////////////////////////////////////////////////////////////
     //
     /////////////////// Models to Bind form data to //////////////
@@ -12,7 +24,7 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
             , "value": ""
             , "required": true
             , "label": "Full Name"
-            , "validate_exp": "[a-zA-Z]+"
+            , "validate_exp": ""
         }
         , "license": {
             "type": "number"
@@ -56,7 +68,7 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
             , "value": null
             , "required": true
             , "label": "City"
-            , "validate_exp": "[a-zA-Z]"
+            , "validate_exp": ""
         }
         , "state": {
             "type": "text"
@@ -64,7 +76,7 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
             , "value": null
             , "required": true
             , "label": "State"
-            , "validate_exp": "[a-zA-Z]"
+            , "validate_exp": ""
         }
         , "zip": {
             "type": "tel"
@@ -72,7 +84,7 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
             , "value": null
             , "required": true
             , "label": "Zip"
-            , "validate_exp": "[0-9]"
+            , "validate_exp": "[0-9]+"
         }
         , "sex": {
             "type": "select"
@@ -99,7 +111,7 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
             , "value": null
             , "required": true
             , "label": "City"
-            , "validate_exp": "[a-zA-Z]"
+            , "validate_exp": "[a-zA-Z]+"
         }
         , "gstate": {
             "type": "text"
@@ -107,7 +119,7 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
             , "value": null
             , "required": true
             , "label": "State"
-            , "validate_exp": "[a-zA-Z]"
+            , "validate_exp": "[a-zA-Z]+"
         }
         , "gzip": {
             "type": "tel"
@@ -115,9 +127,61 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
             , "value": null
             , "required": true
             , "label": "Zip"
-            , "validate_exp": "[0-9]"
+            , "validate_exp": ""
         }
     };
+    $scope.userInfo = {
+        "county": {
+            "type": "text"
+            , "size": 50
+            , "value": null
+            , "required": true
+            , "label": "County"
+            , "validate_exp": ""
+        }
+        , "phone": {
+            "type": "tel"
+            , "size": 10
+            , "value": null
+            , "required": true
+            , "label": "Phone"
+            , "validate_exp": ""
+        }
+        , "email": {
+            "type": "email"
+            , "size": 75
+            , "value": null
+            , "required": true
+            , "label": "Email"
+            , "validate_exp": ""
+        }
+        , "maritalstatus": {
+            "type": "select"
+            , "label": "Marital Status"
+            , "options": [
+                            "single"
+                            , "married"]
+            , "selected": "single"
+        }
+    };
+    /////////////////////////////////////////////////////////////
+    ////////////////////// UI FUNCTIONS /////////////////////////
+    $scope.footerText = 'next';
+    /////////////////////// Populate Scanned Data ///////////////
+    $scope.capturePhoto = function () {
+        var data = test.capturePhoto()
+        $scope.driver.fullname.value = data.fullname;
+        $scope.driver.license.value = data.license;
+        $scope.driver.licensedate.value = data.licensedate;
+        $scope.driver.dob.value = data.dob;
+        $scope.driver.city.value = data.city;
+        $scope.driver.state.value = data.state;
+        $scope.driver.street.value = data.street;
+        $scope.driver.sex.selected = data.sex;
+        $scope.driver.zip.value = data.zip;
+    };
+    //
+    /////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////
     //
     ///////////////////// UI FUNCTIONS FOR GARAGING //////////////
@@ -127,22 +191,26 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
     };
     $scope.showGaraging = false;
     $scope.showGaragingOne = function () {
+        var garaging = {};
         if ($scope.checked.yes) {
             return;
         }
         else {
-            $test.setGaraging();
+            garaging = service.setGaraging($scope.garagingInfo, $scope.driver);
+            $scope.garagingInfo = garaging;
             $scope.checked.yes = true;
             $scope.checked.no = false;
             $scope.showGaraging = false;
         }
     };
     $scope.showGaragingTwo = function () {
+        var garaging = {};
         if ($scope.checked.no) {
             return;
         }
         else {
-            test.unsetGaraging();
+            garaging = service.unsetGaraging($scope.garagingInfo);
+            $scope.garagingInfo = garaging;
             $scope.checked.no = true;
             $scope.checked.yes = false;
             $scope.showGaraging = true;
@@ -153,5 +221,11 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
     //////////////////// SUBMIT FORMS //////////////////////////////
     $scope.submitPrimary = function () {
         test.primaryDriverSubmit($scope.driver, $scope.garagingInfo);
+        $state.go('userInfo');
+        $scope.footerText = "submit";
+    };
+    $scope.submitUserInfo = function () {
+        test.submitUserInfo($scope.userInfo);
+        $state.go('drivers');
     };
 }]);

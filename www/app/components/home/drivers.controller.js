@@ -76,11 +76,11 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', '$scope', '$state', '$
             $state.go('newDriver');
         }
         else {
-            $state.go('newDriver');
+            $state.go('newPrimaryDriver');
             //            $state.go('newPrimaryDriver');
         }
     };
-    $scope.driversLength
+    //    $scope.driversLength
     $scope.getDriversLength = function () {
         if ($scope.drivers.length > 0) {
             return false;
@@ -88,5 +88,11 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', '$scope', '$state', '$
         else {
             return true;
         }
+    };
+    $scope.removeDriver = function (id) {
+        var session = JSON.parse(sessionStorage.getItem("session"));
+        session.drivers.splice(id, 1);
+        $scope.drivers = session.drivers;
+        sessionStorage.setItem('session', JSON.stringify(session));
     };
 }]);

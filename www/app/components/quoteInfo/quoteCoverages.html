@@ -1,51 +1,69 @@
-<ion-content style="top:13vh;background-color:#eaeaea;padding:10px">
-    <div class="row scroll" style="top:7vh;background-color:#eaeaea">
-        <ion-list class="list inset-list col scroll" style="margin-top:1vh;">
-            <ion-item>
-                <h3>Property Damage Liability<span style="color:blue;float:right;">$100.00</span></h3>
-                <p style="white-space:normal;">pays out if you are responsible for another person's injury or dreath in an auto accident. It also pays for legal defense</p>
-                <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
-            </ion-item>
-            <ion-item>
-                <h3>Bodily Injury Liability<span style="color:blue;float:right;">$100.00</span></h3>
-                <p style="white-space:normal;">pays out if you are responsible for another unisured or underinsured person's injury or dreath in an auto accident. It also pays for legal defense</p>
-                <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
-            </ion-item>
-            <ion-item>
-                <h3>Uninsured/Underinsured Bodily Injury<span style="color:blue;float:right;">$100.00</span></h3>
-                <p>Some info about the coverages and stuff</p>
-                <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
-            </ion-item>
-            <ion-item>
-                <h3>Medical Payments<span style="color:blue;float:right;">$100.00</span></h3>
-                <p style="white-space:normal;">Pays for medical costs incurred in an automobile accident</p>
-                <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
-            </ion-item>
-            <ion-item>
-                <h3>Comprehensive Collision Deductible<span style="color:blue;float:right;">$100.00</span></h3>
-                <p style="white-space:normal;">Pay to repair or replace your auto if it is stolen or damaged in an accident, regardless of who is at fault.</p>
-                <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
-            </ion-item>
-            <ion-item>
-                <h3>Comprehensive Premium<span style="color:blue;float:right;">$100.00</span></h3>
-                <p style="white-space:normal;">The cost per policy term for the comprehensive coverage</p>
-                <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
-            </ion-item>
-            <ion-item>
-                <h3>Collision Premium<span style="color:blue;float:right;">$100.00</span></h3>
-                <p style="white-space:normal;">The cost per policy term for the comprehensive coverage</p>
-                <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
-            </ion-item>
-            <ion-item>
-                <h3>Rental Car<span style="color:blue;float:right;">$100.00</span></h3>
-                <p style="white-space:normal;">Covers the cost of car rental in case of inconvienence due to accident</p>
-                <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
-            </ion-item>
-            <ion-item>
-                <h3>Towing Premium<span style="color:blue;float:right;">$100.00</span></h3>
-                <p style="white-space:normal;">Pays for towing costs associated with an automobile accident</p>
-                <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
-            </ion-item>
-        </ion-list>
+<ion-scroll class="background">
+    <ion-content class="correct-footer">
+        <div class="row" style="margin:auto;font-size:6vmax">
+            <div class="col col-50" style="margin:auto"> <i class="icon ion-ios-search" style="color:cornflowerblue"></i>
+                <p style="color:darkgrey;text-align:center;margin:auto;font-size:3vmin;display:inline">. . . <strong>Review Your Quote!</strong></p>
+            </div>
+        </div>
+        <div class="card">
+            <ion-list>
+                <ion-item>
+                    <h3>Bodily Injury Liability Coverage<span style="color:blue;float:right;">{{quote.coverages.BI.person}}</span></h3> <span style="float:right;"><p>per person</p></span><span style="color:blue;float:right;clear:both;"><h3 style="color:blue;">{{quote.coverages.BI.accident}}</h3></span> <span style="float:right;clear:both;"><p>per accident</p></span>
+                    <br>
+                    <p style="white-space:normal;clear:both;">pays out if you are responsible for another person's injury or dreath in an auto accident. It also pays for legal defense</p>
+                    <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
+                </ion-item>
+                <ion-item>
+                    <h3>Property Damage Coverage<span style="color:blue;float:right;">{{quote.coverages.PD}}</span></h3>
+                    <p style="white-space:normal;clear:both;">Protects you if you're in an accident with an at-fault driver who doesn't carry liability insurance. Underinsured motorist coverage, on the other hand, steps in when you're in an accident with an at-fault driver whose liability limits are too low to cover the damage or medical expenses.</p>
+                    <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
+                </ion-item>
+                <ion-item>
+                    <h3>Uninsured/Underinsured Liability Premium<span style="color:blue;float:right;">{{quote.coverages.UMP}}</span></h3>
+                    <p style="white-space:normal;clear:both;">Protects you if you're in an accident with an at-fault driver who doesn't carry liability insurance. Underinsured motorist coverage, on the other hand, steps in when you're in an accident with an at-fault driver whose liability limits are too low to cover the damage or medical expenses.</p>
+                    <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
+                </ion-item>
+                <ion-item>
+                    <h3>Medical Payments<span style="color:blue;float:right;">{{quote.coverages.MP}}</span></h3>
+                    <p style="white-space:normal;">generally pays for medical costs after you are hurt in a car accident, regardless of who is found at fault for the accident.</p>
+                    <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
+                </ion-item>
+                <ion-item>
+                    <h3>Comprehensive Collision Deductible<span style="color:blue;float:right;">{{quote.coverages.compdeduct}}</span></h3>
+                    <p style="white-space:normal;">Pay to repair or replace your auto if it is stolen or damaged in an accident, regardless of who is at fault.</p>
+                    <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
+                </ion-item>
+                <ion-item>
+                    <h3>Comprehensive Premium<span style="color:blue;float:right;">{{quote.coverages.compprem}}</span></h3>
+                    <p style="white-space:normal;">If your car needs to be replaced, you're generally reimbursed for your car's actual cash value minus your comprehensive deductible.</p>
+                    <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
+                </ion-item>
+                <ion-item>
+                    <h3>Collision Premium<span style="color:blue;float:right;">{{quote.coverages.collprem}}0</span></h3>
+                    <p style="white-space:normal;">The cost per policy term for the comprehensive coverage</p>
+                    <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
+                </ion-item>
+                <ion-item>
+                    <h3>Rental Car<span style="color:blue;float:right;">{{quote.coverages.rental}}</span></h3>
+                    <p style="white-space:normal;">Covers the cost of car rental in case of inconvienence due to accident</p>
+                    <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
+                </ion-item>
+                <ion-item>
+                    <h3>Towing Premium<span style="color:blue;float:right;">{{quote.coverages.towing}}</span></h3>
+                    <p style="white-space:normal;">Pays for towing costs associated with an automobile accident</p>
+                    <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
+                </ion-item>
+            </ion-list>
+        </div>
+        <div id="logo"> <img src="img/new_logo.png" style="max-width:100vw;text-align:center"> </div>
+    </ion-content>
+</ion-scroll>
+<ion-footer-bar class="background" style="border: none;
+    background-image: none;">
+    <div class="row">
+        <div class="col col-50"> </div>
+        <div class="col col-50">
+            <button class="button button-positive" style="width:100%;color:white;" ui-sref="viewQuote/mvr">Accept</button>
+        </div>
     </div>
-</ion-content>
+</ion-footer-bar>

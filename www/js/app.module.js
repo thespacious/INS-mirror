@@ -66,12 +66,16 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
     $stateProvider
     // default view is splash
         .state('splash', {
-            url: '/'
+            url: '/splash'
             , templateUrl: 'app/components/splash/splash.html'
             , controller: 'splashCtrl'
         }).state('login', {
-            url: '/login'
+            url: '/'
             , templateUrl: 'app/components/splash/login.html'
+            , controller: 'splashCtrl'
+        }).state('scanExplain', {
+            url: '/scanExplain'
+            , templateUrl: 'app/components/home/bullshit.html'
             , controller: 'splashCtrl'
         }).state('home', {
             url: '/home'
@@ -83,9 +87,17 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             , controller: 'homeDriversCtrl'
         })
         // Each tab has its own nav history stack:
-        .state('newDriver', {
-            url: '/newDriver'
+        .state('newPrimaryDriver', {
+            url: '/newPrimaryDriver'
             , templateUrl: 'app/components/newDriver/newDriver.primary.html'
+            , controller: "newDriverPrimaryCtrl"
+        }).state('userInfo', {
+            url: '/userInfo'
+            , templateUrl: 'app/components/newDriver/primaryUserInfo.html'
+            , controller: "primaryInfoCtrl"
+        }).state('newDriver', {
+            url: '/newDriver'
+            , templateUrl: 'app/components/newDriver/newDriver.new.html'
             , controller: "newDriverCtrl"
         }).state('newCar', {
             url: '/newCar/:fullname'
@@ -93,14 +105,26 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
                 fullname: null
                 , driverId: null
             }
-            , templateUrl: 'app/components/newCar/newCar.html'
+            , templateUrl: 'app/components/newCar/newCar.new.html'
             , controller: "newCarCtrl"
+        }).state('coverages', {
+            url: '/coverages'
+            , templateUrl: 'app/components/coverages/coverages.html'
+            , controller: "coveragesCtrl"
+        }).state('datepicker', {
+            url: '/datepicker'
+            , templateUrl: 'app/components/datepicker/datepicker.html'
+            , controller: "datepickerCtrl"
+        }).state('discounts', {
+            url: '/discounts'
+            , templateUrl: 'app/components/discounts/discounts.html'
+            , controller: "discountsCtrl"
         }).state('quoteInfo', {
             url: '/quoteInfo'
             , templateUrl: 'app/components/quoteInfo/quoteInfo.html'
             , controller: "quoteInfoCtrl"
         }).state('quoteInfo.datePicker', {
-            url: '/datePicker'
+            url: '/quoteInfo/datePicker'
             , templateUrl: 'app/components/quoteInfo/quoteInfo.datePicker.html'
             , controller: "quoteInfoCtrl"
         }).state('viewQuote', {
@@ -111,7 +135,7 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             url: '/viewQuote/overview'
             , views: {
                 "overview-tab": {
-                    templateUrl: "app/components/quoteInfo/quoteOverview.html"
+                    templateUrl: "app/components/quoteInfo/quote.overview.html"
                 }
             }
         }).state('viewQuote.coverages', {

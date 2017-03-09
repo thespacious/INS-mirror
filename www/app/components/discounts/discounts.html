@@ -1,0 +1,29 @@
+<ion-header-bar class="bar-positive">
+    <h1 class="title">Discounts</h1>
+    <button class="button button-clear icon right ion-home" style="position: absolute;right: 0px;" ui-sref="drivers"> </button>
+</ion-header-bar>
+<ion-view scroll="true" overflow-scroll="true" class="has-header has-footer background">
+    <ion-content>
+        <div class="row" style="margin:auto;font-size:6vmax">
+            <div class="col col-50" style="margin:auto"> <i class="icon ion-cash" style="color:cornflowerblue"></i>
+                <p style="color:darkgrey;text-align:center;margin:auto;font-size:4vmin;display:inline">. . . <strong>Save Money!</strong></p>
+            </div>
+        </div>
+        <div class="card">
+            <ion-list class="list inset-list" id="inset-form" style="width:95vmax;margin:auto;">
+                <ion-checkbox ng-repeat="item in discounts" ng-model="item.checked" ng-checked="item.checked">{{item.text}}
+                    <p style="white-space:normal;font-size:3.5vmin">{{item.description}}</p>
+                </ion-checkbox>
+            </ion-list>
+        </div>
+    </ion-content>
+    <ion-footer-bar class="background" style="border: none;
+    background-image: none;">
+        <div class="row">
+            <div class="col col-50"> </div>
+            <div class="col col-50">
+                <button class="button button-positive" style="width:100%;color:white;" ui-sref="viewQuote">Next</button>
+            </div>
+        </div>
+    </ion-footer-bar>
+</ion-view>

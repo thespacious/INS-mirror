@@ -239,12 +239,14 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                             , "label": "Bodily Injury"
                             , "options": [
                             "25,000/50,000"]
+                            , "selected": "25,000/50,000"
                         }
                         , "PD": {
                             "type": "select"
                             , "label": "Property Destruction"
                             , "options": [
                             "25,000"]
+                            , "selected": "25,000"
                         }
                         , "UML": {
                             "type": "select"
@@ -252,6 +254,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                             , "options": [
                             "Accept"
                             , "Reject"]
+                            , "selected": "Accept"
                         }
                         , "UMP": {
                             "type": "select"
@@ -259,6 +262,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                             , "options": [
                             "Accept"
                             , "Reject"]
+                            , "selected": "Accept"
                         }
                         , "MP": {
                             "type": "select"
@@ -266,6 +270,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                             , "options": [
                              "500"
                             , "1,000"]
+                            , "selected": "500"
                         }
                         , "compdeduct": {
                             "type": "select"
@@ -273,6 +278,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                             , "options": ["200"
                              , "250"
                             , "500", "1,000"]
+                            , "selected": "250"
                         }
                         , "colldeduct": {
                             "type": "select"
@@ -280,16 +286,19 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
                             , "options": ["200"
                             , "250"
                             , "500", "1,000"]
+                            , "selected": "250"
                         }
                         , "towing": {
                             "type": "select"
                             , "label": "Towing"
                             , "options": ["Accept", "Reject"]
+                            , "selected": "Accept"
                         }
                         , "RR": {
                             "type": "select"
                             , "label": "Rental Reimbursement"
                             , "options": ["Accept", "Reject"]
+                            , "selected": "Accept"
                         }
                     }
                 }

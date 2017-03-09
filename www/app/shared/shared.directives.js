@@ -48,6 +48,11 @@ app.directive('footer', function () {
         templateUrl: 'app/shared/footer.html'
     };
 });
+app.directive('carPicture2', function () {
+    return {
+        templateUrl: 'app/shared/carPicture2.html'
+    };
+});
 app.directive("drawing", function () {
     return {
         restrict: "A"
