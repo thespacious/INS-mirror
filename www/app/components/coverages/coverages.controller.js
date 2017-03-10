@@ -70,5 +70,6 @@ controllers.controller('coveragesCtrl', ['BASE_SERVER', '$scope', '$state', '$io
     };
     $scope.validateCoverages = function () {
         newCarService.validateCoverages($scope.coverages);
+        $state.go('drivers');
     };
 }]);

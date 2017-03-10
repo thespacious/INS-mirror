@@ -5,12 +5,14 @@ services.factory('newDriverService', function (APP_DEBUG) {
         garagingInfo.gcity.value = driver.city.value;
         garagingInfo.gstate.value = driver.state.value;
         garagingInfo.gzip.value = driver.zip.value;
+        return garagingInfo;
     };
     this.unSetGaraging = function (garagingInfo) {
         garagingInfo.gstreet.value = '';
         garagingInfo.gcity.value = '';
         garagingInfo.gstate.value = '';
         garagingInfo.gzip.value = '';
+        return garagingInfo;
     };
     /////////////////// Formatting Data //////////////////////
     //============ Available driver status types ======================

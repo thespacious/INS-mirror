@@ -131,6 +131,9 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             url: '/viewQuote'
             , templateUrl: 'app/components/viewQuote/viewQuote.html'
             , controller: "viewQuoteCtrl"
+            , params: {
+                first: null
+            }
         }).state('viewQuote.overview', {
             url: '/viewQuote/overview'
             , views: {

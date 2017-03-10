@@ -136,17 +136,17 @@ services.factory('newCarService', function (BASE_SERVER, SKIP_API, $state) {
     //======================
     //
     //TODO: break into smaller functions?
-    this.storeCar = function (owner) {
+    this.storeCar = function (owner, carInfo) {
         var session = JSON.parse(sessionStorage.getItem("session"));
         var cars = [];
         if (session.cars != null) {
             cars = session.cars;
         }
         var car = {};
-        car["vin"] = document.carInfo.vin.value;
-        car["year"] = document.carInfo.year.value;
-        car["make"] = document.carInfo.make.value;
-        car["model"] = document.carInfo.model.value;
+        car["vin"] = carInfo.vin.value;
+        car["year"] = carInfo.year.value;
+        car["make"] = carInfo.make.value;
+        car["model"] = carInfo.model.value;
         car["owner"] = owner;
         car["photo1"] = document.getElementById('photo1').src;
         car["photo2"] = document.getElementById('photo2').src;
@@ -402,11 +402,10 @@ services.factory('newCarService', function (BASE_SERVER, SKIP_API, $state) {
         return true;
     };
     // ============= Submit Forms =====================
-    this.submitForms = function (owner) {
-        if (this.storeCar(owner) == true) {
+    this.submitForms = function (owner, car) {
+        if (this.storeCar(owner, car) == true) {
             try {
                 uploadImages(pictureHolder);
-                this.validateCoverages('coverages');
                 return true;
             }
             catch (err) {

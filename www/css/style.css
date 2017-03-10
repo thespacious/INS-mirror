@@ -53,3 +53,22 @@ inner-column {
 .correct-footer {
     bottom: 1vh;
 }
+
+.select-box {
+    background-color: transparent;
+    border: none;
+}
+
+.logo-inner {
+    margin-top: 9vmax;
+}
+
+.logo-outer {
+    width: 70vmin;
+    margin: auto;
+}
+
+.logo {
+    width: 100%;
+    text-align: center;
+}

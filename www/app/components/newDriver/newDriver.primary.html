@@ -14,15 +14,11 @@
             <ion-list class="list inset-list" id="inset-form" style="width:95vmax;margin:auto;">
                 <ion-item class="item item-input item-stacked-label">
                     <label><span>Full Name</span>
-                        <input type="{{driver.fullname.type}}" ng-pattern="driver.fullname.validate_exp" ng-model="$parent.driver.fullname.value" ng-value="driver.fullname.value">
-                        <p ng-value="driver.fullname.value">{{driver.fullname.value}}</p>
-                    </label>
+                        <input type="{{driver.fullname.type}}" ng-pattern="driver.fullname.validate_exp" ng-model="$parent.driver.fullname.value" ng-value="driver.fullname.value"> </label>
                 </ion-item>
                 <ion-item class="item item-input item-stacked-label">
                     <label><span>License No.</span>
-                        <input type="{{driver.license.type}}" ng-pattern="driver.license.validate_exp" ng-model="driver.license.value">
-                        <p ng-value="driver.license.value">{{driver.license.value}}</p>
-                    </label>
+                        <input type="{{driver.license.type}}" ng-pattern="driver.license.validate_exp" ng-model="driver.license.value"> </label>
                 </ion-item>
                 <ion-item class="item item-input item-stacked-label">
                     <label><span>License Issue Date</span>
@@ -35,7 +31,6 @@
                 <ion-item class="item item-input item-stacked-label">
                     <label><span>Street</span>
                         <input type="{{driver.street.type}}" ng-pattern="driver.street.validate_exp" ng-model="driver.street.value"> </label>
-                    <p ng-value="driver.street.value">{{driver.street.value}}</p>
                 </ion-item>
                 <ion-item class="item item-input item-stacked-label">
                     <label><span>City</span>

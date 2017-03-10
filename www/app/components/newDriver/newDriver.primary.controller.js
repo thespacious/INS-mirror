@@ -209,7 +209,7 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
             return;
         }
         else {
-            garaging = service.unsetGaraging($scope.garagingInfo);
+            garaging = service.unSetGaraging($scope.garagingInfo);
             $scope.garagingInfo = garaging;
             $scope.checked.no = true;
             $scope.checked.yes = false;

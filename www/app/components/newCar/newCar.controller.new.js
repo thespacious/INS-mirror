@@ -1,4 +1,4 @@
-controllers.controller('newCarCtrl', ['BASE_SERVER', 'SKIP_API', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$stateParams', function (baseUrl, $scope, $state, $ionicSlideBoxDelegate, $injector, $stateParams) {
+controllers.controller('newCarCtrl', ['BASE_SERVER', 'SKIP_API', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$stateParams', function (baseUrl, skipApi, $scope, $state, $ionicSlideBoxDelegate, $injector, $stateParams) {
     var test = $injector.get('newCarService');
     var insurescanJson = $injector.get('insurescanJson');
     $scope.owner = $stateParams.fullname;
@@ -88,7 +88,7 @@ controllers.controller('newCarCtrl', ['BASE_SERVER', 'SKIP_API', '$scope', '$sta
     $scope.submitForms = function () {
         //        test.submitForms();
         //        test.sendEmails();
-        test.submitForms($scope.owner);
-        $state.go('home');
+        test.submitForms($scope.owner, $scope.car);
+        $state.go('coverages');
     };
 }]);

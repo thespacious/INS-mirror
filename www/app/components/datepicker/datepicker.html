@@ -13,7 +13,7 @@
             <ion-item class="item item-input item-stacked-label">
                 <div class="row">
                     <label><span>Start Date</span>
-                        <input type="{{date.start.type}}" ng-model="date.date"> </label>
+                        <input type="{{date.type}}" ng-model="date.date"> </label>
                 </div>
                 <div class="row">
                     <p style="font-size:6vmax;height:8vh;line-height:6vh">{{date.start}}</p>
@@ -28,14 +28,16 @@
                 </div>
             </ion-item>
         </div>
-        <div id="logo"> <img src="img/new_logo.png" style="max-width:100vw;text-align:center"> </div>
+        <div id="logo" style="margin-top:9vmax">
+            <div class="" style="width:70vmin;margin:auto;"> <img src="img/new_logo.png" style="width:100%;text-align:center"></div>
+        </div>
     </ion-content>
     <ion-footer-bar class="background" style="border: none;
     background-image: none;">
         <div class="row">
             <div class="col col-50"> </div>
             <div class="col col-50">
-                <button class="button button-positive" style="width:100%;color:white;" ui-sref="viewQuote">Next</button>
+                <button class="button button-positive" style="width:100%;color:white;" ui-sref="viewQuote({first:true})">Next</button>
             </div>
         </div>
     </ion-footer-bar>

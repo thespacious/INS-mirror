@@ -1,4 +1,6 @@
-controllers.controller('viewQuoteCtrl', ['BASE_SERVER', 'SKIP_API', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$stateParams', function (baseUrl, skipAPi, $scope, $state, $ionicSlideBoxDelegate, $injector, $stateParams) {
+controllers.controller('viewQuoteCtrl', ['BASE_SERVER', 'SKIP_API', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$stateParams', function (baseUrl, skipApi, $scope, $state, $ionicSlideBoxDelegate, $injector, $stateParams) {
+    var quoteService = $injector.get('quoteInfoServices');
+    var insurescanJson = $injector.get('insurescanJson');
     var params = $state.params;
     var session = JSON.parse(sessionStorage.getItem('session'));
     var drivers = session.drivers;
@@ -33,8 +35,8 @@ controllers.controller('viewQuoteCtrl', ['BASE_SERVER', 'SKIP_API', '$scope', '$
     };
     if (params.first == false) {
         //TODO: remove this bit. this code for demo purposes only
-        if (skipAPi) {
-            quoteJson.quoteJson.overview.policypremium = "$600.00";
+        if (skipApi) {
+            $scope.quote.overview.policypremium = "$600.00";
             $scope.nextState = "legal";
         }
         else {
@@ -44,4 +46,10 @@ controllers.controller('viewQuoteCtrl', ['BASE_SERVER', 'SKIP_API', '$scope', '$
     else {
         $scope.nextState = 'pre-payment';
     }
+    $scope.init = function () {
+        var newdata = quoteInfoService.sendQuote(insurescanJson.insurescanJson);
+        cosole.log("quote received", newData);
+        //        $scope.data = newdata;
+        //        document.getElementById('viewQuote').html = newdata;
+    };
 }]);
