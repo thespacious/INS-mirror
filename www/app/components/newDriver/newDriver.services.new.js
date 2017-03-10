@@ -1,4 +1,4 @@
-services.factory('newDriverService', function (APP_DEBUG) {
+services.factory('newDriverService', function (APP_DEBUG, $q) {
     /////////////////// set/unset UI Elements ////////////////
     this.setGaraging = function (garagingInfo, driver) {
         garagingInfo.gstreet.value = driver.street.value;
@@ -15,6 +15,16 @@ services.factory('newDriverService', function (APP_DEBUG) {
         return garagingInfo;
     };
     /////////////////// Formatting Data //////////////////////
+    // ===============void function for manatee setup ==================
+    //    var noop = function () {};
+    //    // ======== after manatee setup set this function to void ==========
+    //    var manateeSetup = function () {
+    //        manateeSetup = noop;
+    //        mwbScanner.setKey("kwILwP2bCHIfNLMOJadaGwR3V0sRh+kPA6LgV1jyXYY=").then(function (response) {
+    //            if (response) console.log('VALID KEY');
+    //            else console.log('INVALID KEY');
+    //        });
+    //    };
     //============ Available driver status types ======================
     var NAMED_INSURED = 0
         , EXCLUDED = 1
@@ -50,16 +60,18 @@ services.factory('newDriverService', function (APP_DEBUG) {
     //Call mwb Functions and pass to callback
     //=====================================
     this.capturePhoto = function () {
+        var deferred = $q.defer();
         var returnData = {};
-        //TODO: set key somewhere less obtrusive    
-        mwbScanner.setKey("kwILwP2bCHIfNLMOJadaGwR3V0sRh+kPA6LgV1jyXYY=").then(function (response) {
-            if (response) console.log('VALID KEY');
-            else console.log('INVALID KEY');
-        });
         mwbScanner.startScanning(function (result) {
-            reutrnData = InsureScan.onLicensePhoto(result);
+            returnData = InsureScan.onLicensePhoto(result);
+            if (typeOf(returnData) == "object") {
+                deferred.resolve(returnData);
+            }
+            else {
+                deferred.reject("object not successfully scanned");
+            }
         });
-        return returnData;
+        return deferred.promise;
     };
     //===========================================
     this.uploadPhoto = function () {

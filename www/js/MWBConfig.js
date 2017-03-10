@@ -1,128 +1,179 @@
-var MWBSInitSpace = MWBSInitSpace || {};
-/* Registration and settings are defined here, users will supply their own username and key depending on which platform they will use
-    @params
-        mwbs - is the MWBScanner object, passed from the plugin function
-        constants - the constants used for scanner settings
-        dvc - the device on which it runs
-
-
+/*
+ *
+ *  USAGE: INCLUDE WITH  <script type="text/javascript" src="js/MWBConfig.js"></script> in your index.html
+ *  You should call this function in your device ready event (when all the cordova plugins are loaded). Our scanner gets exposed as scanner
+ *  NOTE: You don't have to use exactly this file, it's here as an example how to set different scanner parameters. If you are developing for ionic you will probably do this in a controller, or for ionic2 in a component ts file
+ *
  */
-MWBSInitSpace.init = function (mwbs, constants, dvc) {
-    console.log('MWBSInitSpace.init Invoked at: ' + (new Date()).getTime());
-    //change these registration settings to match your licence keys
-    var ANDROID_KEY = 'kwILwP2bCHIfNLMOJadaGwR3V0sRh+kPA6LgV1jyXYY=';
-    var registrationCallback = function (registrationResult) {
-        switch (parseInt(registrationResult)) {
-        case constants.MWB_RTREG_OK:
-            console.log('Registration OK');
-            break;
-        case constants.MWB_RTREG_INVALID_KEY:
-            console.log('Registration Invalid Key');
-            break;
-        case constants.MWB_RTREG_INVALID_CHECKSUM:
-            console.log('Registration Invalid Checksum');
-            break;
-        case constants.MWB_RTREG_INVALID_APPLICATION:
-            console.log('Registration Invalid Application');
-            break;
-        case constants.MWB_RTREG_INVALID_SDK_VERSION:
-            console.log('Registration Invalid SDK Version');
-            break;
-        case constants.MWB_RTREG_INVALID_KEY_VERSION:
-            console.log('Registration Invalid Key Version');
-            break;
-        case constants.MWB_RTREG_INVALID_PLATFORM:
-            console.log('Registration Invalid Platform');
-            break;
-        case constants.MWB_RTREG_KEY_EXPIRED:
-            console.log('Registration Key Expired');
-            break;
-        default:
-            console.log('Registration Unknown Error');
-            break;
-        }
-    };
-    switch (dvc.platform) {
-    case 'Android':
-        mwbs['MWBregisterSDK'](ANDROID_KEY, registrationCallback);
-        break;
-    case 'iOS':
-        mwbs['MWBregisterSDK'](IOS_KEY, registrationCallback);
-        break;
-    case 'Win32NT':
-        mwbs['MWBregisterSDK'](Win32NT_KEY, registrationCallback);
-        break;
-    default:
-        break;
-    }
-    //settings portion, disable those that are not needed
-    /* BEGIN settings CALLS */
-    //if your code doesn't work after changing a few parameters, and there is no error output, uncomment the try-catch, the error will be output in your console
-    //    try{
-    //  mwbs['MWBsetInterfaceOrientation'] (constants.OrientationPortrait);
-    //  mwbs['MWBsetOverlayMode'](constants.OverlayModeImage);
-    //  mwbs['MWBenableHiRes'](true);
-    //  mwbs['MWBenableFlash'](true);
-    //  mwbs['MWBsetActiveCodes'](constants.MWB_CODE_MASK_128 | constants.MWB_CODE_MASK_39);
-    //  mwbs['MWBsetLevel'](2);
-    //  mwbs['MWBsetFlags'](constants.MWB_CODE_MASK_39, constants.MWB_CFG_CODE39_EXTENDED_MODE);
-    //  mwbs['MWBsetDirection'](constants.MWB_SCANDIRECTION_VERTICAL | constants.MWB_SCANDIRECTION_HORIZONTAL);
-    //  mwbs['MWBsetScanningRect'](constants.MWB_CODE_MASK_39, 20,20,60,60);
-    //  mwbs['MWBenableZoom'](true);
-    //  mwbs['MWBsetZoomLevels'](200, 400, 0);
-    //  mwbs['MWBsetMinLength'](constants.MWB_CODE_MASK_39, 4);
-    //  mwbs['MWBsetMaxThreads'](1);
-    //  mwbs['MWBcloseScannerOnDecode'](false);
-    //  mwbs['MWBuse60fps'](true);
-    //  mwbs['MWBsetParam'](constants.MWB_CODE_MASK_DM, constants.MWB_PAR_ID_RESULT_PREFIX, constants.MWB_PAR_VALUE_RESULT_PREFIX_ALWAYS);
-    //  mwbs['MWBduplicateCodeDelay'](1000);
-    //  mwbs['MWBuseAutoRect'](false);
-    //  mwbs['MWBuseFrontCamera'](true);
-    //  mwbs['MWBsetActiveParser'](constants.MWP_PARSER_MASK_ISBT);
-    // console.log('JS Settings ends: '+ (new Date()).getTime());
-    //    }
-    //    catch(e){
-    //        console.log(e);
-    //    }
-    /* END settings CALLS */
-    /* CUSTOM JAVASCRIPT CALLS */
-};
-//custom callback function, one that can be modified by the user
-MWBSInitSpace.callback = function (result) {
-    console.log('MWBSInitSpace.callback Invoked at: ' + (new Date()).getTime());
-    /**
-     * result.code - string representation of barcode result
-     * result.type - type of barcode detected or 'Cancel' if scanning is canceled
-     * result.bytes - bytes array of raw barcode result
-     * result.isGS1 - (boolean) barcode is GS1 compliant
-     * result.location - contains rectangle points p1,p2,p3,p4 with the corresponding x,y
-     * result.imageWidth - Width of the scanned image
-     * result.imageHeight - Height of the scanned image
+scannerConfig = function () {
+    /* phonegap/cordova 3.* possible callback
+     *  - here we have a straight forwards callback one that just alerts the value. When scannerConfig is called, it will set this callback as default and scanner.startScanner can be called without inline callbacks
+     *    however users still have the option to not even user setCallback, and set a callback function directly passed as parameter to the scanner.startScanner()
+     *
      */
-    console.log('Scan complete');
-    if (result.type == 'Cancel') {
-        //Perform some action on scanning canceled if needed
-    }
-    else if (result && result.code) {
-        /*
-         *  Use this sample if scanning in view
-         */
-        /*
-        var para = document.createElement("li");
-        var node = document.createTextNode(result.code+" : "+result.type);
-        para.appendChild(node);
-
-        var element = document.getElementById("mwb_list");
-        element.appendChild(para);
-        */
-        /*
-         *  Use this sample when using mwbs['MWBcloseScannerOnDecode'](false);
-         */
-        /*
-         setTimeout(function(){
-            scanner.resumeScanning();
-         },2000);
-        */
-        navigator.notification.alert(result.code, function () {}, result.type + (result.isGS1 ? " (GS1)" : ""), 'Close');
-    }
+    mwbScanner.setCallback(function (result) {
+        if (result && result.code) {
+            navigator.notification.alert(result.code, function () {}, result.type + (result.isGS1 ? " (GS1)" : ""), 'Close');
+        }
+        else console.log('No Result');
+    });
+    /* ionic 1 possible callback,
+     *   - here we have an angularJS controller with an input field to which an ng-model="barcoderesult" is attached
+     *   - upon successful scan we update that model and the result is shown in the input field
+     *
+     *
+     */
+    // mwbScanner.setCallback(function(result){
+    //   if(result && result.code){
+    //     //you need to wrap into apply so that view will update the result immediately
+    //     $scope.$apply(function(){
+    //       $scope.barcoderesult = result.code;
+    //     });
+    //   }
+    //   else
+    //     console.log('No Result');
+    // });
+    // Some predefined settings, comment out the ones you don't want enabled; Scanner gets initialized with every symbology enabled
+    var mw_c = mwbScanner.getConstants()
+        , settings = [
+            {
+                'method': 'MWBsetActiveCodes'
+                , 'value': [mw_c.MWB_CODE_MASK_DM | mw_c.MWB_CODE_MASK_39 | mw_c.MWB_CODE_MASK_93 | mw_c.MWB_CODE_MASK_QR | mw_c.MWB_CODE_MASK_128 | mw_c.MWB_CODE_MASK_PDF]
+            }
+            , {
+                "method": 'MWBenableZoom'
+                , "value": [true]
+            }
+            , {
+                "method": 'MWBsetZoomLevels'
+                , "value": [200, 400, 1]
+            }
+            , // {"method" : 'MWBsetInterfaceOrientation', "value" : [mw_c.OrientationLandscapeLeft]},
+            {
+                "method": 'MWBsetOverlayMode'
+                , "value": [mw_c.OverlayModeImage]
+            }
+            , {
+                "method": 'MWBsetLevel'
+                , "value": [3]
+            }, //3 will try to scan harder than the default which is 2
+            {
+                "method": 'MWBenableHiRes'
+                , 'value': [true]
+            }, //possible setting
+            {
+                "method": 'MWBenableFlash'
+                , 'value': [true]
+            }, //possible setting
+            {
+                "method": 'MWBuse60fps'
+                , 'value': [true]
+            }, //possible
+            {
+                "method": "MWBsetScanningRect"
+                , "value": [mw_c.MWB_CODE_MASK_25, 2, 2, 96, 96]
+            }
+            , {
+                "method": "MWBsetScanningRect"
+                , "value": [mw_c.MWB_CODE_MASK_39, 2, 2, 96, 96]
+            }
+            , {
+                "method": "MWBsetScanningRect"
+                , "value": [mw_c.MWB_CODE_MASK_93, 2, 2, 96, 96]
+            }
+            , {
+                "method": "MWBsetScanningRect"
+                , "value": [mw_c.MWB_CODE_MASK_128, 2, 2, 96, 96]
+            }
+            , {
+                "method": "MWBsetScanningRect"
+                , "value": [mw_c.MWB_CODE_MASK_AZTEC, 20, 2, 60, 96]
+            }
+            , {
+                "method": "MWBsetScanningRect"
+                , "value": [mw_c.MWB_CODE_MASK_DM, 20, 2, 60, 96]
+            }
+            , {
+                "method": "MWBsetScanningRect"
+                , "value": [mw_c.MWB_CODE_MASK_EANUPC, 2, 2, 96, 96]
+            }
+            , {
+                "method": "MWBsetScanningRect"
+                , "value": [mw_c.MWB_CODE_MASK_PDF, 2, 2, 96, 96]
+            }
+            , {
+                "method": "MWBsetScanningRect"
+                , "value": [mw_c.MWB_CODE_MASK_QR, 20, 2, 60, 96]
+            }
+            , {
+                "method": "MWBsetScanningRect"
+                , "value": [mw_c.MWB_CODE_MASK_RSS, 2, 2, 96, 96]
+            }
+            , {
+                "method": "MWBsetScanningRect"
+                , "value": [mw_c.MWB_CODE_MASK_CODABAR, 2, 2, 96, 96]
+            }
+            , {
+                "method": "MWBsetScanningRect"
+                , "value": [mw_c.MWB_CODE_MASK_DOTCODE, 30, 20, 40, 60]
+            }
+            , {
+                "method": "MWBsetScanningRect"
+                , "value": [mw_c.MWB_CODE_MASK_11, 2, 2, 96, 96]
+            }
+            , {
+                "method": "MWBsetScanningRect"
+                , "value": [mw_c.MWB_CODE_MASK_MSI, 2, 2, 96, 96]
+            }
+            , {
+                "method": "MWBsetScanningRect"
+                , "value": [mw_c.MWB_CODE_MASK_MAXICODE, 20, 2, 60, 96]
+            }
+            , {
+                "method": "MWBsetScanningRect"
+                , "value": [mw_c.MWB_CODE_MASK_POSTAL, 2, 2, 96, 96]
+            }
+            , {
+                "method": "MWBsetMinLength"
+                , "value": [mw_c.MWB_CODE_MASK_25, 5]
+            }
+            , {
+                "method": "MWBsetMinLength"
+                , "value": [mw_c.MWB_CODE_MASK_MSI, 5]
+            }
+            , {
+                "method": "MWBsetMinLength"
+                , "value": [mw_c.MWB_CODE_MASK_39, 5]
+            }
+            , {
+                "method": "MWBsetMinLength"
+                , "value": [mw_c.MWB_CODE_MASK_CODABAR, 5]
+            }
+            , {
+                "method": "MWBsetMinLength"
+                , "value": [mw_c.MWB_CODE_MASK_11, 5]
+            }
+            , {
+                "method": 'MWBsetDirection'
+                , "value": [mw_c.MWB_SCANDIRECTION_VERTICAL | mw_c.MWB_SCANDIRECTION_HORIZONTAL]
+            }
+        ];
+    //multi-platform keys object
+    var keys = {
+        'Android': "kwILwP2bCHIfNLMOJadaGwR3V0sRh+kPA6LgV1jyXYY="
+        , 'iOS': "VALID_IOS_KEY"
+        , 'Win32NT': "VALID_WIN_KEY"
+    };
+    //resolve the key for this platform
+    var key = (keys[device.platform]) ? keys[device.platform] : '';
+    //sets your key and loads your settings
+    return mwbScanner.setKey(key).then(function (response) {
+        if (response) console.log('VALID KEY');
+        else console.log('INVALID KEY');
+        return mwbScanner.loadSettings(settings).then(function (response) {
+            //console.log(response); //the response is the settings array
+        }).catch(function (reason) {
+            console.log(reason)
+        });
+    });
 }

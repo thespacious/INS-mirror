@@ -2,8 +2,11 @@ controllers.controller('newDriverCtrl', ['APP_DEBUG', 'BASE_SERVER', '$scope', '
     //Why bother? Well look at the alternative. . .
     //
     /////////////////// INJECTED SERVICES ///////////////////////
-    var test = $injector.get('testService');
+    var test = $injector.get('newDriverService');
     var insurescanJson = $injector.get('insurescanJson');
+    //    var mwbSetup = $injector.get('mwbSetup');
+    /////////////////////// SETUP MANATEE if not already setup ////
+    //    mwbSetup.manateeSetup();
     //////////////////////////////////////////////////////////////
     //
     /////////////////// Models to Bind form data to //////////////

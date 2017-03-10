@@ -1,8 +1,12 @@
 controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state', '$stateParams', '$ionicSlideBoxDelegate', '$injector', '$timeout', function (baseUrl, $scope, $state, $stateParams, $ionicSlideBoxDelegate, $injector, $timeout) {
     /////////////////// INJECTED SERVICES ///////////////////////
-    var test = $injector.get('testService');
+    //    var test = $injector.get('testService');
     var service = $injector.get('newDriverService');
+    //    var mwbSetup = $injector.get('mwbSetup');
     var insurescanJson = $injector.get('insurescanJson');
+    //////////////////////// Include Manatee //////////////////////
+    //runs setkey only if it has not been run before
+    //    mwbSetup.manateeSetup();
     ////////////////////// CHECK FOR EXISTING PRIMARY ////////////
     var checkPrimary = function () {
         var session = JSON.parse(sessionStorage.getItem('session'));
@@ -169,16 +173,20 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
     $scope.footerText = 'next';
     /////////////////////// Populate Scanned Data ///////////////
     $scope.capturePhoto = function () {
-        var data = test.capturePhoto()
-        $scope.driver.fullname.value = data.fullname;
-        $scope.driver.license.value = data.license;
-        $scope.driver.licensedate.value = data.licensedate;
-        $scope.driver.dob.value = data.dob;
-        $scope.driver.city.value = data.city;
-        $scope.driver.state.value = data.state;
-        $scope.driver.street.value = data.street;
-        $scope.driver.sex.selected = data.sex;
-        $scope.driver.zip.value = data.zip;
+        var data = service.capturePhoto().then(function (result) {
+            console.log("scan results: ", results);
+            $scope.driver.fullname.value = data.fullname;
+            $scope.driver.license.value = data.license;
+            $scope.driver.licensedate.value = data.licensedate;
+            $scope.driver.dob.value = data.dob;
+            $scope.driver.city.value = data.city;
+            $scope.driver.state.value = data.state;
+            $scope.driver.street.value = data.street;
+            $scope.driver.sex.selected = data.sex;
+            $scope.driver.zip.value = data.zip;
+        }, function (err) {
+            console.log("Scan failed: ".err);
+        });
     };
     //
     /////////////////////////////////////////////////////////////
@@ -220,12 +228,12 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
     //
     //////////////////// SUBMIT FORMS //////////////////////////////
     $scope.submitPrimary = function () {
-        test.primaryDriverSubmit($scope.driver, $scope.garagingInfo);
+        service.primaryDriverSubmit($scope.driver, $scope.garagingInfo);
         $state.go('userInfo');
         $scope.footerText = "submit";
     };
     $scope.submitUserInfo = function () {
-        test.submitUserInfo($scope.userInfo);
+        service.submitUserInfo($scope.userInfo);
         $state.go('drivers');
     };
 }]);

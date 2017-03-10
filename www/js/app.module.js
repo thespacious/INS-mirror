@@ -183,24 +183,6 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             , templateUrl: 'app/components/afterQuote/thankyou.html'
             , controller: "homeCtrl"
         });
-    var datePickerObj = {
-        inputDate: new Date()
-        , titleLabel: 'Select a Date'
-        , setLabel: 'Set'
-        , todayLabel: 'Today'
-        , closeLabel: 'Close'
-        , mondayFirst: false
-        , weeksList: ["S", "M", "T", "W", "T", "F", "S"]
-        , monthsList: ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
-        , templateType: 'popup'
-        , from: new Date(2012, 8, 1)
-        , to: new Date(2018, 8, 1)
-        , showTodayButton: true
-        , dateFormat: 'dd MMMM yyyy'
-        , closeOnSelect: false
-        , disableWeekdays: []
-    };
-    ionicDatePickerProvider.configDatePicker(datePickerObj);
     //    $stateProvider.state('newDriver', {
     //            url: '/newDriver'
     //            , abstract: true

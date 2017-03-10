@@ -922,14 +922,7 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
     //        this.insurescanJson.ACORD.InsuranceSvcRq.RqUID = uuid;
     //        this.insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.RqUID = uuid;
     //    });
-    function guid() {
-        function s4() {
-            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-        }
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-    }
-    var uuid = guid()
-        //    this.insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.QuoteInfo.CompanysQuoteNumber = uuid;
+    //    this.insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersPolicy.QuoteInfo.CompanysQuoteNumber = uuid;
     this.insurescanJson.ACORD.SignonRq.SignonPswd.CustId.SPName = "InsureScan";
     this.insurescanJson.ACORD.SignonRq.SignonPswd.CustId.CustLoginId = escape("Mark@ms0288");
     this.insurescanJson.ACORD.SignonRq.SignonPswd.CustPswd.Pswd = "Chappell";
@@ -943,5 +936,18 @@ var services = angular.module('main.services', []).factory('loadJsonTemplate', f
     sessionStorage.setItem('insurescanJson', JSON.stringify(this.insurescanJson));
     //    sessionStorage.setItem('session', {});
     //    verifyPassword(Mark@ms0288, password);
+    return this;
+}).factory('mwbSetup', function () {
+    var _this = this;
+    // ===============void function for manatee setup ==================
+    var noop = function () {};
+    // ======== after manatee setup set this function to void ==========
+    this.manateeSetup = function () {
+        _this.manateeSetup = noop;
+        mwbScanner.setKey("kwILwP2bCHIfNLMOJadaGwR3V0sRh+kPA6LgV1jyXYY=").then(function (response) {
+            if (response) console.log('VALID KEY');
+            else console.log('INVALID KEY');
+        });
+    };
     return this;
 });
