@@ -62,6 +62,10 @@ services.factory('newDriverService', function (APP_DEBUG, $q) {
     this.capturePhoto = function () {
         var deferred = $q.defer();
         var returnData = {};
+//        mwbScanner.setKey("kwILwP2bCHIfNLMOJadaGwR3V0sRh+kPA6LgV1jyXYY=").then(function (response) {
+//            if (response) console.log('VALID KEY');
+//            else console.log('INVALID KEY');
+//        });
         mwbScanner.startScanning(function (result) {
             returnData = InsureScan.onLicensePhoto(result);
             if (typeOf(returnData) == "object") {
