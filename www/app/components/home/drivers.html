@@ -8,13 +8,12 @@
             <ion-item ng-repeat="driver in drivers" item="driver" class="card driver-item" can-swipe="false">
                 <div class="item item-divider driver-item-header">
                     <p>{{driver.fullname}}</p>
-                    <label class="toggle" style="float:right;">
-                        <input type="checkbox">
-                        <div class="track">
-                            <div class="handle"></div>
+                    <label style="float:right;line-height:5vmax;">
+                        <div>
+                            <p style="font-size:2vmax;">{{driver.category}}</p>
                         </div>
                     </label>
-                    <p class="named-help">named<a href="#" onclick="showCard()"><i class="fa fa-question-circle" aria-hidden="true"></i> </a> </p>
+                    <!--                    <p class="named-help">named<a href="#" onclick="showCard()"><i class="fa fa-question-circle" aria-hidden="true"></i> </a> </p>-->
                 </div>
                 <a ui-sref="newDriver.edit({driverId: {{driver.id}}})" id="edit{{driver.id}}">
                     <button class="button button-clear button-positive driver-edit-button" style="float:right">edit</button>

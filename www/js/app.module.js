@@ -5,6 +5,9 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
             cordova.plugins.Keyboard.disableScroll(true);
+            scannerConfig().then(function (response) {
+                console.log("Scanner setup complete: ", response);
+            });
         }
         if (window.StatusBar) {
             // org.apache.cordova.statusbar required
