@@ -62,13 +62,13 @@ services.factory('newDriverService', function (APP_DEBUG, $q) {
     this.capturePhoto = function () {
         var deferred = $q.defer();
         var returnData = {};
-//        mwbScanner.setKey("kwILwP2bCHIfNLMOJadaGwR3V0sRh+kPA6LgV1jyXYY=").then(function (response) {
-//            if (response) console.log('VALID KEY');
-//            else console.log('INVALID KEY');
-//        });
+        //        mwbScanner.setKey("kwILwP2bCHIfNLMOJadaGwR3V0sRh+kPA6LgV1jyXYY=").then(function (response) {
+        //            if (response) console.log('VALID KEY');
+        //            else console.log('INVALID KEY');
+        //        });
         mwbScanner.startScanning(function (result) {
             returnData = InsureScan.onLicensePhoto(result);
-            if (typeOf(returnData) == "object") {
+            if (typeof (returnData) === "object") {
                 deferred.resolve(returnData);
             }
             else {
@@ -116,14 +116,52 @@ services.factory('newDriverService', function (APP_DEBUG, $q) {
             driverInfo['fullname'] = userDataMap["DAC"] + " " + userDataMap["DCS"];
         }
         driverInfo['license'] = userDataMap["DAQ"];
-        driverInfo['dob'] = userDataMap["DBB"].substr(0, 2) + "/" + userDataMap["DBB"].substr(2, 2) + "/" + userDataMap["DBB"].substr(4);
-        driverInfo['licensedate'] = userDataMap["DBD"].substr(0, 2) + "/" + userDataMap["DBD"].substr(2, 2) + "/" + userDataMap["DBD"].substr(4);
+        //        driverInfo['dob'] = userDataMap["DBB"].substr(0, 2) + "/" + userDataMap["DBB"].substr(2, 2) + "/" + userDataMap["DBB"].substr(4);
+        driverInfo['dob'] = userDataMap["DBB"].substr(4) + "-" + userDataMap["DBB"].substr(0, 2) + "-" + userDataMap["DBB"].substr(2, 2);
+        //        driverInfo['licensedate'] = userDataMap["DBD"].substr(0, 2) + "/" + userDataMap["DBD"].substr(2, 2) + "/" + userDataMap["DBD"].substr(4);
+        driverInfo['licensedate'] = userDataMap["DBD"].substr(4) + "-" + userDataMap["DBD"].substr(0, 2) + "-" + userDataMap["DBD"].substr(2, 2);
         driverInfo['state'] = userDataMap["DAJ"];
         driverInfo['street'] = userDataMap["DAG"];
         driverInfo['city'] = userDataMap["DAI"];
         driverInfo['zip'] = userDataMap["DAK"].substr(0, 5);
-        driverInfo['sex'] = ["M", "F"][userDataMap["DBC"] - 1];
+        driverInfo['sex'] = ["Male", "Female"][userDataMap["DBC"] - 1];
         return driverInfo;
+    };
+    //===================== Get county by zip ===========================
+    ///////////////////// JANKY SHIT ///////////////////////////////
+    //TODO: not janky shit
+    this.jankyShit = function (zip) {
+        var deferred = $q.defer();
+        var returnData;
+        var req = {
+            type: "GET"
+            , async: false
+                //            , success: function (data) {
+                //                var returnData = jankyShit_parser(data);
+                //                return returnData;
+                //            }
+                
+            , url: "http://publicrecords.onlinesearches.com/zip-ac.php?m=1&ZC=" + zip
+                //            , success: function ()
+        };
+        $.ajax(req).done(function (data) {
+            var county = jankyShit_parser(data);
+            deferred.resolve(county);
+        }).fail(function (data) {
+            deferred.reject(data);
+        });
+        return deferred.promise;
+    };
+    //parse html response from website, see why jank?
+    var jankyShit_parser = function (data) {
+        var el = document.createElement('html');
+        el.innerHTML = data;
+        var table = el.getElementsByClassName('results-table');
+        var countyCell = table[0].rows[1].cells[2].getElementsByTagName("a");
+        var county = countyCell[0].innerHTML;
+        //        var county = el.getElementsByClassName('results-table').rows[1].cells[2];
+        console.log("county: ", county);
+        return (county);
     };
     /////////////////// Store Drivers //////////////////////////////
     // Store Primary(named insured) and regular drivers differently //////

@@ -6,7 +6,7 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
             cordova.plugins.Keyboard.disableScroll(true);
             scannerConfig().then(function (response) {
-                console.log("Scanner setup complete: ", response);
+                console.log("scannerConfig returns: ", response);
             });
         }
         if (window.StatusBar) {
@@ -95,9 +95,14 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             , templateUrl: 'app/components/newDriver/newDriver.primary.html'
             , controller: "newDriverPrimaryCtrl"
         }).state('userInfo', {
-            url: '/userInfo'
+            url: '/userInfo/:zip'
             , templateUrl: 'app/components/newDriver/primaryUserInfo.html'
             , controller: "primaryInfoCtrl"
+                //            , resolve: {
+                //                county: function (newDriverService) {
+                //                    return newDriverService.
+                //                }
+                //            }
         }).state('newDriver', {
             url: '/newDriver'
             , templateUrl: 'app/components/newDriver/newDriver.new.html'

@@ -173,19 +173,19 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
     $scope.footerText = 'next';
     /////////////////////// Populate Scanned Data ///////////////
     $scope.capturePhoto = function () {
-        var data = service.capturePhoto().then(function (result) {
-            console.log("scan results: ", results);
-            $scope.driver.fullname.value = data.fullname;
-            $scope.driver.license.value = data.license;
-            $scope.driver.licensedate.value = data.licensedate;
-            $scope.driver.dob.value = data.dob;
-            $scope.driver.city.value = data.city;
-            $scope.driver.state.value = data.state;
-            $scope.driver.street.value = data.street;
-            $scope.driver.sex.selected = data.sex;
-            $scope.driver.zip.value = data.zip;
+        service.capturePhoto().then(function (result) {
+            console.log("scan results: ", result);
+            $scope.driver.fullname.value = result.fullname;
+            $scope.driver.license.value = parseInt(result.license);
+            $scope.driver.licensedate.value = new Date(result.licensedate);
+            $scope.driver.dob.value = new Date(result.dob);
+            $scope.driver.city.value = result.city;
+            $scope.driver.state.value = result.state;
+            $scope.driver.street.value = result.street;
+            $scope.driver.sex.selected = result.sex;
+            $scope.driver.zip.value = parseInt(result.zip);
         }, function (err) {
-            console.log("Scan failed: ".err);
+            console.log("Scan failed: ", err);
         });
     };
     //
@@ -234,6 +234,8 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
     };
     $scope.submitUserInfo = function () {
         service.submitUserInfo($scope.userInfo);
-        $state.go('drivers');
+        $state.go('userInfo', {
+            zip: $scope.driver.zip.value
+        });
     };
 }]);

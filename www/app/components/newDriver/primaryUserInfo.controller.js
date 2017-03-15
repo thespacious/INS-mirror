@@ -1,12 +1,17 @@
 controllers.controller('primaryInfoCtrl', ['BASE_SERVER', '$scope', '$state', '$stateParams', '$ionicSlideBoxDelegate', '$injector', '$timeout', function (baseUrl, $scope, $state, $stateParams, $ionicSlideBoxDelegate, $injector, $timeout) {
+    /////////////////// STATE PARAMS RETRIEVAL //////////////////
+    var zip = $state.params.zip;
     /////////////////// INJECTED SERVICES ///////////////////////
-    var test = $injector.get('testService');
-    /////////////////////////////////////////
+    var newDriverService = $injector.get('newDriverService');
+    /////////////////////////////////////////////////////////////
+    var county = newDriverService.jankyShit(zip);
+    console.log(county.$$state.value);
+    ////////////////////////////////////////////////////////////
     $scope.userInfo = {
         "county": {
             "type": "text"
             , "size": 50
-            , "value": null
+            , "value": county.$$state.value
             , "required": true
             , "label": "County"
             , "validate_exp": ""
@@ -37,7 +42,7 @@ controllers.controller('primaryInfoCtrl', ['BASE_SERVER', '$scope', '$state', '$
         }
     };
     $scope.submitUserInfo = function () {
-        test.submitUserInfo($scope.userInfo);
+        newDriverService.submitUserInfo($scope.userInfo);
         $state.go('drivers');
     };
 }]);
