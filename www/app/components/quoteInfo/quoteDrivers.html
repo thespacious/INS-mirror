@@ -31,6 +31,14 @@
                     <p>Vehicles: <span>2010 Ford Escape</span></p>
                     <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
                 </ion-item>
+                <ion-item ng-repeat="driver in quote.drivers">
+                    <h2>{{driver.fullname}}<span style="float:right;">{{driver.category}}</span></h2>
+                    <p>DOB: <span>{{driver.dob}}</span></p>
+                    <p>License No: <span>{{driver.license}}</span></p>
+                    <p>License Issue Date: <span>{{driver.licenseDate}}</span></p>
+                    <!--                    <p>Vehicles: <span>{{}}</span></p>-->
+                    <button class="button button-clear button-outline button-positive button-small" style="float:right">learn more</button>
+                </ion-item>
             </ion-list>
         </div>
         <div id="logo"> <img src="img/new_logo.png" style="max-width:100vw;text-align:center"> </div>

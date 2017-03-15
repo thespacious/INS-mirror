@@ -26,6 +26,12 @@
                     <p>Model: <span>Mustang</span></p>
                     <p>Year: <span>2009</span></p>
                 </ion-item>
+                <ion-item ng-repeat="car in quote.vehicles">
+                    <h2>{{car.vin}} </h2>
+                    <p>Make: <span>{{car.make}}</span></p>
+                    <p>Model: <span>{{car.model}}</span></p>
+                    <p>Year: <span>{{car.year}}</span></p>
+                </ion-item>
             </ion-list>
         </div>
         <div id="logo"> <img src="img/new_logo.png" style="max-width:100vw;text-align:center"> </div>
