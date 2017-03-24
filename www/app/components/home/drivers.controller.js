@@ -61,7 +61,7 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', 'SKIP_API', '$scope', 
         try {
             driversService.storeDrivers($scope.drivers);
             driversService.storeNamedInsured();
-            $state.go('quoteInfo');
+            $state.go('discounts');
         }
         catch (err) {
             console.log('driver storage error: \n', err);

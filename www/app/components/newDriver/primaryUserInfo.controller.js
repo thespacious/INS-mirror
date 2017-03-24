@@ -1,10 +1,24 @@
 controllers.controller('primaryInfoCtrl', ['BASE_SERVER', '$scope', '$state', '$stateParams', '$ionicSlideBoxDelegate', '$injector', '$timeout', function (baseUrl, $scope, $state, $stateParams, $ionicSlideBoxDelegate, $injector, $timeout) {
     /////////////////// STATE PARAMS RETRIEVAL //////////////////
     var zip = $state.params.zip;
+    var county = {
+        $$state: {
+            value: null
+        }
+    };
     /////////////////// INJECTED SERVICES ///////////////////////
     var newDriverService = $injector.get('newDriverService');
     /////////////////////////////////////////////////////////////
-    var county = newDriverService.jankyShit(zip);
+    //////////////////////// Check Zip //////////////////////////
+    if (zip && zip != null) {
+        var response = newDriverService.jankyShit(zip);
+        if (response.$$state) {
+            county = response;
+        }
+        else {
+            console.log(response);
+        }
+    }
     console.log(county.$$state.value);
     ////////////////////////////////////////////////////////////
     $scope.userInfo = {

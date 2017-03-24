@@ -393,13 +393,12 @@ this.insurescanJson = {
                   ]
                 }
               ]
-            }
-                        , {
-                            "-id": "Veh1"
+            }, {
+                            "-id": "Veh2"
                             , "-RatedDriverRef": "Drv1"
                             , "-LocationRef": "Loc1"
-                            , "Manufacturer": "Ford"
-                            , "Model": "Taurus SE"
+                            , "Manufacturer": "VOLVO"
+                            , "Model": "S40"
                             , "ModelYear": "2006"
                             , "VehBodyTypeCd": "SEDAN"
                             , "VehTypeCd": "PP"
@@ -418,8 +417,8 @@ this.insurescanJson = {
                             }
                             , "LeasedVehInd": "0"
                             , "NumCylinders": "6"
-                            , "RegistrationStateProvCd": "SC"
-                            , "VehIdentificationNumber": "1FAFP53U06"
+                            , "RegistrationStateProvCd": "MS"
+                            , "VehIdentificationNumber": "YV1MS682X65Y63688"
                             , "AlteredInd": "0"
                             , "AntiLockBrakeCd": "Y"
                             , "DaytimeRunningLightInd": "0"
@@ -450,64 +449,117 @@ this.insurescanJson = {
                                         {
                                             "FormatInteger": "25000"
                                             , "LimitAppliesToCd": "PerPerson"
-                  }
-                    , {
+                    }
+                                            , {
                                             "FormatInteger": "50000"
                                             , "LimitAppliesToCd": "PerAcc"
-                  }
-                ]
-              }
-            , {
+                    }
+                  ]
+                }
+                                    , {
                                     "CoverageCd": "PD"
                                     , "CoverageDesc": "Property Damage"
-                                    , "Limit": {
-                                        "FormatInteger": "25000"
-                                        , "LimitAppliesToCd": "PropDam"
-                                    }
-              }
-			]
-            }
-          ]
-                    , "NumLicensed": "1"
-                    , "NumNotLicensed": "0"
-                    , "ContinuousInsuranceCd": "NoPrior"
+                                    , "Limit": [
+                                        {
+                                            "FormatInteger": "25000"
+                                            , "LimitAppliesToCd": "PropDam"
+                    }
+                  ]
                 }
-                , "Location": [
-                    {
-                        "ItemIdInfo": {
-                            "AgencyId": "102481"
-                        }
-                        , "Addr": {
-                            "AddrTypeCd": "MailingAddress"
-                            , "Addr1": "211 W LONGLEAF DR"
-                            , "City": "OXFORD"
-                            , "StateProvCd": "MS"
-                            , "StateProv": "MS"
-                            , "PostalCode": "38655"
-                            , "CountryCd": "US"
-                            , "Country": "USA"
-                            , "County": "Lafayette"
-                        }
+                                    , {
+                                    "CoverageCd": "UM"
+                                    , "CoverageDesc": "Uninsured/Underinsured Motorist Liability"
+                                    , "Limit": [
+                                        {
+                                            "FormatInteger": "25000"
+                                            , "LimitAppliesToCd": "PerPerson"
+                    }
+                                            , {
+                                            "FormatInteger": "50000"
+                                            , "LimitAppliesToCd": "PerAcc"
+                    }
+                  ]
+                }
+                                    , {
+                                    "CoverageCd": "MEDPM"
+                                    , "CoverageDesc": "Medical Payments"
+                                    , "Limit": [
+                                        {
+                                            "FormatInteger": "1000"
+                                            , "LimitAppliesToCd": "PerPerson"
+                    }
+                  ]
+                }
+                                    , {
+                                    "CoverageCd": "RREIM"
+                                    , "CoverageDesc": "Rental Reimbursement"
+                                    , "Limit": [
+                                        {
+                                            "FormatInteger": "20"
+                                            , "LimitAppliesToCd": "PerDay"
+                    }
+                                            , {
+                                            "FormatInteger": "400"
+                                            , "LimitAppliesToCd": "MaxAmount"
+                    }
+                  ]
+                }
+                                    , {
+                                    "CoverageCd": "TL"
+                                    , "CoverageDesc": "Towing and Labor"
+                                    , "Limit": [
+                                        {
+                                            "FormatInteger": "50"
+                                            , "LimitAppliesToCd": "PerOcc"
+                    }
+                  ]
+                }
+              ]
+            }
+
+
+          ]
+                }
+                , "NumLicensed": "1"
+                , "NumNotLicensed": "0"
+                , "ContinuousInsuranceCd": "NoPrior"
+            }
+            , "Location": [
+                {
+                    "ItemIdInfo": {
+                        "AgencyId": "102481"
+                    }
+                    , "Addr": {
+                        "AddrTypeCd": "MailingAddress"
+                        , "Addr1": "211 W LONGLEAF DR"
+                        , "City": "OXFORD"
+                        , "StateProvCd": "MS"
+                        , "StateProv": "MS"
+                        , "PostalCode": "38655"
+                        , "CountryCd": "US"
+                        , "Country": "USA"
+                        , "County": "Lafayette"
+                    }
           }
                         , {
-                        "-id": "Loc1"
-                        , "ItemIdInfo": {
-                            "AgencyId": "102481"
-                        }
-                        , "Addr": {
-                            "AddrTypeCd": "GaragingAddress"
-                            , "Addr1": "211 W LONGLEAF DR"
-                            , "City": "OXFORD"
-                            , "StateProvCd": "MS"
-                            , "StateProv": "MS"
-                            , "PostalCode": "38655"
-                            , "CountryCd": "US"
-                            , "Country": "USA"
-                            , "County": "Lafayette"
-                        }
+                    "-id": "Loc1"
+                    , "ItemIdInfo": {
+                        "AgencyId": "102481"
+                    }
+                    , "Addr": {
+                        "AddrTypeCd": "GaragingAddress"
+                        , "Addr1": "211 W LONGLEAF DR"
+                        , "City": "OXFORD"
+                        , "StateProvCd": "MS"
+                        , "StateProv": "MS"
+                        , "PostalCode": "38655"
+                        , "CountryCd": "US"
+                        , "Country": "USA"
+                        , "County": "Lafayette"
+                    }
           }
         ]
-            }
         }
     }
+}
 }

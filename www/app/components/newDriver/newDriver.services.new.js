@@ -154,14 +154,20 @@ services.factory('newDriverService', function (APP_DEBUG, $q) {
     };
     //parse html response from website, see why jank?
     var jankyShit_parser = function (data) {
-        var el = document.createElement('html');
-        el.innerHTML = data;
-        var table = el.getElementsByClassName('results-table');
-        var countyCell = table[0].rows[1].cells[2].getElementsByTagName("a");
-        var county = countyCell[0].innerHTML;
-        //        var county = el.getElementsByClassName('results-table').rows[1].cells[2];
-        console.log("county: ", county);
-        return (county);
+        try {
+            var el = document.createElement('html');
+            el.innerHTML = data;
+            var table = el.getElementsByClassName('results-table');
+            var countyCell = table[0].rows[1].cells[2].getElementsByTagName("a");
+            var county = countyCell[0].innerHTML;
+            //        var county = el.getElementsByClassName('results-table').rows[1].cells[2];
+            console.log("county: ", county);
+            return (county);
+        }
+        catch (err) {
+            console.log("zip not parsed");
+            return (err);
+        }
     };
     /////////////////// Store Drivers //////////////////////////////
     // Store Primary(named insured) and regular drivers differently //////

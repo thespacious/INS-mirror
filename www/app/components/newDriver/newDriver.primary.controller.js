@@ -10,7 +10,7 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
     ////////////////////// CHECK FOR EXISTING PRIMARY ////////////
     var checkPrimary = function () {
         var session = JSON.parse(sessionStorage.getItem('session'));
-        if (session.drivers && session.drivers.length > 0) {
+        if (session && session.drivers && session.drivers.length > 0) {
             alert("there can be only one Primay Insured, please delete the primary from the home page to add another");
             $state.go('drivers');
         }

@@ -43,7 +43,7 @@ controllers.controller('splashCtrl', ['APP_DEBUG', 'BASE_SERVER', 'SKIP_API', '$
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
         if (skipApi) {
-            $state.go('home');
+            $state.go('payment');
         }
         else if (services.login(username, password) == true) {
             $state.go('home');
