@@ -98,11 +98,11 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             url: '/userInfo/:zip'
             , templateUrl: 'app/components/newDriver/primaryUserInfo.html'
             , controller: "primaryInfoCtrl"
-//            , resolve: {
-          //                county: function (newDriverService) {
-          //                    return newDriverService.
-          //                }
-          //            }
+                //            , resolve: {
+                //                county: function (newDriverService) {
+                //                    return newDriverService.
+                //                }
+                //            }
         }).state('newDriver', {
             url: '/newDriver'
             , templateUrl: 'app/components/newDriver/newDriver.new.html'

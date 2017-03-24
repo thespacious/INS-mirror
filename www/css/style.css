@@ -69,6 +69,11 @@ inner-column {
 }
 
 .logo {
-    width: 100%;
-    text-align: center;
+    margin: 7vmax auto;
+    width: 228px;
+}
+
+#logo {
+    margin: 7vmax auto;
+    width: 228px;
 }

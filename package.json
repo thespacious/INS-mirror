@@ -32,7 +32,13 @@
     "cordova-plugin-image-picker",
     "ionic-plugin-deploy",
     "cordova-plugin-screen-orientation",
+<<<<<<< HEAD
     "ionic-plugin-deploy@~0.6.5"
+=======
+    "phonegap-plugin-barcodescanner",
+    "ionic-plugin-deploy@~0.6.5",
+    "manateeworks-barcodescanner-v3"
+>>>>>>> d8ab767921d3c78b6e10f0cc38f81b0a410bdee0
   ],
   "cordovaPlatforms": []
 }
