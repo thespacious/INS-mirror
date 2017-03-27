@@ -16,7 +16,7 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', 'SKIP_API', '$scope', 
     $scope.driverId = $scope.drivers.length;
     //
     //
-    $scope.cars = driversService.cars(driversService.session);
+    $scope.cars = driversService.cars();
     //
     //===========================================================
     //GET PRIMARY DRIVER ID AND PLACE CARS WITH ASSOCIATED DRIVER
@@ -49,7 +49,7 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', 'SKIP_API', '$scope', 
     //    $scope.carIds = test('cars');
     $scope.hiddenCar = {};
     $scope.removeCar = function (carId) {
-        $scope.cars = driversSevice.removeCar();
+        $scope.cars = driversSevice.removeCar(carId);
     };
     //
     //=====================

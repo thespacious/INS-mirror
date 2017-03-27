@@ -11,27 +11,6 @@ controllers.controller('splashCtrl', ['APP_DEBUG', 'BASE_SERVER', 'SKIP_API', '$
     //UI
     //========
     //
-    //SLIDE BEHAVIOUR
-    //
-    $scope.$on("$ionicSlides.sliderInitialized", function (event, data) {
-        $scope.slider = data.slider;
-    });
-    $scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
-        console.log('Slide change is beginning');
-        $scope.next();
-    });
-    $scope.next = function () {
-        $ionicSlideBoxDelegate.next();
-    };
-    $scope.previous = function () {
-        $ionicSlideBoxDelegate.previous();
-    };
-    // Called each time the slide changes
-    $scope.slideChanged = function (index) {
-        $scope.slideIndex = index;
-    };
-    //
-    //other ui shit
     //
     $scope.footerText = 'next';
     //
@@ -43,7 +22,7 @@ controllers.controller('splashCtrl', ['APP_DEBUG', 'BASE_SERVER', 'SKIP_API', '$
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
         if (skipApi) {
-            $state.go('payment');
+            $state.go('home');
         }
         else if (services.login(username, password) == true) {
             $state.go('home');

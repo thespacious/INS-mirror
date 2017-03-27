@@ -137,6 +137,8 @@ services.factory('newCarService', function (BASE_SERVER, SKIP_API, $state) {
     //
     //TODO: break into smaller functions?
     this.storeCar = function (owner, carInfo) {
+        //TODO: Assign each car under a driver so:
+        //session.driver.cars = [];
         var session = JSON.parse(sessionStorage.getItem("session"));
         var cars = [];
         if (session.cars != null) {
@@ -403,7 +405,17 @@ services.factory('newCarService', function (BASE_SERVER, SKIP_API, $state) {
     };
     // ============= Submit Forms =====================
     this.submitForms = function (owner, car) {
-        if (this.storeCar(owner, car) == true) {
+        if (SKIP_API) {
+            try {
+                this.storeCar(owner, car);
+                return true;
+            }
+            catch (err) {
+                console.log('Cannot store car, ', err);
+                return false;
+            }
+        }
+        else if (this.storeCar(owner, car) == true) {
             try {
                 uploadImages(pictureHolder);
                 return true;

@@ -18,6 +18,12 @@ controllers.controller('paymentCtrl', ['BASE_SERVER', '$scope', '$state', '$ioni
             , "value": null
         }
     };
+    //////////////////////// Populate cc model ///////////////////////
+    var populateCC = function (response) {
+        $scope.userInfo.ccnumber.value = response.redactedCardNumber;
+        $scope.userInfo.ccv.value = response.cvv;
+        $scope.userInfo.expDate = new Date(" /" + response.expiryMonth + '/' + response.expiryYear);
+    };
     /////////////////////// CC Scanner Config ////////////////////////
     $scope.scanCard = function () {
         var cardIOResponseFields = [
@@ -34,9 +40,10 @@ controllers.controller('paymentCtrl', ['BASE_SERVER', '$scope', '$state', '$ioni
                 var field = cardIOResponseFields[i];
                 console.log(field + ": " + response[field]);
             }
+            populateCC(response);
         };
-        var onCardIOCancel = function () {
-            console.log("card.io scan cancelled");
+        var onCardIOCancel = function (result) {
+            console.log("card.io scan cancelled", result);
         };
         var onCardIOCheck = function (canScan) {
             console.log("card.io canScan? " + canScan);
@@ -46,14 +53,14 @@ controllers.controller('paymentCtrl', ['BASE_SERVER', '$scope', '$state', '$ioni
                 scanBtn.innerHTML = "Manual entry";
             }
         };
+        CardIO.canScan(onCardIOCheck);
         CardIO.scan({
             "collect_expiry": true
-            , "collect_cvv": false
-            , "collect_zip": false
+            , "collect_cvv": true
+            , "collect_zip": true
             , "shows_first_use_alert": true
             , "disable_manual_entry_buttons": false
         }, onCardIOComplete, onCardIOCancel);
-        CardIO.canScan(onCardIOCheck);
     };
     //    screen.lockOrientation('portrait');
 }]);

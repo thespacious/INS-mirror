@@ -1,4 +1,16 @@
 controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state', '$stateParams', '$ionicSlideBoxDelegate', '$injector', '$timeout', function (baseUrl, $scope, $state, $stateParams, $ionicSlideBoxDelegate, $injector, $timeout) {
+    /////////////////// STATE PARAMS ////////////////////////////
+    if ($state.params.driver && typeof ($state.params.driver) == "string" && $state.params.driver != null) {
+        var currentDriver = $state.params.driver;
+        var session = JSON.parse(sessionStorage.getItem('session'));
+        var currentDriverInfo = session.drivers[currentDriver];
+        try {
+            populateDriver(currentDriverInfo);
+        }
+        catch (err) {
+            console.log("driver did not populate cause, ", err);
+        }
+    }
     /////////////////// INJECTED SERVICES ///////////////////////
     //    var test = $injector.get('testService');
     var service = $injector.get('newDriverService');
@@ -134,56 +146,28 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
             , "validate_exp": ""
         }
     };
-    $scope.userInfo = {
-        "county": {
-            "type": "text"
-            , "size": 50
-            , "value": null
-            , "required": true
-            , "label": "County"
-            , "validate_exp": ""
-        }
-        , "phone": {
-            "type": "tel"
-            , "size": 10
-            , "value": null
-            , "required": true
-            , "label": "Phone"
-            , "validate_exp": ""
-        }
-        , "email": {
-            "type": "email"
-            , "size": 75
-            , "value": null
-            , "required": true
-            , "label": "Email"
-            , "validate_exp": ""
-        }
-        , "maritalstatus": {
-            "type": "select"
-            , "label": "Marital Status"
-            , "options": [
-                            "single"
-                            , "married"]
-            , "selected": "single"
-        }
-    };
     /////////////////////////////////////////////////////////////
     ////////////////////// UI FUNCTIONS /////////////////////////
     $scope.footerText = 'next';
     /////////////////////// Populate Scanned Data ///////////////
+    var populateDriver = function (data) {
+        console.log("driver model populating: ", data);
+        $scope.driver.fullname.value = data.fullname;
+        $scope.driver.license.value = parseInt(data.license);
+        $scope.driver.licensedate.value = new Date(data.licensedate);
+        //        $scope.driver.licensedate.value = data.licensedate;
+        $scope.driver.dob.value = new Date(data.dob);
+        //        $scope.driver.dob.value = data.dob;
+        $scope.driver.city.value = data.city;
+        $scope.driver.state.value = data.state;
+        $scope.driver.street.value = data.street;
+        $scope.driver.sex.selected = data.sex;
+        $scope.driver.zip.value = parseInt(data.zip);
+    };
+    //====================================================
     $scope.capturePhoto = function () {
         service.capturePhoto().then(function (result) {
-            console.log("scan results: ", result);
-            $scope.driver.fullname.value = result.fullname;
-            $scope.driver.license.value = parseInt(result.license);
-            $scope.driver.licensedate.value = new Date(result.licensedate);
-            $scope.driver.dob.value = new Date(result.dob);
-            $scope.driver.city.value = result.city;
-            $scope.driver.state.value = result.state;
-            $scope.driver.street.value = result.street;
-            $scope.driver.sex.selected = result.sex;
-            $scope.driver.zip.value = parseInt(result.zip);
+            populateDriver(result);
         }, function (err) {
             console.log("Scan failed: ", err);
         });

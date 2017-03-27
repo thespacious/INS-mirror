@@ -94,6 +94,9 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             url: '/newPrimaryDriver'
             , templateUrl: 'app/components/newDriver/newDriver.primary.html'
             , controller: "newDriverPrimaryCtrl"
+            , params: {
+                driver: null
+            }
         }).state('userInfo', {
             url: '/userInfo/:zip'
             , templateUrl: 'app/components/newDriver/primaryUserInfo.html'
@@ -108,7 +111,7 @@ var app = angular.module('app', ['ionic', 'ionic-datepicker', 'main.services', '
             , templateUrl: 'app/components/newDriver/newDriver.new.html'
             , controller: "newDriverCtrl"
         }).state('newCar', {
-            url: '/newCar/:fullname'
+            url: '/newCar'
             , params: {
                 fullname: null
                 , driverId: null

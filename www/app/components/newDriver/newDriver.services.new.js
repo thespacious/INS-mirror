@@ -243,24 +243,24 @@ services.factory('newDriverService', function (APP_DEBUG, $q) {
     //
     this.secondaryDriverSubmit = function (driver) {
         var session = JSON.parse(sessionStorage.getItem("session"));
-        var driver = {};
-        driver["fullname"] = driver.fullname.value;
-        driver["license"] = driver.license.value;
-        driver["licensedate"] = driver.licensedate.value;
-        driver["dob"] = driver.dob.value;
-        driver["state"] = driver.state.value;
-        driver["sex"] = driver.sex.value;
-        driver["maritalState"] = driver.maritalstatus.value;
-        driver["category"] = categories[2];
-        driver['id'] = session['drivers'].length;
+        var newDriver = {};
+        newDriver["fullname"] = driver.fullname.value;
+        newDriver["license"] = driver.license.value;
+        newDriver["licensedate"] = driver.licensedate.value;
+        newDriver["dob"] = driver.dob.value;
+        newDriver["state"] = driver.state.value;
+        newDriver["sex"] = driver.sex.value;
+        newDriver["maritalState"] = driver.maritalstatus.value;
+        newDriver["category"] = categories[2];
+        newDriver['id'] = session['drivers'].length;
         for (var i; i < session.drivers.length; i++) {
-            if (driver[i]['id'] == driverId) {
-                session.drivers[driverId] = driver;
+            if (session.drivers[i]['fullname'] == newDriver['fullname']) {
+                session.drivers[driverId] = newDriver;
                 sessionStorage.setItem("session", JSON.stringify(session));
-                return true
+                return true;
             }
         }
-        session["drivers"].push(driver);
+        session["drivers"].push(newDriver);
         sessionStorage.setItem("session", JSON.stringify(session));
         var drivers = JSON.parse(sessionStorage.getItem("session"))["drivers"];
         return true;

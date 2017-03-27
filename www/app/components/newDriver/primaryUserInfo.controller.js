@@ -1,6 +1,7 @@
 controllers.controller('primaryInfoCtrl', ['BASE_SERVER', '$scope', '$state', '$stateParams', '$ionicSlideBoxDelegate', '$injector', '$timeout', function (baseUrl, $scope, $state, $stateParams, $ionicSlideBoxDelegate, $injector, $timeout) {
     /////////////////// STATE PARAMS RETRIEVAL //////////////////
     var zip = $state.params.zip;
+
     var county = {
         $$state: {
             value: null

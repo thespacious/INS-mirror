@@ -24,19 +24,36 @@
                     <br>{{driver.state}}
                     <br>{{driver.zip}} </p>
                 <ion-list class="list list-inset cars-list">
-                    <div class="item item-divider car-item-header">Cars
+                    <div class="item item-divider car-item-header" style="border:none;">Cars
                         <p>primary<i class="fa fa-question-circle" aria-hidden="true"></i></p>
                     </div>
-                    <ion-item ng-repeat="car in cars" item="car" class="item item-avatar item-button-right item-thumbnail-right car-item" id="{{car.id}}" ng-if="checkOwner($parent.$index, $index)"> <i class="fa fa-car" aria-hidden="true"></i> {{car.vin}}
+                    <ion-item ng-repeat="car in cars" style="padding-left:15px;padding-right:15px;">
+                        <div class="row">
+                            <div class="col col-10" style="line-height:7vh;"> <i class="fa fa-car" aria-hidden='true'></i></div>
+                            <div class="col col-70" style="line-height:7vh;">
+                                <p>{{car.vin}}</p>
+                            </div>
+                            <div class="col col-20">
+                                <button class="button button-clear button-assertive" ng-click="removeCar($index)">delete</button>
+                            </div>
+                        </div>
+                    </ion-item>
+                    <!--
+                    <ion-item ng-repeat="car in cars" item="car" class="item item-avatar item-button-right item-thumbnail-right car-item" id="{{car.id}}" ng-if="checkOwner($parent.$index, $index)"> <i class="fa fa-car" aria-hidden="true"></i>
+                        <p style="float:right;">{{car.vin}}</p>
                         <label class="checkbox" style="float:right;">
                             <input type="checkbox" checked=""> </label>
                         <ion-option-button class="button-info" ui-sref="newCar.edit({carId:car.id})"> Edit </ion-option-button>
                         <ion-option-button class="button-assertive" ng-click="removeCar($index)"> delete </ion-option-button>
                     </ion-item>
-                </ion-list>
-                <div class="col col-66 col-offset-25">
-                    <button class="button button icon-right icon ion-plus-round button-assertive" ng-click="removeDriver($index)">delete driver</button>
-                    <button class="button button icon-right icon ion-plus-round button-balanced" ui-sref="newCar({fullname:drivers[$parent.$index].fullname, driverId:$parent.$index})">add car</button>
+--></ion-list>
+                <div class="row">
+                    <div class="col col-50">
+                        <button class="button button-clear icon-right icon ion-close-round button-assertive" ng-click="removeDriver($index)" style="width: 60%;">Driver</button>
+                    </div>
+                    <div class="col col-50">
+                        <button class="button button icon-right icon ion-plus-round button-balanced" ui-sref="newCar({fullname:drivers[$parent.$index].fullname, driverId:$parent.$index})" style="width: 100%;">Add Car</button>
+                    </div>
                 </div>
             </ion-item>
         </ion-list>

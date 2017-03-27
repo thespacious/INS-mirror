@@ -1,6 +1,6 @@
 <ion-header-bar class="bar-positive">
     <h1 class="title">New Car</h1> </ion-header-bar>
-<ion-view scroll="true" overflow-scroll="true" class="has-header has-footer background">
+<ion-view scroll="true" overflow-scroll="true" class="has-header has-footer background" style="overflow-y:scroll">
     <ion-content>
         <div class="row" style="margin:auto;font-size:6vmax">
             <div class="col col-50" style="margin:auto"> <i class="icon ion-ios-gear-outline" style="color:cornflowerblue"></i>
@@ -12,15 +12,11 @@
             <ion-list class="list inset-list" id="inset-form" style="width:95vmax;margin:auto;">
                 <ion-item class="item item-input item-stacked-label">
                     <label><span>Vin</span>
-                        <input type="{{car.vin.type}}" ng-pattern="car.vin.validate_exp" ng-model="car.vin.value" ng-value="car.vin.value" ng-blur="getVinManual()">
-                        <p ng-value="car.vin.value" id="vin">{{car.vin.value}}</p>
-                    </label>
+                        <input type="{{car.vin.type}}" ng-pattern="car.vin.validate_exp" ng-model="car.vin.value" ng-value="car.vin.value" ng-blur="getVinManual()"> </label>
                 </ion-item>
                 <ion-item class="item item-input item-stacked-label">
                     <label><span>Year</span>
-                        <input type="{{car.year.type}}" ng-pattern="car.year.validate_exp" ng-model="car.year.value">
-                        <p ng-value="car.year.value">{{car.year.value}}</p>
-                    </label>
+                        <input type="{{car.year.type}}" ng-pattern="car.year.validate_exp" ng-model="car.year.value"> </label>
                 </ion-item>
                 <ion-item class="item item-input item-stacked-label">
                     <label><span>Make</span>
@@ -34,13 +30,13 @@
         </div>
         <div class="card">
             <ion-item>
-                <button class="button button icon-right icon ion-upload " type="button" style="width:100%;float:right;background-color:#eaeaea">
-                    <p style="color:cornflowerblue">Take a picture of your vehicle</p>
+                <button class="button button icon-right icon ion-upload " type="button" style="width:100%;float:right;background-color:#eaeaea" ng-click="uploadCarPicture()">
+                    <p style="color:cornflowerblue">Upload a picture of your vehicle</p>
                 </button>
             </ion-item>
             <ion-item>
-                <button class="button button icon-right icon ion-camera" type="button" style="width:100%;float:right;background-color:#eaeaea">
-                    <p style="color:cornflowerblue">Upload a picture of your vehicle</p>
+                <button class="button button icon-right icon ion-camera" type="button" style="width:100%;float:right;background-color:#eaeaea" ng-click="takeCarPicture()">
+                    <p style="color:cornflowerblue">Take a picture of your vehicle</p>
                 </button>
             </ion-item>
         </div>
