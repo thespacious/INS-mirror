@@ -71,7 +71,17 @@ controllers.controller('newCarCtrl', ['BASE_SERVER', 'SKIP_API', '$scope', '$sta
     };
     //
     $scope.capturePhoto = function () {
-        return test.capturePhotoVin();
+        var vin = test.capturePhotoVin();
+        vin.then(function (response) {
+            var data = test.getVin(vin);
+            data.then(function (response) {
+                console.log("vin response, ", response);
+                $scope.car.make.value = response.make;
+                $scope.car.model.value = response.model;
+                $scope.car.year.value = response.year;
+                $scope.car.vin.value = response.vin;
+            });
+        });
         //        return test.testScan();
     };
     //

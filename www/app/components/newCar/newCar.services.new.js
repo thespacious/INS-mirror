@@ -1,4 +1,4 @@
-services.factory('newCarService', function (BASE_SERVER, SKIP_API, $state) {
+services.factory('newCarService', function (BASE_SERVER, SKIP_API, $state, $q) {
     //=================
     //GENERAL VARIABLES
     //=================
@@ -60,12 +60,53 @@ services.factory('newCarService', function (BASE_SERVER, SKIP_API, $state) {
     //VIN FUNCTIONS
     //=============
     //
+    this.getVin = function (vin) {
+        var deferred = $q.defer();
+        var returnData;
+        var req = {
+            type: "GET"
+            , async: false
+            , url: "https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/" + vin.$$state.value + "?format=json&modelyear=2011"
+        };
+        $.ajax(req).done(function (data) {
+            console.log('vin lookup returned, ', data);
+            var vinObject = {};
+            try {
+                for (var i = 0; i < 15; i++) {
+                    if (data.Results[i].VariableId == 26 && data.Results[i].Variable == "Make") {
+                        vinObject["make"] = data.Results[i].Value;
+                    }
+                    if (data.Results[i].VariableId == 28 && data.Results[i].Variable == "Model") {
+                        vinObject["model"] = data.Results[i].Value;
+                    }
+                    if (data.Results[i].VariableId == 29 && data.Results[i].Variable == "Model Year") {
+                        vinObject["year"] = data.Results[i].Value;
+                    }
+                }
+                vinObject['vin'] = data.SearchCriteria.substr(4);
+            }
+            catch (err) {
+                console.log('could not find info for selected vin');
+                deferred.reject(data);
+            }
+            deferred.resolve(vinObject);
+        }).fail(function (response) {
+            console.log('request for vin info failed, ', response);
+            deferred.reject(response);
+        });
+        return deferred.promise;
+    };
     this.capturePhotoVin = function () {
         _this = this;
-        //        window.plugins.VINBarcodeScanner.scan(this.scannerSuccess, this.scannerFailure);
+        var deferred = $q.defer();
+        var returnData;
         mwbScanner.startScanning(function (result) {
-            reutrnData = getVin(result);
+            //            returnData = getVin(result);
+            returnData = result.code.substr(1);
+            deferred.resolve(returnData);
+            //            deferred.resolve(returnData);
         });
+        return deferred.promise;
     };
     this.selectPhotoVIN = function () {
         navigator.camera.getPicture(this.uploadsuccess, function () {}, {
@@ -76,13 +117,14 @@ services.factory('newCarService', function (BASE_SERVER, SKIP_API, $state) {
     // ======= callbacks ==============
     //==================================
     this.uploadsuccess = function (imageData) {
+        var returnData;
         mwb.scanImage(function (result) {
             returnData = getVin(result);
         });
         return returnData;
     };
     this.scannerSuccess = function (result) {
-        _this.getVin(result.VINCode);
+        getVin(result.VINCode);
     };
     this.scannerFailure = function (message) {
         alert("scanner error");
