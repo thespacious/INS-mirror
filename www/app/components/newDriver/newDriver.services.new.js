@@ -210,16 +210,7 @@ services.factory('newDriverService', function (APP_DEBUG, $q) {
         drivers[0]["county"] = userInfo.county.value;
         drivers[0]["phone"] = userInfo.phone.value;
         drivers[0]["email"] = userInfo.email.value;
-        //        if (userInfo.maritalstatus["0"].selected == true) {
-        //            drivers[0]["maritalState"] = userInfo.maritalstatus["single"].value;
-        //        }
-        //        else if (userInfo.maritalstatus["1"].selected == true) {
-        //            drivers[0]["maritalState"] = userInfo.maritalstatus["married"].value;
-        //        }
         drivers[0]['maritalState'] = userInfo.maritalstatus.selected;
-        //            else {
-        //                alert("marital status error");
-        //            }
         drivers[0]["category"] = "named insured";
         sessionStorage.setItem("session", JSON.stringify({
             "drivers": drivers
