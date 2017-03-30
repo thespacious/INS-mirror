@@ -69,6 +69,11 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', 'SKIP_API', '$scope', 
     };
     //
     //    driversService.getQuoteId();
+    //DEBUG: all named insured are have a separate json, different from primary and regular instead of a if-first logic we need to ask the user if they want the driver added to be named insured, and inform them the first driver they add should be primary
+    //TODO: create a dialog explaining the relationship between primary, named insured, regular and excluded
+    //TODO: add excluded option in regular driver info entry that adds category as excluded
+    //on new driver clicked
+    //TODO: add function to driverService that queries for named insured, look to and if a user chooses named insured and the count is 2 (or greater) throw an error
     $scope.addDriver = function () {
         var session = driversService.session();
         if (session['drivers'] && session['drivers'].length > 0) {

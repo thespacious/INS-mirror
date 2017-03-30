@@ -35,7 +35,8 @@
     "ionic-plugin-deploy@~0.6.5",
     "phonegap-plugin-barcodescanner",
     "ionic-plugin-deploy@~0.6.5",
-    "manateeworks-barcodescanner-v3"
+    "manateeworks-barcodescanner-v3",
+    "cordova-plugin-dialogs"
   ],
   "cordovaPlatforms": []
 }
