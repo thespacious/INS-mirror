@@ -213,13 +213,22 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
     //////////////////// SUBMIT FORMS //////////////////////////////
     $scope.submitPrimary = function () {
         service.primaryDriverSubmit($scope.driver, $scope.garagingInfo);
-        $state.go('userInfo');
+        //TODO: add this, 
+        //var promise =ACORD.addPrimaryDriver();
+        //promise.then(function(data){
+        //        console.log(TAG + "primary driver stored: ", data);
+        //    })
+        $state.go('userInfo', {
+            zip: $scope.driver.zip.value
+            , name: $scope.driver.fullname.value
+        });
         $scope.footerText = "submit";
     };
     $scope.submitUserInfo = function () {
         service.submitUserInfo($scope.userInfo);
         $state.go('userInfo', {
             zip: $scope.driver.zip.value
+            , name: $scope.driver.zip.value
         });
     };
 }]);

@@ -68,9 +68,13 @@ var app = angular.module('app', ['ionic', 'main.services', 'main.controllers', '
             driver: null
         }
     }).state('userInfo', {
-        url: '/userInfo/:zip'
+        url: '/userInfo'
         , templateUrl: 'app/components/newDriver/primaryUserInfo.html'
         , controller: "primaryInfoCtrl"
+        , params: {
+            zip: null
+            , name: null
+        }
     }).state('newDriver', {
         url: '/newDriver'
         , templateUrl: 'app/components/newDriver/newDriver.new.html'

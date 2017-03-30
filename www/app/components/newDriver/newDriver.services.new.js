@@ -1,4 +1,5 @@
-services.factory('newDriverService', function (APP_DEBUG, $q) {
+services.factory('newDriverService', ['APP_DEBUG', '$q', 'sessionServices', function (APP_DEBUG, $q, sessionServices) {
+    var TAG = "New Driver Services: ";
     /////////////////// set/unset UI Elements ////////////////
     this.setGaraging = function (garagingInfo, driver) {
         garagingInfo.gstreet.value = driver.street.value;
@@ -174,7 +175,9 @@ services.factory('newDriverService', function (APP_DEBUG, $q) {
     //======================== Primary Driver =======================
     this.primaryDriverSubmit = function (driver, garagingInfo) {
         var newDriver = {};
-        var session = JSON.parse(sessionStorage.getItem("session"));
+        //        var session = JSON.parse(sessionStorage.getItem("session"));
+        //New session method
+        //        var session = sessionServices.SessionObject();
         newDriver['fullname'] = driver.fullname.value;
         newDriver['license'] = driver.license.value;
         newDriver['licensedate'] = driver.licensedate.value;
@@ -186,6 +189,7 @@ services.factory('newDriverService', function (APP_DEBUG, $q) {
         newDriver['sex'] = driver.sex.selected;
         newDriver['id'] = session['drivers'].length;
         newDriver['category'] = categories[NAMED_INSURED];
+        newDriver['primary'] = true;
         //        session['drivers'] = newDriver;
         if (session['drivers'] && Array.isArray(session['drivers'])) {
             session['drivers'].push(newDriver);
@@ -195,6 +199,9 @@ services.factory('newDriverService', function (APP_DEBUG, $q) {
             session['drivers'].push(newDriver);
         }
         sessionStorage.setItem("session", JSON.stringify(session));
+        //        session.publish();
+        //        session.properties = session.refresh();
+        console.log(TAG + "session updated with new driver, ", newDriver);
         try {
             addPrimaryToJson(newDriver, garagingInfo);
         }
@@ -232,7 +239,7 @@ services.factory('newDriverService', function (APP_DEBUG, $q) {
     //
     //=========================== Secondary Drivers =========================
     //
-    this.secondaryDriverSubmit = function (driver) {
+    this.secondaryDriverSubmit = function (driver, category) {
         var session = JSON.parse(sessionStorage.getItem("session"));
         var newDriver = {};
         newDriver["fullname"] = driver.fullname.value;
@@ -240,9 +247,9 @@ services.factory('newDriverService', function (APP_DEBUG, $q) {
         newDriver["licensedate"] = driver.licensedate.value;
         newDriver["dob"] = driver.dob.value;
         newDriver["state"] = driver.state.value;
-        newDriver["sex"] = driver.sex.value;
-        newDriver["maritalState"] = driver.maritalstatus.value;
-        newDriver["category"] = categories[2];
+        newDriver["sex"] = driver.sex.selected;
+        newDriver["maritalState"] = driver.maritalstatus.selected;
+        newDriver["category"] = driver.category.selected;
         newDriver['id'] = session['drivers'].length;
         for (var i; i < session.drivers.length; i++) {
             if (session.drivers[i]['fullname'] == newDriver['fullname']) {
@@ -341,4 +348,4 @@ services.factory('newDriverService', function (APP_DEBUG, $q) {
     };
     //////////////////////////////////////////////////////////////////////////
     return this;
-});
+}]);

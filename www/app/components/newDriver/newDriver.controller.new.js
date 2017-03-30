@@ -94,7 +94,15 @@ controllers.controller('newDriverCtrl', ['APP_DEBUG', 'BASE_SERVER', '$scope', '
                 "Male"
                 , "Female"
             ]
-            , selected: "Male"
+            , "selected": "Male"
+        }
+        , category: {
+            "type": "select"
+            , "label": "Category"
+            , "options": [
+            'regular', 'excluded'
+        ]
+            , "selected": "regular"
         }
     };
     $scope.submitSecondary = function () {

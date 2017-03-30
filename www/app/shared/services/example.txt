@@ -1,0 +1,31 @@
+var example = {
+    "InsuredOrPrincipal": [
+        {
+            "GeneralPartyInfo": {
+                "NameInfo": {
+                    "PersonName": {
+                        "Surname": "DANIEL"
+                        , "GivenName": "CARLOS"
+                    }
+                }
+                , "Addr": {
+                    "AddrTypeCd": "MailingAddress"
+                    , "Addr1": "211 W LONGLEAF DR"
+                    , "City": "OXFORD"
+                    , "StateProvCd": "MS"
+                    , "StateProv": "MS"
+                    , "PostalCode": "38655"
+                    , "CountryCd": "US"
+                    , "Country": "USA"
+                    , "County": "Lafayette"
+                }
+            }
+            , "InsuredOrPrincipalInfo": {
+                "InsuredOrPrincipalRoleCd": "Insured"
+                , "InsuredOrPrincipalRoleDesc": "Insured"
+            }
+          }
+        ]
+};
+//
+//In the above example (which is the Section of the ACORD corresponding to the named insured info), will the address for an additional GeneralParty always be the same as the first (primary) entry
