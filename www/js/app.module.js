@@ -13,6 +13,17 @@ var app = angular.module('app', ['ionic', 'main.services', 'main.controllers', '
             // org.apache.cordova.statusbar required
             StatusBar.styleDefault();
         }
+
+        function storageEvent(event) {
+            event = event || window.event; // give IE8 some love
+            alert('Yo people! Something just got stored!');
+        }
+        if (window.attachEvent) { // ::sigh:: IE8 support
+            window.attachEvent('onstorage', storageEvent);
+        }
+        else {
+            window.addEventListener('storage', storageEvent, false);
+        }
     });
     $ionicPlatform.registerBackButtonAction(function () {
         if (location.hash != '#/' && location.hash != '#/home' && location.hash != '#/viewQuote') {
