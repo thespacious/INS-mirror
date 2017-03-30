@@ -1,4 +1,4 @@
-controllers.controller('homeDriversCtrl', ['BASE_SERVER', 'SKIP_API', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$stateParams', function (baseUrl, skipApi, $scope, $state, $ionicSlideBoxDelegate, $injector, $stateParams) {
+controllers.controller('homeDriversCtrl', ['BASE_SERVER', 'SKIP_API', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$stateParams', '$ionicPopup', function (baseUrl, skipApi, $scope, $state, $ionicSlideBoxDelegate, $injector, $stateParams, $ionicPopup) {
     //
     //====================================
     //GET SERVICES AND SET SCOPE VARIABLES
@@ -52,6 +52,29 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', 'SKIP_API', '$scope', 
         $scope.cars = driversSevice.removeCar(carId);
     };
     //
+    $scope.showPopup = function () {
+        $scope.data = {};
+        // An elaborate, custom popup
+        $scope.myPopup = $ionicPopup.show({
+            templateUrl: 'app/components/home/popup.html'
+            , title: 'Choose a driver type'
+            , subTitle: 'other explaination'
+            , scope: $scope
+            , buttons: [
+                {
+                    text: '<b>Save</b>'
+                    , type: 'button-positive'
+                    , onTap: function (e) {
+                        return true;
+                    }
+                }
+            ]
+        });
+        $scope.myPopup.then(function (res) {
+            console.log('Tapped!', res);
+        });
+    };
+    //
     //=====================
     //UTILIZE AJAX SERVICES
     //=====================
@@ -74,6 +97,25 @@ controllers.controller('homeDriversCtrl', ['BASE_SERVER', 'SKIP_API', '$scope', 
     //TODO: add excluded option in regular driver info entry that adds category as excluded
     //on new driver clicked
     //TODO: add function to driverService that queries for named insured, look to and if a user chooses named insured and the count is 2 (or greater) throw an error
+    $scope.named = function (category) {
+        $scope.myPopup.close();
+        if (category == 'primary') {
+            $state.go('newPrimaryDriver', {
+                category: category
+            });
+        }
+        else {
+            $state.go('newDriver', {
+                category: category
+            })
+        }
+    };
+    $scope.regular = function (category) {
+        //        myPopup.close();
+        $state.go('newDriver', {
+            category: category
+        });
+    };
     $scope.addDriver = function () {
         var session = driversService.session();
         if (session['drivers'] && session['drivers'].length > 0) {

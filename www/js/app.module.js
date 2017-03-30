@@ -66,6 +66,7 @@ var app = angular.module('app', ['ionic', 'main.services', 'main.controllers', '
         , controller: "newDriverPrimaryCtrl"
         , params: {
             driver: null
+            , category: 'primary'
         }
     }).state('userInfo', {
         url: '/userInfo'
@@ -79,6 +80,9 @@ var app = angular.module('app', ['ionic', 'main.services', 'main.controllers', '
         url: '/newDriver'
         , templateUrl: 'app/components/newDriver/newDriver.new.html'
         , controller: "newDriverCtrl"
+        , params: {
+            category: 'regular'
+        }
     }).state('newCar', {
         url: '/newCar'
         , params: {

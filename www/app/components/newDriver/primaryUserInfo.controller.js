@@ -1,7 +1,10 @@
 controllers.controller('primaryInfoCtrl', ['BASE_SERVER', '$scope', '$state', '$stateParams', '$ionicSlideBoxDelegate', '$injector', '$timeout', function (baseUrl, $scope, $state, $stateParams, $ionicSlideBoxDelegate, $injector, $timeout) {
     /////////////////// STATE PARAMS RETRIEVAL //////////////////
     var zip = $state.params.zip;
-
+    var driver = $state.params.name;
+    if (driver == null) {
+        driver = "";
+    }
     var county = {
         $$state: {
             value: null
@@ -57,7 +60,7 @@ controllers.controller('primaryInfoCtrl', ['BASE_SERVER', '$scope', '$state', '$
         }
     };
     $scope.submitUserInfo = function () {
-        newDriverService.submitUserInfo($scope.userInfo);
+        newDriverService.submitUserInfo($scope.userInfo, driver);
         $state.go('drivers');
     };
 }]);

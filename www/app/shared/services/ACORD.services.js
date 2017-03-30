@@ -27,7 +27,7 @@ services.factory('acordServices', ['$http', 'BASE_SERVER', '$state', '$q', 'APP_
     this.storeNamedInsured = function () {
         //
         //DEBUG: promise? it's a pretty complex function, probably could be broken down
-        //var deferred = $q.defer();
+        var deferred = $q.defer();
         session.properties = session.refresh();
         var drivers = session.properties.drivers;
         //TODO: you need to handle the insurescan JSON with the session object as well
@@ -118,21 +118,21 @@ services.factory('acordServices', ['$http', 'BASE_SERVER', '$state', '$q', 'APP_
                 }
                 sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
                 console.log(TAG + 'Additional Named INsured Stored: ', true);
-                //                deferred.resolve(true);
+                deferred.resolve(true);
             }
             catch (err) {
                 console.log(TAG + "error storing addtional named insured, ", err);
-                //                deferred.reject(false);
+                deferred.reject(false);
             }
         }
-        //        return deferred.promise;
+        return deferred.promise;
     };
     //
     //Add Primary to JSON
     //
     this.addPrimary() {
         //
-        //var deferred = $q.defer();
+        var deferred = $q.defer();
         session.properties = session.refresh();
         var drivers = session.properties.drivers;
         //Deriving the firstname and lastname from driver fullname
@@ -221,15 +221,15 @@ services.factory('acordServices', ['$http', 'BASE_SERVER', '$state', '$q', 'APP_
                     sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
                     //        userInfo.submit();
                     console.log(TAG + "primary Driver added to json");
-                    //            deferred.resolve(true);
+                    deferred.resolve(true);
                 }
                 catch (err) {
                     console.log(TAG + "Storing Primary Driver in ACORD failed: ", err);
-                    //                    deferred.reject(false);
+                    deferred.reject(false);
                 }
             }
         }
-        //        return deferred.promise;
+        return deferred.promise;
     };
     //
     //
@@ -323,15 +323,15 @@ services.factory('acordServices', ['$http', 'BASE_SERVER', '$state', '$q', 'APP_
                 //Add this driver to the insurescanJson
                 insurescanJson.ACORD.InsuranceSvcRq.PersAutoPolicyQuoteInqRq.PersAutoLineBusiness.PersDriver.push(driversIninsurescanJson);
                 sessionStorage.setItem('insurescanJson', JSON.stringify(insurescanJson));
-                //                deferred.resolve(true);
+                deferred.resolve(true);
                 //            this.storeNamedInsured();
             }
         }
         catch (err) {
             console.log(TAG + "error storing drivers: ", err);
-            //            deferred.reject(false);
+            deferred.reject(false);
         }
-        //        return deferred.promise;
+        return deferred.promise;
     };
     return this;
 }]);

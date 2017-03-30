@@ -1,4 +1,4 @@
-controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state', '$stateParams', '$ionicSlideBoxDelegate', '$injector', '$timeout', function (baseUrl, $scope, $state, $stateParams, $ionicSlideBoxDelegate, $injector, $timeout) {
+controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state', '$stateParams', '$ionicSlideBoxDelegate', '$injector', 'APP_DEBUG', function (baseUrl, $scope, $state, $stateParams, $ionicSlideBoxDelegate, $injector, APP_DEBUG) {
     /////////////////// STATE PARAMS ////////////////////////////
     if ($state.params.driver && typeof ($state.params.driver) == "string" && $state.params.driver != null) {
         var currentDriver = $state.params.driver;
@@ -9,6 +9,15 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
         }
         catch (err) {
             console.log("driver did not populate cause, ", err);
+        }
+    }
+    //
+    if ($state.params.category && typeof ($state.params.category) == "string") {
+        $scope.category = $state.params.category;
+    }
+    else {
+        if (APP_DEBUG) {
+            $scope.category = 'primary';
         }
     }
     /////////////////// INJECTED SERVICES ///////////////////////
@@ -22,9 +31,13 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
     ////////////////////// CHECK FOR EXISTING PRIMARY ////////////
     var checkPrimary = function () {
         var session = JSON.parse(sessionStorage.getItem('session'));
-        if (session && session.drivers && session.drivers.length > 0) {
-            alert("there can be only one Primay Insured, please delete the primary from the home page to add another");
-            $state.go('drivers');
+        if (session && session.drivers) {
+            for (driver in session.drivers) {
+                if (driver.primary) {
+                    alert("there can be only one Primay Insured, please delete the primary from the home page to add another");
+                    $state.go('drivers');
+                }
+            }
         }
     };
     //
@@ -110,6 +123,14 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
                 , "Female"
             ]
             , selected: "Male"
+        }
+        , category: {
+            "type": "select"
+            , "label": "Category"
+            , "options": [
+            'regular', 'excluded'
+        ]
+            , "selected": "regular"
         }
     };
     $scope.garagingInfo = {
@@ -212,7 +233,7 @@ controllers.controller('newDriverPrimaryCtrl', ['BASE_SERVER', '$scope', '$state
     //
     //////////////////// SUBMIT FORMS //////////////////////////////
     $scope.submitPrimary = function () {
-        service.primaryDriverSubmit($scope.driver, $scope.garagingInfo);
+        service.named($scope.driver, $scope.garagingInfo, $scope.category);
         //TODO: add this, 
         //var promise =ACORD.addPrimaryDriver();
         //promise.then(function(data){

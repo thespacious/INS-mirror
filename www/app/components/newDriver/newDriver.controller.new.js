@@ -1,6 +1,12 @@
 controllers.controller('newDriverCtrl', ['APP_DEBUG', 'BASE_SERVER', '$scope', '$state', '$stateParams', '$ionicSlideBoxDelegate', '$injector', '$timeout', function (app_debug, baseUrl, $scope, $state, $stateParams, $ionicSlideBoxDelegate, $injector, $timeout) {
     //Why bother? Well look at the alternative. . .
     //
+    if ($state.params.category != 'regular') {
+        $scope.category = $state.params.category;
+    }
+    else {
+        $scope.category = 'regular';
+    }
     /////////////////// INJECTED SERVICES ///////////////////////
     var test = $injector.get('newDriverService');
     var insurescanJson = $injector.get('insurescanJson');
@@ -100,13 +106,20 @@ controllers.controller('newDriverCtrl', ['APP_DEBUG', 'BASE_SERVER', '$scope', '
             "type": "select"
             , "label": "Category"
             , "options": [
-            'regular', 'excluded'
+            'regular', 'excluded', 'named insured'
         ]
             , "selected": "regular"
         }
     };
     $scope.submitSecondary = function () {
-        test.secondaryDriverSubmit($scope.driver);
+        test.secondaryDriverSubmit($scope.driver, $scope.category);
         $state.go('drivers');
+    };
+    $scope.submitNamed = function () {
+        test.named($scope.driver, $scope.category);
+        $state.go('userInfo', {
+            name: $scope.driver.fullname.value
+            , zip: $scope.driver.zip.value
+        });
     };
 }]);
