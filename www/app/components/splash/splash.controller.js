@@ -23,25 +23,7 @@ controllers.controller('splashCtrl', ['APP_DEBUG', 'BASE_SERVER', 'SKIP_API', '$
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
         if (skipApi) {
-            var authstring = services.b64encode('client', 'password')
-            var req = {
-                type: "POST"
-                    //            , crossDomain: true
-                    
-                , contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
-                , async: false
-                , url: baseUrl + "/login"
-                , headers: {
-                    //                'access-control-allow-origin': '*'
-                    'AUTHSTRING': authstring
-                }
-            };
-            var promise = services.request(req);
-            promise.done(function (data) {
-                console.log(TAG + "login ajax response, ", data);
-            }).fail(function (data) {
-                console.log(TAG + "ajax call failed as expected, ", data);
-            });
+            $state.go('home');
         }
         //            $state.go('home');
         else if (services.login(username, password) == true) {

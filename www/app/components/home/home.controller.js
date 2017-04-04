@@ -1,4 +1,4 @@
-controllers.controller('homeCtrl', ['BASE_SERVER', '$scope', '$state', '$ionicSlideBoxDelegate', '$injector', '$stateParams', function (baseUrl, $scope, $state, $ionicSlideBoxDelegate, $injector, $stateParams) {
+controllers.controller('homeCtrl', ['BASE_SERVER', '$scope', '$state', '$stateParams', 'sessionServices', 'insurescanJson', function (baseUrl, $scope, $state, $stateParams, session, json) {
     $scope.home = function () {
         $state.go("legal");
     };
@@ -51,5 +51,15 @@ controllers.controller('homeCtrl', ['BASE_SERVER', '$scope', '$state', '$ionicSl
     };
     $scope.legal = function () {
         $state.go('legal');
+    };
+    $scope.clearSession = function () {
+        session.clear();
+        session.properties = session.refresh();
+        //
+        //TODO: add insurescanJson to session within sessionServices
+        sessionStorage.setItem('insurescanJson', JSON.stringify(json.insurescanJson));
+        sessionStorage.setItem('credentials', JSON.stringify({}));
+        console.log(session);
+        $state.go('login');
     };
 }]);

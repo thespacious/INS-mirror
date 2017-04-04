@@ -2,29 +2,11 @@
   "name": "insurescan-alpha",
   "app_id": "ead51405",
   "gulpStartupTasks": [
-    "sass",
-    "watch"
+    "watch",
+    "sass"
   ],
   "watchPatterns": [
     "www/**/*",
     "!www/lib/**/*"
-  ],
-  "proxies": [
-    {
-      "path": "/login",
-      "proxyUrl": "http://is.androidbox.tv/login"
-    },
-    {
-      "path": "/getquoteid",
-      "proxyUrl": "http://is.androidbox.tv/getquoteid"
-    },
-    {
-      "path": "/quote",
-      "proxyUrl": "http://is.androidbox.tv/quote"
-    },
-    {
-      "path": "/upload",
-      "proxyUrl": "http://is.androidbox.tv/upload"
-    }
   ]
 }

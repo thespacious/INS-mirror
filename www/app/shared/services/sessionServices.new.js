@@ -82,4 +82,8 @@ services.factory('sessionServices', ['$http', 'BASE_SERVER', '$state', '$q', 'AP
             }
         };
     };
+    this.$get = function () {
+        return this.sessionObject();
+    }
+    return this;
 }]);
